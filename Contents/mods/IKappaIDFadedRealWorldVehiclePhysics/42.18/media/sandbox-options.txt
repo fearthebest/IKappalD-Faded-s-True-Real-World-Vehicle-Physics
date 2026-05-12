@@ -1,0 +1,147 @@
+VERSION = 1,
+
+option IKFRVP.Enabled
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP,
+    translation = IKFRVP_Enabled,
+}
+
+option IKFRVP.ProfileTuning
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP,
+    translation = IKFRVP_ProfileTuning,
+}
+
+option IKFRVP.GenericMultiplierTuning
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP,
+    translation = IKFRVP_GenericMultiplierTuning,
+}
+
+option IKFRVP.AuditOnly
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP,
+    translation = IKFRVP_AuditOnly,
+}
+
+option IKFRVP.CSRCompatibilityMode
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP,
+    translation = IKFRVP_CSRCompatibilityMode,
+}
+
+option IKFRVP.CSRTowAssistCompensation
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP,
+    translation = IKFRVP_CSRTowAssistCompensation,
+}
+
+option IKFRVP.CSRTowAssistCompensationStrength
+{
+    type = double,
+    min = 0,
+    max = 1,
+    default = 0.35,
+    page = IKFRVP,
+    translation = IKFRVP_CSRTowAssistCompensationStrength,
+}
+
+option IKFRVP.DebugLogging
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP,
+    translation = IKFRVP_DebugLogging,
+}
+
+option IKFRVP.ProbeIntervalTicks
+{
+    type = integer,
+    min = 60,
+    max = 1200,
+    default = 300,
+    page = IKFRVP,
+    translation = IKFRVP_ProbeIntervalTicks,
+}
+
+option IKFRVP.PowerScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_PowerScale,
+}
+
+option IKFRVP.MassScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_MassScale,
+}
+
+option IKFRVP.SportPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_SportPowerBias,
+}
+
+option IKFRVP.HeavyVehiclePowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_HeavyVehiclePowerBias,
+}
+
+option IKFRVP.TrailerMassScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_TrailerMassScale,
+}
+
+option IKFRVP.GenericEngineForceMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_GenericEngineForceMultiplier,
+}
+
+option IKFRVP.GenericMassMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP,
+    translation = IKFRVP_GenericMassMultiplier,
+}

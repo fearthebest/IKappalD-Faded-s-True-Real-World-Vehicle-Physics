@@ -1,0 +1,6 @@
+version=1
+id=3724847841
+title=IKappaID & Faded's True Real World Vehicle Physics
+description=Clean-room Build 42.18 vehicle physics tuning for Project Zomboid. Designed for Common Sense Reborn compatibility and multiplayer-safe server authority.
+tags=Build 42;Multiplayer;Realistic;Vehicles;QoL
+visibility=public
