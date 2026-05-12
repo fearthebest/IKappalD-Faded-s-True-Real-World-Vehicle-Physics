@@ -1,6 +1,6 @@
 # IKappaID & Faded's True Real World Vehicle Physics
 
-Clean-room Project Zomboid Build 42.18 vehicle physics mod.
+Clean-room real-world vehicle physics mod for Project Zomboid Build 42.18.0+.
 
 This build intentionally avoids Java core-class replacement and broad vanilla UI
 patches. Vehicle behavior is changed through deterministic vehicle script tuning
