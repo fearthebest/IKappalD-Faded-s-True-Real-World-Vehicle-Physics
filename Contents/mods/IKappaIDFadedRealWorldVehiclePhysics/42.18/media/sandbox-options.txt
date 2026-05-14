@@ -1,0 +1,465 @@
+VERSION = 1,
+
+option IKFRVP.Enabled
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP,
+    translation = IKFRVP_Enabled,
+}
+
+option IKFRVP.CSRCompatibilityMode
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_CSR,
+    translation = IKFRVP_CSRCompatibilityMode,
+}
+
+option IKFRVP.CSRTowAssistCompensation
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_CSR,
+    translation = IKFRVP_CSRTowAssistCompensation,
+}
+
+option IKFRVP.CSRTowAssistCompensationStrength
+{
+    type = double,
+    min = 0,
+    max = 1,
+    default = 0.35,
+    page = IKFRVP_CSR,
+    translation = IKFRVP_CSRTowAssistCompensationStrength,
+}
+
+option IKFRVP.ProfileTuning
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_Global,
+    translation = IKFRVP_ProfileTuning,
+}
+
+option IKFRVP.GenericMultiplierTuning
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericMultiplierTuning,
+}
+
+option IKFRVP.AuditOnly
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP_Global,
+    translation = IKFRVP_AuditOnly,
+}
+
+option IKFRVP.PowerScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_PowerScale,
+}
+
+option IKFRVP.MassScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_MassScale,
+}
+
+option IKFRVP.EngineTorqueMult
+{
+    type = double,
+    min = 0.35,
+    max = 2.5,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_EngineTorqueMult,
+}
+
+option IKFRVP.SportPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_SportPowerBias,
+}
+
+option IKFRVP.HeavyVehiclePowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_HeavyVehiclePowerBias,
+}
+
+option IKFRVP.BrakeBaseRetain
+{
+    type = double,
+    min = 0.55,
+    max = 1.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_BrakeBaseRetain,
+}
+
+option IKFRVP.GenericEngineForceMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericEngineForceMultiplier,
+}
+
+option IKFRVP.GenericMassMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericMassMultiplier,
+}
+
+option IKFRVP.GenericRollMult
+{
+    type = double,
+    min = 0.25,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericRollMult,
+}
+
+option IKFRVP.GenericBrakeMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.35,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericBrakeMult,
+}
+
+option IKFRVP.GenericReverseMult
+{
+    type = double,
+    min = 0.4,
+    max = 1.7,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_GenericReverseMult,
+}
+
+option IKFRVP.CompactEngineMult
+{
+    type = double,
+    min = 0.45,
+    max = 1.65,
+    default = 1.0,
+    page = IKFRVP_ClassCompact,
+    translation = IKFRVP_CompactEngineMult,
+}
+
+option IKFRVP.CompactMassMult
+{
+    type = double,
+    min = 0.55,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassCompact,
+    translation = IKFRVP_CompactMassMult,
+}
+
+option IKFRVP.CompactRollMult
+{
+    type = double,
+    min = 0.25,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassCompact,
+    translation = IKFRVP_CompactRollMult,
+}
+
+option IKFRVP.CompactBrakeMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.35,
+    default = 1.0,
+    page = IKFRVP_ClassCompact,
+    translation = IKFRVP_CompactBrakeMult,
+}
+
+option IKFRVP.CompactReverseMult
+{
+    type = double,
+    min = 0.4,
+    max = 1.7,
+    default = 1.0,
+    page = IKFRVP_ClassCompact,
+    translation = IKFRVP_CompactReverseMult,
+}
+
+option IKFRVP.StandardEngineMult
+{
+    type = double,
+    min = 0.45,
+    max = 1.65,
+    default = 1.0,
+    page = IKFRVP_ClassStandard,
+    translation = IKFRVP_StandardEngineMult,
+}
+
+option IKFRVP.StandardMassMult
+{
+    type = double,
+    min = 0.55,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassStandard,
+    translation = IKFRVP_StandardMassMult,
+}
+
+option IKFRVP.StandardRollMult
+{
+    type = double,
+    min = 0.25,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassStandard,
+    translation = IKFRVP_StandardRollMult,
+}
+
+option IKFRVP.StandardBrakeMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.35,
+    default = 1.0,
+    page = IKFRVP_ClassStandard,
+    translation = IKFRVP_StandardBrakeMult,
+}
+
+option IKFRVP.StandardReverseMult
+{
+    type = double,
+    min = 0.4,
+    max = 1.7,
+    default = 1.0,
+    page = IKFRVP_ClassStandard,
+    translation = IKFRVP_StandardReverseMult,
+}
+
+option IKFRVP.SportEngineMult
+{
+    type = double,
+    min = 0.45,
+    max = 1.65,
+    default = 1.0,
+    page = IKFRVP_ClassSport,
+    translation = IKFRVP_SportEngineMult,
+}
+
+option IKFRVP.SportMassMult
+{
+    type = double,
+    min = 0.55,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassSport,
+    translation = IKFRVP_SportMassMult,
+}
+
+option IKFRVP.SportRollMult
+{
+    type = double,
+    min = 0.25,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassSport,
+    translation = IKFRVP_SportRollMult,
+}
+
+option IKFRVP.SportBrakeMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.35,
+    default = 1.0,
+    page = IKFRVP_ClassSport,
+    translation = IKFRVP_SportBrakeMult,
+}
+
+option IKFRVP.SportReverseMult
+{
+    type = double,
+    min = 0.4,
+    max = 1.7,
+    default = 1.0,
+    page = IKFRVP_ClassSport,
+    translation = IKFRVP_SportReverseMult,
+}
+
+option IKFRVP.HeavyEngineMult
+{
+    type = double,
+    min = 0.45,
+    max = 1.65,
+    default = 1.0,
+    page = IKFRVP_ClassHeavy,
+    translation = IKFRVP_HeavyEngineMult,
+}
+
+option IKFRVP.HeavyMassMult
+{
+    type = double,
+    min = 0.55,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassHeavy,
+    translation = IKFRVP_HeavyMassMult,
+}
+
+option IKFRVP.HeavyRollMult
+{
+    type = double,
+    min = 0.25,
+    max = 1.45,
+    default = 1.0,
+    page = IKFRVP_ClassHeavy,
+    translation = IKFRVP_HeavyRollMult,
+}
+
+option IKFRVP.HeavyBrakeMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.35,
+    default = 1.0,
+    page = IKFRVP_ClassHeavy,
+    translation = IKFRVP_HeavyBrakeMult,
+}
+
+option IKFRVP.HeavyReverseMult
+{
+    type = double,
+    min = 0.4,
+    max = 1.7,
+    default = 1.0,
+    page = IKFRVP_ClassHeavy,
+    translation = IKFRVP_HeavyReverseMult,
+}
+
+option IKFRVP.TrailerMassScale
+{
+    type = double,
+    min = 0.25,
+    max = 3.0,
+    default = 1.0,
+    page = IKFRVP_ClassTrailer,
+    translation = IKFRVP_TrailerMassScale,
+}
+
+option IKFRVP.TrailerMassMult
+{
+    type = double,
+    min = 0.45,
+    max = 1.55,
+    default = 1.0,
+    page = IKFRVP_ClassTrailer,
+    translation = IKFRVP_TrailerMassMult,
+}
+
+option IKFRVP.HandlingPhysics
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_HandlingPhysics,
+}
+
+option IKFRVP.SteeringResponseMult
+{
+    type = double,
+    min = 0.52,
+    max = 1.0,
+    default = 1.0,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_SteeringResponseMult,
+}
+
+option IKFRVP.SteeringClampMult
+{
+    type = double,
+    min = 0.85,
+    max = 1.0,
+    default = 1.0,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_SteeringClampMult,
+}
+
+option IKFRVP.WheelGripMult
+{
+    type = double,
+    min = 0.68,
+    max = 1.06,
+    default = 1.0,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_WheelGripMult,
+}
+
+option IKFRVP.BodyRollMult
+{
+    type = double,
+    min = 1.0,
+    max = 1.14,
+    default = 1.0,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_BodyRollMult,
+}
+
+option IKFRVP.SuspensionFirmness
+{
+    type = double,
+    min = 0.92,
+    max = 1.28,
+    default = 1.0,
+    page = IKFRVP_Experimental,
+    translation = IKFRVP_SuspensionFirmness,
+}
+
+option IKFRVP.DebugLogging
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP_Debug,
+    translation = IKFRVP_DebugLogging,
+}
+
+option IKFRVP.ProbeIntervalTicks
+{
+    type = integer,
+    min = 60,
+    max = 1200,
+    default = 300,
+    page = IKFRVP_Debug,
+    translation = IKFRVP_ProbeIntervalTicks,
+}
