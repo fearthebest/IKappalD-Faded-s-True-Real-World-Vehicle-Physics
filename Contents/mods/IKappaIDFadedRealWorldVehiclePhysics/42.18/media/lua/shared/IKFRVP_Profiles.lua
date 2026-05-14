@@ -17,7 +17,7 @@ Profiles.definitions = {
     Pickup = { hp = 165, mass = 2240, class = "heavy" },
     CrewPickup = { hp = 160, mass = 2355, class = "heavy" },
     SUV = { hp = 170, mass = 2225, class = "heavy" },
-    Van = { hp = 135, mass = 2310, class = "heavy" },
+    Van = { hp = 170, mass = 2310, class = "heavy" },
     StepVan = { hp = 118, mass = 3260, class = "heavy" },
     TrailerLight = { mass = 520, class = "trailer" },
     TrailerCargo = { mass = 955, class = "trailer" },
@@ -312,7 +312,7 @@ function Profiles.getProfile(profileId)
     end
     profile.id = profileId
     if profile.hp and not profile.engineForce then
-        profile.engineForce = IKFRVP.engineForceFromProfileHp(profile.hp)
+        profile.engineForce = IKFRVP.engineForceFromProfileHp(profile.hp, profile.class)
     end
     return profile
 end

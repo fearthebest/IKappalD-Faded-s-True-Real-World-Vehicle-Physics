@@ -140,12 +140,12 @@ local function capEngineForceOverVanillaBaseline(profile, baseline, fields)
     if not baseline or not fields or baseline.engineForce == nil or fields.engineForce == nil then
         return
     end
-    local headroom = 1.06
+    local headroom = 1.18
     if profile then
         if profile.class == "heavy" then
             headroom = 1.03
         elseif profile.class == "sport" then
-            headroom = 1.10
+            headroom = 1.22
         end
     end
     local cap = baseline.engineForce * headroom
