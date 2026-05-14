@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0"
+IKFRVP.Version = "1.0.1"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -195,6 +195,15 @@ function IKFRVP.formatNumber(value)
         return "n/a"
     end
     return string.format("%.3f", number)
+end
+
+-- Curated HP to VehicleScript engineForce (vanilla small cars are ~3.6k; hp*10 was far too low).
+function IKFRVP.engineForceFromProfileHp(hp)
+    local n = tonumber(hp)
+    if n == nil then
+        return nil
+    end
+    return math.floor(n * 45 + 0.5)
 end
 
 function IKFRVP.fieldPayload(fields)

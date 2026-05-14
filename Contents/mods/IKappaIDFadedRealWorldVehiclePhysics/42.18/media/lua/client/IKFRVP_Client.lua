@@ -11,6 +11,10 @@ IKFRVP.Client = IKFRVP.Client or {}
 local Client = IKFRVP.Client
 
 Client.playerState = Client.playerState or {}
+Client.brakeSqueal = Client.brakeSqueal or {
+    cooldown = 0,
+    ring = {},
+}
 
 local function getPlayerVehicle(player)
     if player and player.getVehicle then
@@ -113,8 +117,86 @@ function Client.onExitVehicle(player)
     IKFRVP.log("vehicle-exit: " .. describeVehicle(getPlayerVehicle(player)))
 end
 
+local function playHardBrakeSqueal(vehicle)
+    if not vehicle then
+        return
+    end
+    local sq = vehicle.getSquare and vehicle:getSquare()
+    if not sq then
+        return
+    end
+    local sm = getSoundManager and getSoundManager()
+    if not sm or not sm.PlayWorldSound then
+        return
+    end
+    pcall(function()
+        sm:PlayWorldSound("VehicleSkid", sq, 0, 50, 1, false)
+    end)
+end
+
+function Client.updateBrakeTireSqueal(player)
+    if type(getPlayer) ~= "function" then
+        return
+    end
+    local gp = getPlayer()
+    if not player or not gp or player ~= gp then
+        return
+    end
+
+    local bs = Client.brakeSqueal
+    local vehicle = getPlayerVehicle(player)
+
+    if not vehicle then
+        bs.ring = {}
+        bs.cooldown = 0
+        return
+    end
+
+    if vehicle.getDriver and vehicle:getDriver() ~= player then
+        bs.ring = {}
+        return
+    end
+
+    if bs.cooldown > 0 then
+        bs.cooldown = bs.cooldown - 1
+        return
+    end
+
+    local speedKmh = math.abs(vehicle.getCurrentSpeedKmHour and vehicle:getCurrentSpeedKmHour() or 0)
+    local braking = vehicle.isBraking and vehicle:isBraking()
+
+    if not braking or speedKmh < 16 then
+        bs.ring = {}
+        return
+    end
+
+    local ring = bs.ring
+    ring[#ring + 1] = speedKmh
+    if #ring > 6 then
+        table.remove(ring, 1)
+    end
+    if #ring < 6 then
+        return
+    end
+
+    local decel = ring[1] - ring[#ring]
+    if decel < 10 then
+        return
+    end
+
+    playHardBrakeSqueal(vehicle)
+    bs.cooldown = 35
+    bs.ring = {}
+end
+
 function Client.onPlayerUpdate(player)
-    if not player or not IKFRVP.isEnabled() or not IKFRVP.isDebugLoggingEnabled() then
+    if not player or not IKFRVP.isEnabled() then
+        return
+    end
+
+    Client.updateBrakeTireSqueal(player)
+
+    if not IKFRVP.isDebugLoggingEnabled() then
         return
     end
 
@@ -149,6 +231,9 @@ function Client.registerEvents()
     if Events and Events.OnServerCommand then
         Events.OnServerCommand.Add(Client.onServerCommand)
     end
+    if Events and Events.OnPlayerUpdate then
+        Events.OnPlayerUpdate.Add(Client.onPlayerUpdate)
+    end
     Client.eventsRegistered = true
 end
 
@@ -161,9 +246,6 @@ function Client.registerDebugEvents()
     end
     if Events and Events.OnExitVehicle then
         Events.OnExitVehicle.Add(Client.onExitVehicle)
-    end
-    if Events and Events.OnPlayerUpdate then
-        Events.OnPlayerUpdate.Add(Client.onPlayerUpdate)
     end
     Client.debugEventsRegistered = true
 end
