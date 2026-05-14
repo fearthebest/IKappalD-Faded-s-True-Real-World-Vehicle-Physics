@@ -137,18 +137,13 @@ local function addChange(changes, label, fromValue, toValue)
 end
 
 local function capEngineForceOverVanillaBaseline(profile, baseline, fields)
+    if not profile or profile.class ~= "heavy" then
+        return
+    end
     if not baseline or not fields or baseline.engineForce == nil or fields.engineForce == nil then
         return
     end
-    local headroom = 1.18
-    if profile then
-        if profile.class == "heavy" then
-            headroom = 1.03
-        elseif profile.class == "sport" then
-            headroom = 1.22
-        end
-    end
-    local cap = baseline.engineForce * headroom
+    local cap = baseline.engineForce * 1.03
     if fields.engineForce > cap then
         fields.engineForce = math.floor(cap + 0.5)
     end
