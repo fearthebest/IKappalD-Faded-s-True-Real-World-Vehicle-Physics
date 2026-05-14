@@ -4,21 +4,22 @@ IKFRVP.Profiles = IKFRVP.Profiles or {}
 
 local Profiles = IKFRVP.Profiles
 
+-- HP raised ~7% from the initial release so vehicles feel slightly stronger (engineForce still hp * 10).
 Profiles.definitions = {
-    Compact = { hp = 78, mass = 955, class = "compact" },
-    CompactSport = { hp = 145, mass = 1325, class = "sport" },
-    Sedan = { hp = 170, mass = 1760, class = "standard" },
-    ModernSedan = { hp = 125, mass = 1305, class = "standard" },
-    Wagon = { hp = 165, mass = 1950, class = "standard" },
-    Luxury = { hp = 225, mass = 1855, class = "sport" },
-    Sport = { hp = 265, mass = 1485, class = "sport" },
-    Race = { hp = 365, mass = 1540, class = "sport" },
-    Offroad = { hp = 180, mass = 1515, class = "heavy" },
-    Pickup = { hp = 165, mass = 2240, class = "heavy" },
-    CrewPickup = { hp = 160, mass = 2355, class = "heavy" },
-    SUV = { hp = 170, mass = 2225, class = "heavy" },
-    Van = { hp = 115, mass = 2310, class = "heavy" },
-    StepVan = { hp = 118, mass = 3260, class = "heavy" },
+    Compact = { hp = 83, mass = 955, class = "compact" },
+    CompactSport = { hp = 155, mass = 1325, class = "sport" },
+    Sedan = { hp = 182, mass = 1760, class = "standard" },
+    ModernSedan = { hp = 134, mass = 1305, class = "standard" },
+    Wagon = { hp = 177, mass = 1950, class = "standard" },
+    Luxury = { hp = 241, mass = 1855, class = "sport" },
+    Sport = { hp = 284, mass = 1485, class = "sport" },
+    Race = { hp = 391, mass = 1540, class = "sport" },
+    Offroad = { hp = 193, mass = 1515, class = "heavy" },
+    Pickup = { hp = 177, mass = 2240, class = "heavy" },
+    CrewPickup = { hp = 171, mass = 2355, class = "heavy" },
+    SUV = { hp = 182, mass = 2225, class = "heavy" },
+    Van = { hp = 123, mass = 2310, class = "heavy" },
+    StepVan = { hp = 126, mass = 3260, class = "heavy" },
     TrailerLight = { mass = 520, class = "trailer" },
     TrailerCargo = { mass = 955, class = "trailer" },
     TrailerHeavy = { mass = 1490, class = "trailer" },
@@ -312,13 +313,7 @@ function Profiles.getProfile(profileId)
     end
     profile.id = profileId
     if profile.hp and not profile.engineForce then
-        -- Heavy: modest hp scale + maxSpeed / maxSpeedReverse clamps in tuner.
-        if profile.class == "heavy" then
-            profile.engineForce = math.floor(profile.hp * 13 + 0.5)
-        -- Non-heavy: same hp*10 as original release.
-        else
-            profile.engineForce = profile.hp * 10
-        end
+        profile.engineForce = profile.hp * 10
     end
     return profile
 end

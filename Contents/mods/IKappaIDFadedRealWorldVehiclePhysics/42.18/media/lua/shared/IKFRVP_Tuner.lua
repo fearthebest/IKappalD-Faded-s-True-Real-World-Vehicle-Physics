@@ -19,10 +19,6 @@ local function readBaseline(script)
     local baseline = {
         engineForce = IKFRVP.readScriptNumber(script, "getEngineForce"),
         mass = IKFRVP.readScriptNumber(script, "getMass"),
-        maxSpeed = IKFRVP.readScriptNumber(script, "getMaxSpeed"),
-        maxSpeedReverse = IKFRVP.readScriptNumber(script, "getMaxSpeedReverse"),
-        brakingForce = IKFRVP.readScriptNumber(script, "getBrakingForce"),
-        stoppingMovementForce = IKFRVP.readScriptNumber(script, "getStoppingMovementForce"),
     }
     Tuner.baselines[scriptName] = baseline
     return baseline
@@ -153,28 +149,6 @@ local function buildProfileTargets(profile, baseline)
     if profile.mass and baseline.mass then
         fields.mass = math.floor(profile.mass * massScaleFor(profile) + 0.5)
     end
-    if profile.class == "heavy" then
-        if baseline.maxSpeed ~= nil then
-            local capped = math.min(baseline.maxSpeed * 0.52, 48)
-            fields.maxSpeed = math.max(30, capped)
-            local fwdCap = fields.maxSpeed
-            local revFromBaseline = baseline.maxSpeedReverse
-            if revFromBaseline ~= nil then
-                fields.maxSpeedReverse = math.max(3, math.min(6, revFromBaseline * 0.22, fwdCap * 0.11))
-            else
-                fields.maxSpeedReverse = math.max(3, math.min(6, fwdCap * 0.10))
-            end
-        else
-            fields.maxSpeed = 46
-            fields.maxSpeedReverse = 6
-        end
-        if baseline.brakingForce ~= nil then
-            fields.brakingForce = math.max(22, math.floor(baseline.brakingForce * 0.62 + 0.5))
-        end
-        if baseline.stoppingMovementForce ~= nil then
-            fields.stoppingMovementForce = math.max(1.12, baseline.stoppingMovementForce * 0.78)
-        end
-    end
     return fields
 end
 
@@ -225,10 +199,6 @@ function Tuner.buildPlan(script)
     local changes = {}
     addChange(changes, "engineForce", baseline.engineForce, fields.engineForce)
     addChange(changes, "mass", baseline.mass, fields.mass)
-    addChange(changes, "maxSpeed", baseline.maxSpeed, fields.maxSpeed)
-    addChange(changes, "maxSpeedReverse", baseline.maxSpeedReverse, fields.maxSpeedReverse)
-    addChange(changes, "brakingForce", baseline.brakingForce, fields.brakingForce)
-    addChange(changes, "stoppingMovementForce", baseline.stoppingMovementForce, fields.stoppingMovementForce)
 
     if #changes == 0 then
         return nil

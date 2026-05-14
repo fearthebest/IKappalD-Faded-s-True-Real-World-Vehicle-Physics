@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.11"
+IKFRVP.Version = "1.0.0"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -176,7 +176,6 @@ function IKFRVP.getVehicleScriptName(vehicle)
     return IKFRVP.getScriptFullName(script)
 end
 
--- VehicleScript fields (e.g. maxSpeed): see demiurgequantified.github.io ProjectZomboidJavaDocs VehicleScript.
 function IKFRVP.readScriptNumber(script, getterName)
     if not script or not getterName then
         return nil
@@ -186,62 +185,6 @@ function IKFRVP.readScriptNumber(script, getterName)
     end
     if getterName == "getMass" and script.getMass then
         return tonumber(script:getMass())
-    end
-    if getterName == "getMaxSpeed" then
-        if script.getMaxSpeed then
-            local ok, v = pcall(function()
-                return tonumber(script:getMaxSpeed())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.maxSpeed ~= nil then
-            return tonumber(script.maxSpeed)
-        end
-        return nil
-    end
-    if getterName == "getMaxSpeedReverse" then
-        if script.getMaxSpeedReverse then
-            local ok, v = pcall(function()
-                return tonumber(script:getMaxSpeedReverse())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.maxSpeedReverse ~= nil then
-            return tonumber(script.maxSpeedReverse)
-        end
-        return nil
-    end
-    if getterName == "getBrakingForce" then
-        if script.getBrakingForce then
-            local ok, v = pcall(function()
-                return tonumber(script:getBrakingForce())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.brakingForce ~= nil then
-            return tonumber(script.brakingForce)
-        end
-        return nil
-    end
-    if getterName == "getStoppingMovementForce" then
-        if script.getStoppingMovementForce then
-            local ok, v = pcall(function()
-                return tonumber(script:getStoppingMovementForce())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.stoppingMovementForce ~= nil then
-            return tonumber(script.stoppingMovementForce)
-        end
-        return nil
     end
     return nil
 end
@@ -261,19 +204,6 @@ function IKFRVP.fieldPayload(fields)
     end
     if fields.mass ~= nil then
         parts[#parts + 1] = "mass = " .. tostring(fields.mass)
-    end
-    if fields.maxSpeed ~= nil then
-        -- Vehicle scripts use float literals with an "f" suffix (e.g. maxSpeed = 70f).
-        parts[#parts + 1] = "maxSpeed = " .. string.format("%.2ff", fields.maxSpeed)
-    end
-    if fields.maxSpeedReverse ~= nil then
-        parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.2ff", fields.maxSpeedReverse)
-    end
-    if fields.brakingForce ~= nil then
-        parts[#parts + 1] = "brakingForce = " .. tostring(math.floor(fields.brakingForce + 0.5))
-    end
-    if fields.stoppingMovementForce ~= nil then
-        parts[#parts + 1] = "stoppingMovementForce = " .. string.format("%.2ff", fields.stoppingMovementForce)
     end
     if #parts == 0 then
         return nil
