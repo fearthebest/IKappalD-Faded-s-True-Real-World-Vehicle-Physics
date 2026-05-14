@@ -136,11 +136,19 @@ local function addChange(changes, label, fromValue, toValue)
     end
 end
 
-local function capEngineForceOverVanillaBaseline(baseline, fields)
+local function capEngineForceOverVanillaBaseline(profile, baseline, fields)
     if not baseline or not fields or baseline.engineForce == nil or fields.engineForce == nil then
         return
     end
-    local cap = baseline.engineForce * 1.22
+    local headroom = 1.06
+    if profile then
+        if profile.class == "heavy" then
+            headroom = 1.03
+        elseif profile.class == "sport" then
+            headroom = 1.10
+        end
+    end
+    local cap = baseline.engineForce * headroom
     if fields.engineForce > cap then
         fields.engineForce = math.floor(cap + 0.5)
     end
@@ -155,7 +163,7 @@ local function buildProfileTargets(profile, baseline)
             * classPowerBias(profile)
             * csrTowAssistPowerScalar(profile)
             + 0.5)
-        capEngineForceOverVanillaBaseline(baseline, fields)
+        capEngineForceOverVanillaBaseline(profile, baseline, fields)
     end
     if profile.mass and baseline.mass then
         fields.mass = math.floor(profile.mass * massScaleFor(profile) + 0.5)
