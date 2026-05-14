@@ -58,6 +58,16 @@ option IKFRVP.AuditOnly
     translation = IKFRVP_AuditOnly,
 }
 
+option IKFRVP.TrunkCapacityMult
+{
+    type = double,
+    min = 0.35,
+    max = 2.5,
+    default = 1.0,
+    page = IKFRVP_Global,
+    translation = IKFRVP_TrunkCapacityMult,
+}
+
 option IKFRVP.PowerScale
 {
     type = double,

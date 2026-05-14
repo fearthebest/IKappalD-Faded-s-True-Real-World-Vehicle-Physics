@@ -2,9 +2,13 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.1.2"
+IKFRVP.Version = "1.1.3"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
+
+-- Unofficial API references (Java binding surface + inferred Lua): keep VehicleScript usage aligned with these.
+-- https://demiurgequantified.github.io/ProjectZomboidJavaDocs/
+-- https://demiurgequantified.github.io/ProjectZomboidLuaDocs/index.html
 
 local function sandboxRoot()
     if SandboxVars and SandboxVars.IKFRVP then
@@ -324,7 +328,7 @@ function IKFRVP.readScriptNumber(script, getterName)
             return v
         end
     end
-    if getterName == "getSteeringClampLowSpeed" and script.getSteeringClamp then
+    if getterName == "getSteeringClamp" and script.getSteeringClamp then
         local ok, v = pcall(function()
             return tonumber(script:getSteeringClamp(0))
         end)

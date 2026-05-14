@@ -10,7 +10,7 @@ Tuner.baselines = Tuner.baselines or {}
 Tuner.appliedSignatures = Tuner.appliedSignatures or {}
 Tuner.lastStats = Tuner.lastStats or {}
 
-local BASELINE_SCHEMA_VER = 2
+local BASELINE_SCHEMA_VER = 5
 
 local function readBaseline(script)
     local scriptName = IKFRVP.getScriptFullName(script)
@@ -517,16 +517,17 @@ function Tuner.buildPlan(script)
         return nil
     end
 
+    local scriptFullName = IKFRVP.getScriptFullName(script)
     local baseline = readBaseline(script)
     local profile, matchedName = IKFRVP.Profiles.resolveProfile(script)
     local fields = nil
     local mode = nil
 
     if profile and IKFRVP.isProfileTuningEnabled() then
-        fields = buildProfileTargets(profile, baseline, IKFRVP.getScriptFullName(script))
+        fields = buildProfileTargets(profile, baseline, scriptFullName)
         mode = "profile:" .. tostring(profile.id)
     elseif IKFRVP.isGenericMultiplierTuningEnabled() then
-        fields = buildGenericTargets(baseline, IKFRVP.getScriptFullName(script))
+        fields = buildGenericTargets(baseline, scriptFullName)
         mode = "generic"
     else
         return nil
@@ -550,13 +551,15 @@ function Tuner.buildPlan(script)
         return nil
     end
 
+    local payload = IKFRVP.fieldPayload(fields)
+
     return {
-        scriptName = IKFRVP.getScriptFullName(script),
+        scriptName = scriptFullName,
         loadName = IKFRVP.getScriptName(script),
         matchedName = matchedName,
         mode = mode,
         fields = fields,
-        payload = IKFRVP.fieldPayload(fields),
+        payload = payload,
         changes = changes,
     }
 end
@@ -711,6 +714,7 @@ end
 
 function Tuner.onGameStart()
     IKFRVP.Compat.logCSRState("game-start")
+    Tuner.appliedSignatures = {}
     Tuner.processAllScripts("OnGameStart")
 end
 
@@ -728,5 +732,7 @@ function Tuner.registerEvents()
 end
 
 Tuner.registerEvents()
+
+require "IKFRVP_TrunkRuntime"
 
 return Tuner
