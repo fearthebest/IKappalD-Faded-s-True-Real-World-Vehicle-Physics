@@ -1,5 +1,7 @@
 # IKappaID & Faded's True Real World Vehicle Physics
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J11ZJGEJ)
+
 Vehicle physics tuning for **Project Zomboid Build 42.18+**. The goal is **more believable weight and acceleration** for vanilla-style vehicles while staying **multiplayer-friendly** and **compatible with Common Sense Reborn (CSR)**.
 
 **Repository:** [github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics)
