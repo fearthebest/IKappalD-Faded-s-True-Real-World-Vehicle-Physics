@@ -85,7 +85,9 @@ v1.1.2
 
 ## License
 
-Add a `LICENSE` file to this repository if you want a formal open-source terms (this README does not specify one).
+Licensed under the **MIT License** — see the [`LICENSE`](LICENSE) file.
+
+Forks and patches are welcome. Please keep the original copyright and license notices with the code, credit **IKappaID & Faded** as the original authors, and make clear what you changed.
 
 ---
 
