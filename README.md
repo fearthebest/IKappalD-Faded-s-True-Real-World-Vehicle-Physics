@@ -28,7 +28,12 @@ This mod does **not** replace core game Java, hijack unrelated UI, or take over 
 
 ### From Steam Workshop
 
-Subscribe, enable the mod in the **Mods** menu, and run **B42.18**.
+Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** on the Steam Workshop for Project Zomboid, then enable the mod in the **Mods** menu and run **B42.18**.
+
+**Authors’ Workshop pages** (other mods and updates may be listed here):
+
+- **IKappaID:** [Steam Workshop files](https://steamcommunity.com/profiles/76561198273218719/myworkshopfiles/?appid=108600)
+- **Faded:** [Steam Workshop files](https://steamcommunity.com/profiles/76561198298230085/myworkshopfiles/?appid=108600)
 
 ### From this repository
 
@@ -58,6 +63,14 @@ Many defaults are **neutral (1.0)** where appropriate; **experimental handling**
 
 ---
 
+## Workshop vehicle packs
+
+Many workshop cars use script names like **`Base` + digit + …**. For those, the mod **limits** how far mass and engine output can drift from the pack author’s values, which reduces sinking, clipping, or odd behaviour. The **experimental handling pass is not applied** to those scripts.
+
+Profile-list tuning applies only to vehicles **mapped** in the mod; others can use **generic** tuning if enabled.
+
+---
+
 ## Recommended load order (with CSR)
 
 1. **Common Sense Reborn**  
@@ -73,13 +86,14 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ## Version
 
-v1.1.2
+See **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
 
 ---
 
 ## Authors
 
-**IKappaID** & **Faded**
+- **IKappaID** — [Steam Workshop profile](https://steamcommunity.com/profiles/76561198273218719/myworkshopfiles/?appid=108600)
+- **Faded** — [Steam Workshop profile](https://steamcommunity.com/profiles/76561198298230085/myworkshopfiles/?appid=108600)
 
 ---
 
