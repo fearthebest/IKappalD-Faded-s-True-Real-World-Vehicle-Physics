@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.9"
+IKFRVP.Version = "1.0.10"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -235,10 +235,11 @@ function IKFRVP.fieldPayload(fields)
         parts[#parts + 1] = "mass = " .. tostring(fields.mass)
     end
     if fields.maxSpeed ~= nil then
-        parts[#parts + 1] = "maxSpeed = " .. string.format("%.3f", fields.maxSpeed)
+        -- Vehicle scripts use float literals with an "f" suffix (e.g. maxSpeed = 70f).
+        parts[#parts + 1] = "maxSpeed = " .. string.format("%.2ff", fields.maxSpeed)
     end
     if fields.maxSpeedReverse ~= nil then
-        parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.3f", fields.maxSpeedReverse)
+        parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.2ff", fields.maxSpeedReverse)
     end
     if #parts == 0 then
         return nil

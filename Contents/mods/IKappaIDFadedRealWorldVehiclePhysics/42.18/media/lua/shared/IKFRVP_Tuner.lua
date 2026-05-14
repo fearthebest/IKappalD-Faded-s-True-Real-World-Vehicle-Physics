@@ -151,14 +151,20 @@ local function buildProfileTargets(profile, baseline)
     if profile.mass and baseline.mass then
         fields.mass = math.floor(profile.mass * massScaleFor(profile) + 0.5)
     end
-    if profile.class == "heavy" and baseline.maxSpeed ~= nil then
-        fields.maxSpeed = math.min(baseline.maxSpeed, 68)
-        local fwdCap = fields.maxSpeed
-        if baseline.maxSpeedReverse ~= nil then
-            local softCap = math.min(baseline.maxSpeedReverse, fwdCap * 0.32)
-            fields.maxSpeedReverse = math.max(6, softCap)
+    if profile.class == "heavy" then
+        if baseline.maxSpeed ~= nil then
+            local capped = math.min(baseline.maxSpeed * 0.52, 48)
+            fields.maxSpeed = math.max(30, capped)
+            local fwdCap = fields.maxSpeed
+            local revFromBaseline = baseline.maxSpeedReverse
+            if revFromBaseline ~= nil then
+                fields.maxSpeedReverse = math.max(3, math.min(6, revFromBaseline * 0.22, fwdCap * 0.11))
+            else
+                fields.maxSpeedReverse = math.max(3, math.min(6, fwdCap * 0.10))
+            end
         else
-            fields.maxSpeedReverse = math.max(6, math.min(18, fwdCap * 0.28))
+            fields.maxSpeed = 46
+            fields.maxSpeedReverse = 6
         end
     end
     return fields
