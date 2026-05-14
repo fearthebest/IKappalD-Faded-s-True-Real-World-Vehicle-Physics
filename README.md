@@ -58,14 +58,6 @@ Many defaults are **neutral (1.0)** where appropriate; **experimental handling**
 
 ---
 
-## Workshop vehicle packs
-
-Many workshop cars use script names like **`Base` + digit + …**. For those, the mod **limits** how far mass and engine output can drift from the pack author’s values, which reduces sinking, clipping, or odd behaviour. The **experimental handling pass is not applied** to those scripts.
-
-Profile-list tuning applies only to vehicles **mapped** in the mod; others can use **generic** tuning if enabled.
-
----
-
 ## Recommended load order (with CSR)
 
 1. **Common Sense Reborn**  
@@ -81,7 +73,7 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ## Version
 
-See **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+v1.1.2
 
 ---
 
