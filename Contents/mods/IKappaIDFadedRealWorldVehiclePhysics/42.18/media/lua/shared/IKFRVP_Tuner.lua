@@ -19,6 +19,8 @@ local function readBaseline(script)
     local baseline = {
         engineForce = IKFRVP.readScriptNumber(script, "getEngineForce"),
         mass = IKFRVP.readScriptNumber(script, "getMass"),
+        maxSpeed = IKFRVP.readScriptNumber(script, "getMaxSpeed"),
+        maxSpeedReverse = IKFRVP.readScriptNumber(script, "getMaxSpeedReverse"),
     }
     Tuner.baselines[scriptName] = baseline
     return baseline
@@ -149,6 +151,16 @@ local function buildProfileTargets(profile, baseline)
     if profile.mass and baseline.mass then
         fields.mass = math.floor(profile.mass * massScaleFor(profile) + 0.5)
     end
+    if profile.class == "heavy" and baseline.maxSpeed ~= nil then
+        fields.maxSpeed = math.min(baseline.maxSpeed, 68)
+        local fwdCap = fields.maxSpeed
+        if baseline.maxSpeedReverse ~= nil then
+            local softCap = math.min(baseline.maxSpeedReverse, fwdCap * 0.32)
+            fields.maxSpeedReverse = math.max(6, softCap)
+        else
+            fields.maxSpeedReverse = math.max(6, math.min(18, fwdCap * 0.28))
+        end
+    end
     return fields
 end
 
@@ -199,6 +211,8 @@ function Tuner.buildPlan(script)
     local changes = {}
     addChange(changes, "engineForce", baseline.engineForce, fields.engineForce)
     addChange(changes, "mass", baseline.mass, fields.mass)
+    addChange(changes, "maxSpeed", baseline.maxSpeed, fields.maxSpeed)
+    addChange(changes, "maxSpeedReverse", baseline.maxSpeedReverse, fields.maxSpeedReverse)
 
     if #changes == 0 then
         return nil

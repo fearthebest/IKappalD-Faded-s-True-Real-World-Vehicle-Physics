@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.7"
+IKFRVP.Version = "1.0.8"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -186,6 +186,12 @@ function IKFRVP.readScriptNumber(script, getterName)
     if getterName == "getMass" and script.getMass then
         return tonumber(script:getMass())
     end
+    if getterName == "getMaxSpeed" and script.getMaxSpeed then
+        return tonumber(script:getMaxSpeed())
+    end
+    if getterName == "getMaxSpeedReverse" and script.getMaxSpeedReverse then
+        return tonumber(script:getMaxSpeedReverse())
+    end
     return nil
 end
 
@@ -204,6 +210,12 @@ function IKFRVP.fieldPayload(fields)
     end
     if fields.mass ~= nil then
         parts[#parts + 1] = "mass = " .. tostring(fields.mass)
+    end
+    if fields.maxSpeed ~= nil then
+        parts[#parts + 1] = "maxSpeed = " .. string.format("%.3f", fields.maxSpeed)
+    end
+    if fields.maxSpeedReverse ~= nil then
+        parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.3f", fields.maxSpeedReverse)
     end
     if #parts == 0 then
         return nil

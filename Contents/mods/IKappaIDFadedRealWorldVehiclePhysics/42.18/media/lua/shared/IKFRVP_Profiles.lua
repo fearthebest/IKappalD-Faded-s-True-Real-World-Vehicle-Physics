@@ -312,9 +312,9 @@ function Profiles.getProfile(profileId)
     end
     profile.id = profileId
     if profile.hp and not profile.engineForce then
-        -- 1.0.0: hp*10 for all. Heavy only: hp*12 for slightly stronger acceleration (minivans, trucks, SUVs).
+        -- 1.0.0: hp*10 for all. Heavy: higher hp scale + maxSpeed cap (see tuner) for plausible vans/trucks.
         if profile.class == "heavy" then
-            profile.engineForce = math.floor(profile.hp * 12 + 0.5)
+            profile.engineForce = math.floor(profile.hp * 18 + 0.5)
         else
             profile.engineForce = profile.hp * 10
         end
