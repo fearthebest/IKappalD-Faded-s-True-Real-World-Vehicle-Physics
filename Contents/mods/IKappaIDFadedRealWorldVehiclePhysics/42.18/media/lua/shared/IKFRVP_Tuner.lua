@@ -143,7 +143,7 @@ local function capEngineForceOverVanillaBaseline(profile, baseline, fields)
     if not baseline or not fields or baseline.engineForce == nil or fields.engineForce == nil then
         return
     end
-    local cap = baseline.engineForce * 1.03
+    local cap = baseline.engineForce * 1.07
     if fields.engineForce > cap then
         fields.engineForce = math.floor(cap + 0.5)
     end

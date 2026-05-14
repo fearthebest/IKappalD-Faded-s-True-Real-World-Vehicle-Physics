@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.5"
+IKFRVP.Version = "1.0.6"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -197,14 +197,15 @@ function IKFRVP.formatNumber(value)
     return string.format("%.3f", number)
 end
 
--- Heavy: stronger scale + vanilla cap in tuner. Compact/standard/sport: same hp*10 as release 1.0.0.
+-- Heavy (vans, trucks, SUVs): higher hp scale fixes sluggish acceleration / low speed ceiling vs hp*10.
+-- Non-heavy unchanged from 1.0.0 (hp*10).
 function IKFRVP.engineForceFromProfileHp(hp, vehicleClass)
     local n = tonumber(hp)
     if n == nil then
         return nil
     end
     if vehicleClass == "heavy" then
-        return math.floor(n * 26 + 0.5)
+        return math.floor(n * 32 + 0.5)
     end
     return math.floor(n * 10 + 0.5)
 end
