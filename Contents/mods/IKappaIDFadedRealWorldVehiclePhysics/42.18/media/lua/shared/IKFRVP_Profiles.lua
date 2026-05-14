@@ -17,7 +17,7 @@ Profiles.definitions = {
     Pickup = { hp = 165, mass = 2240, class = "heavy" },
     CrewPickup = { hp = 160, mass = 2355, class = "heavy" },
     SUV = { hp = 170, mass = 2225, class = "heavy" },
-    Van = { hp = 170, mass = 2310, class = "heavy" },
+    Van = { hp = 115, mass = 2310, class = "heavy" },
     StepVan = { hp = 118, mass = 3260, class = "heavy" },
     TrailerLight = { mass = 520, class = "trailer" },
     TrailerCargo = { mass = 955, class = "trailer" },
@@ -312,7 +312,12 @@ function Profiles.getProfile(profileId)
     end
     profile.id = profileId
     if profile.hp and not profile.engineForce then
-        profile.engineForce = IKFRVP.engineForceFromProfileHp(profile.hp, profile.class)
+        -- 1.0.0: hp*10 for all. Heavy only: hp*12 for slightly stronger acceleration (minivans, trucks, SUVs).
+        if profile.class == "heavy" then
+            profile.engineForce = math.floor(profile.hp * 12 + 0.5)
+        else
+            profile.engineForce = profile.hp * 10
+        end
     end
     return profile
 end
