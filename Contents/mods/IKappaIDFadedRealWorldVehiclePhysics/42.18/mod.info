@@ -2,6 +2,6 @@ name=IKappaID & Faded's True Real World Vehicle Physics
 id=IKappaIDFadedRealWorldVehiclePhysics
 description=Clean-room B42.18 vehicle physics tuning designed for Common Sense Reborn compatibility and multiplayer-safe server authority.
 author=IKappaID & Faded
-modversion=1.0.8
+modversion=1.0.9
 versionMin=42.18
 category=gameplay

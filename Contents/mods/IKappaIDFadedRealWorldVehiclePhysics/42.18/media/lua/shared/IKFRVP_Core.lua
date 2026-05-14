@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.8"
+IKFRVP.Version = "1.0.9"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -176,6 +176,7 @@ function IKFRVP.getVehicleScriptName(vehicle)
     return IKFRVP.getScriptFullName(script)
 end
 
+-- VehicleScript fields (e.g. maxSpeed): see demiurgequantified.github.io ProjectZomboidJavaDocs VehicleScript.
 function IKFRVP.readScriptNumber(script, getterName)
     if not script or not getterName then
         return nil
@@ -186,11 +187,33 @@ function IKFRVP.readScriptNumber(script, getterName)
     if getterName == "getMass" and script.getMass then
         return tonumber(script:getMass())
     end
-    if getterName == "getMaxSpeed" and script.getMaxSpeed then
-        return tonumber(script:getMaxSpeed())
+    if getterName == "getMaxSpeed" then
+        if script.getMaxSpeed then
+            local ok, v = pcall(function()
+                return tonumber(script:getMaxSpeed())
+            end)
+            if ok and v ~= nil then
+                return v
+            end
+        end
+        if script.maxSpeed ~= nil then
+            return tonumber(script.maxSpeed)
+        end
+        return nil
     end
-    if getterName == "getMaxSpeedReverse" and script.getMaxSpeedReverse then
-        return tonumber(script:getMaxSpeedReverse())
+    if getterName == "getMaxSpeedReverse" then
+        if script.getMaxSpeedReverse then
+            local ok, v = pcall(function()
+                return tonumber(script:getMaxSpeedReverse())
+            end)
+            if ok and v ~= nil then
+                return v
+            end
+        end
+        if script.maxSpeedReverse ~= nil then
+            return tonumber(script.maxSpeedReverse)
+        end
+        return nil
     end
     return nil
 end
