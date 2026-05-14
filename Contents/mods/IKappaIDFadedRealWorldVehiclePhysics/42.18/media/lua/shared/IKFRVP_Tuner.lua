@@ -21,6 +21,8 @@ local function readBaseline(script)
         mass = IKFRVP.readScriptNumber(script, "getMass"),
         maxSpeed = IKFRVP.readScriptNumber(script, "getMaxSpeed"),
         maxSpeedReverse = IKFRVP.readScriptNumber(script, "getMaxSpeedReverse"),
+        brakingForce = IKFRVP.readScriptNumber(script, "getBrakingForce"),
+        stoppingMovementForce = IKFRVP.readScriptNumber(script, "getStoppingMovementForce"),
     }
     Tuner.baselines[scriptName] = baseline
     return baseline
@@ -166,6 +168,12 @@ local function buildProfileTargets(profile, baseline)
             fields.maxSpeed = 46
             fields.maxSpeedReverse = 6
         end
+        if baseline.brakingForce ~= nil then
+            fields.brakingForce = math.max(22, math.floor(baseline.brakingForce * 0.62 + 0.5))
+        end
+        if baseline.stoppingMovementForce ~= nil then
+            fields.stoppingMovementForce = math.max(1.12, baseline.stoppingMovementForce * 0.78)
+        end
     end
     return fields
 end
@@ -219,6 +227,8 @@ function Tuner.buildPlan(script)
     addChange(changes, "mass", baseline.mass, fields.mass)
     addChange(changes, "maxSpeed", baseline.maxSpeed, fields.maxSpeed)
     addChange(changes, "maxSpeedReverse", baseline.maxSpeedReverse, fields.maxSpeedReverse)
+    addChange(changes, "brakingForce", baseline.brakingForce, fields.brakingForce)
+    addChange(changes, "stoppingMovementForce", baseline.stoppingMovementForce, fields.stoppingMovementForce)
 
     if #changes == 0 then
         return nil

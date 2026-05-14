@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.0.10"
+IKFRVP.Version = "1.0.11"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -215,6 +215,34 @@ function IKFRVP.readScriptNumber(script, getterName)
         end
         return nil
     end
+    if getterName == "getBrakingForce" then
+        if script.getBrakingForce then
+            local ok, v = pcall(function()
+                return tonumber(script:getBrakingForce())
+            end)
+            if ok and v ~= nil then
+                return v
+            end
+        end
+        if script.brakingForce ~= nil then
+            return tonumber(script.brakingForce)
+        end
+        return nil
+    end
+    if getterName == "getStoppingMovementForce" then
+        if script.getStoppingMovementForce then
+            local ok, v = pcall(function()
+                return tonumber(script:getStoppingMovementForce())
+            end)
+            if ok and v ~= nil then
+                return v
+            end
+        end
+        if script.stoppingMovementForce ~= nil then
+            return tonumber(script.stoppingMovementForce)
+        end
+        return nil
+    end
     return nil
 end
 
@@ -240,6 +268,12 @@ function IKFRVP.fieldPayload(fields)
     end
     if fields.maxSpeedReverse ~= nil then
         parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.2ff", fields.maxSpeedReverse)
+    end
+    if fields.brakingForce ~= nil then
+        parts[#parts + 1] = "brakingForce = " .. tostring(math.floor(fields.brakingForce + 0.5))
+    end
+    if fields.stoppingMovementForce ~= nil then
+        parts[#parts + 1] = "stoppingMovementForce = " .. string.format("%.2ff", fields.stoppingMovementForce)
     end
     if #parts == 0 then
         return nil
