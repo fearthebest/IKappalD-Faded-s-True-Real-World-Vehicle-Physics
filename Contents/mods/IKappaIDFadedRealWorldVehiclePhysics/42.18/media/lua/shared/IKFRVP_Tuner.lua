@@ -209,11 +209,17 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass
 
     local bBrake = baseline.brakingForce
     if bBrake and bBrake > 0 then
-        local retain = IKFRVP.numberOption("BrakeBaseRetain", 1.0, 0.55, 1.0)
+        -- Slider floor widened from 0.55 to 0.40 so users can dial brakes softer for the
+        -- "loaded truck takes forever to stop" feel that motivated the v1.1.4 retune.
+        local retain = IKFRVP.numberOption("BrakeBaseRetain", 1.0, 0.40, 1.0)
         if cls == "sport" then
             retain = math.min(1.0, retain * 1.04)
         elseif cls == "heavy" then
-            retain = retain * 0.97
+            -- Was 0.97 (a ~3% trim). Real-world heavy vehicles (pickups, vans, step-vans)
+            -- at highway speed need substantially longer stopping distance than sedans:
+            -- combining +25% mass with only -3% brake force still let them stop almost
+            -- as fast. Drop retention to 0.80 so a 90mph step-van actually rolls.
+            retain = retain * 0.80
         elseif cls == "compact" then
             retain = math.min(1.0, retain * 1.02)
         end
@@ -221,9 +227,23 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass
         fields.brakingForce = math.min(bBrake - 1, math.max(BRAKE_FLOOR_AFTER_RETAIN, soft))
     end
 
+    -- stoppingMovementForce is the passive rolling-stop force applied when the player
+    -- isn't on the throttle. Lower = more coasting before the vehicle settles. Heavy
+    -- vehicles carry far more kinetic energy at speed, so they should coast longer than
+    -- a compact or sedan; previous code applied a single class-agnostic 0.44 factor.
     local s = baseline.stoppingMovementForce
     if s and s > 0 then
-        local t = math.max(0.34, s * 0.44)
+        local fac = 0.44
+        local floor = 0.34
+        if cls == "heavy" then
+            fac = 0.28
+            floor = 0.26
+        elseif cls == "sport" then
+            fac = 0.48
+        elseif cls == "compact" then
+            fac = 0.46
+        end
+        local t = math.max(floor, s * fac)
         t = math.min(t, s - 0.02)
         if t + 0.001 < s then
             fields.stoppingMovementForce = t
