@@ -158,6 +158,26 @@ local function addChange(changes, label, fromValue, toValue)
     end
 end
 
+-- Per-class tuning constants for the reverse-cap, brake-retention, and rolling-stop
+-- (stoppingMovementForce) blocks below. Splitting these out of the if/elseif chain has
+-- two benefits:
+--   1. The relationships are easy to compare side-by-side ("sport reverses faster than
+--      heavy", "compact brakes a hair harder than standard"), instead of being smeared
+--      across three repeated branches.
+--   2. Adding a new class (e.g. "motorcycle") is a one-line table entry rather than four
+--      separate branches in three separate code blocks. The same pattern already shows
+--      up in IKFRVP_Core's CLASS_TUNING_PREFIX dispatch.
+local CLASS_TUNING = {
+    standard = { revMult = 0.19, revAbsCap = 3.35, revFwdFrac = 0.048, brakeRetainScale = 1.00 },
+    compact  = { revMult = 0.17, revAbsCap = 2.95, revFwdFrac = 0.042, brakeRetainScale = 1.02 },
+    sport    = { revMult = 0.23, revAbsCap = 4.85, revFwdFrac = 0.054, brakeRetainScale = 1.04 },
+    heavy    = { revMult = 0.15, revAbsCap = 2.45, revFwdFrac = 0.038, brakeRetainScale = 0.97 },
+}
+
+local function classConfig(cls)
+    return CLASS_TUNING[cls] or CLASS_TUNING.standard
+end
+
 -- Reverse cap and braking via VehicleScript:Load. maxSpeed is read only (never written) to scale reverse.
 -- tuningClass: optional override when profile is nil (generic path) so heavy/sport/compact heuristics still apply.
 local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass)
@@ -166,27 +186,18 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass
     end
 
     local cls = tuningClass or (profile and profile.class) or "standard"
+    local cfg = classConfig(cls)
     local bRev = baseline.maxSpeedReverse
     local fwd = baseline.maxSpeed
 
     if bRev and bRev > 0.05 then
-        local mult = 0.19
-        local absCap = 3.35
-        local fwdFrac = 0.048
-        if cls == "heavy" then
-            mult = 0.15
-            absCap = 2.45
-            fwdFrac = 0.038
-        elseif cls == "sport" then
-            mult = 0.23
-            absCap = 4.85
-            fwdFrac = 0.054
-        elseif cls == "compact" then
-            mult = 0.17
-            absCap = 2.95
-            fwdFrac = 0.042
-        end
+        local mult = cfg.revMult
+        local absCap = cfg.revAbsCap
+        local fwdFrac = cfg.revFwdFrac
 
+        -- Already-slow reverse baselines (<= 2.8) get a small bump so we don't shave them
+        -- below playable. Capped at 0.44 so we never multiply a tiny baseline up past
+        -- vanilla expectations.
         if bRev <= 2.8 then
             mult = math.min(0.44, mult + 0.06)
         end
@@ -207,13 +218,7 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass
     local bBrake = baseline.brakingForce
     if bBrake and bBrake > 0 then
         local retain = IKFRVP.numberOption("BrakeBaseRetain", 1.0, 0.55, 1.0)
-        if cls == "sport" then
-            retain = math.min(1.0, retain * 1.04)
-        elseif cls == "heavy" then
-            retain = retain * 0.97
-        elseif cls == "compact" then
-            retain = math.min(1.0, retain * 1.02)
-        end
+        retain = math.min(1.0, retain * cfg.brakeRetainScale)
         local soft = math.floor(bBrake * retain + 0.5)
         fields.brakingForce = math.min(bBrake - 1, math.max(BRAKE_FLOOR_AFTER_RETAIN, soft))
     end
