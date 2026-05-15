@@ -10,6 +10,11 @@ Tuner.baselines = Tuner.baselines or {}
 Tuner.appliedSignatures = Tuner.appliedSignatures or {}
 Tuner.lastStats = Tuner.lastStats or {}
 
+-- Absolute floors after BrakeBaseRetain and after class/generic brake multipliers.
+-- These can lift weak targets back up and make sandbox brake sliders feel ineffective (v1.1.4+ rework target).
+local BRAKE_FLOOR_AFTER_RETAIN = 10
+local BRAKE_FLOOR_AFTER_MULT = 6
+
 local BASELINE_SCHEMA_VER = 5
 
 local function readBaseline(script)
@@ -154,12 +159,13 @@ local function addChange(changes, label, fromValue, toValue)
 end
 
 -- Reverse cap and braking via VehicleScript:Load. maxSpeed is read only (never written) to scale reverse.
-local function applyReverseAndBrakeTuning(profile, baseline, fields)
+-- tuningClass: optional override when profile is nil (generic path) so heavy/sport/compact heuristics still apply.
+local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass)
     if not baseline or not fields then
         return
     end
 
-    local cls = profile and profile.class or "standard"
+    local cls = tuningClass or (profile and profile.class) or "standard"
     local bRev = baseline.maxSpeedReverse
     local fwd = baseline.maxSpeed
 
@@ -209,7 +215,7 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields)
             retain = math.min(1.0, retain * 1.02)
         end
         local soft = math.floor(bBrake * retain + 0.5)
-        fields.brakingForce = math.min(bBrake - 1, math.max(10, soft))
+        fields.brakingForce = math.min(bBrake - 1, math.max(BRAKE_FLOOR_AFTER_RETAIN, soft))
     end
 
     local s = baseline.stoppingMovementForce
@@ -423,7 +429,7 @@ local function applyPerClassSandbox(profile, baseline, fields)
     if brakeBase and baseline.brakingForce and brakeBase > 0 then
         local m = IKFRVP.classTuningMult(cid, "BrakeMult", 1.0, 0.35, 1.35)
         local b = math.floor(brakeBase * m + 0.5)
-        fields.brakingForce = math.min(baseline.brakingForce - 1, math.max(6, b))
+        fields.brakingForce = math.min(baseline.brakingForce - 1, math.max(BRAKE_FLOOR_AFTER_MULT, b))
     end
 
     local rollBase = fields.stoppingMovementForce or baseline.stoppingMovementForce
@@ -450,7 +456,7 @@ local function applyGenericVehicleSandbox(baseline, fields)
     if brakeBase and baseline.brakingForce and brakeBase > 0 then
         local m = IKFRVP.numberOption("GenericBrakeMult", 1.0, 0.35, 1.35)
         local b = math.floor(brakeBase * m + 0.5)
-        fields.brakingForce = math.min(baseline.brakingForce - 1, math.max(6, b))
+        fields.brakingForce = math.min(baseline.brakingForce - 1, math.max(BRAKE_FLOOR_AFTER_MULT, b))
     end
     local rollBase = fields.stoppingMovementForce or baseline.stoppingMovementForce
     if rollBase and baseline.stoppingMovementForce and rollBase > 0 then
@@ -483,7 +489,7 @@ local function buildProfileTargets(profile, baseline, scriptFullName)
     return fields
 end
 
-local function buildGenericTargets(baseline, scriptFullName)
+local function buildGenericTargets(script, baseline, scriptFullName)
     local fields = {}
     if baseline.engineForce then
         fields.engineForce = baseline.engineForce * IKFRVP.numberOption("GenericEngineForceMultiplier", 1.0, 0.25, 3.0)
@@ -491,7 +497,9 @@ local function buildGenericTargets(baseline, scriptFullName)
     if baseline.mass then
         fields.mass = baseline.mass * IKFRVP.numberOption("GenericMassMultiplier", 1.0, 0.25, 3.0)
     end
-    applyReverseAndBrakeTuning(nil, baseline, fields)
+    local inferredProfile = IKFRVP.Profiles.resolveProfile(script)
+    local tuningClass = inferredProfile and inferredProfile.class or "standard"
+    applyReverseAndBrakeTuning(nil, baseline, fields, tuningClass)
     applyGenericVehicleSandbox(baseline, fields)
     clampThirdPartyVehicleTargets(nil, baseline, fields, scriptFullName)
     applyHandlingPhysics(nil, baseline, fields, scriptFullName)
@@ -527,7 +535,7 @@ function Tuner.buildPlan(script)
         fields = buildProfileTargets(profile, baseline, scriptFullName)
         mode = "profile:" .. tostring(profile.id)
     elseif IKFRVP.isGenericMultiplierTuningEnabled() then
-        fields = buildGenericTargets(baseline, scriptFullName)
+        fields = buildGenericTargets(script, baseline, scriptFullName)
         mode = "generic"
     else
         return nil

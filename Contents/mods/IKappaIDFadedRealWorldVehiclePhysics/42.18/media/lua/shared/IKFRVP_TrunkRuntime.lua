@@ -143,6 +143,9 @@ function R.install()
         if not R.vehicleUsesIKFRVPTuning(parent) then
             return base
         end
+        if not IKFRVP.isTrunkCapacityTuningEnabled() then
+            return base
+        end
         local mult = multForVehicle(parent)
         if math.abs(mult - 1.0) < 1e-7 then
             return base

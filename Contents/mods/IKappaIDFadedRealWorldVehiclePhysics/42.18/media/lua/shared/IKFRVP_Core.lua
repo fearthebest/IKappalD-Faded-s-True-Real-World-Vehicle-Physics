@@ -74,6 +74,10 @@ function IKFRVP.isGenericMultiplierTuningEnabled()
     return IKFRVP.boolOption("GenericMultiplierTuning", false)
 end
 
+function IKFRVP.isTrunkCapacityTuningEnabled()
+    return IKFRVP.boolOption("TrunkCapacityTuning", true)
+end
+
 function IKFRVP.isHandlingPhysicsEnabled()
     return IKFRVP.boolOption("HandlingPhysics", false)
 end

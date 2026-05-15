@@ -1,4 +1,4 @@
-VERSION = 1,
+VERSION = 2,
 
 option IKFRVP.Enabled
 {
@@ -56,6 +56,14 @@ option IKFRVP.AuditOnly
     default = false,
     page = IKFRVP_Global,
     translation = IKFRVP_AuditOnly,
+}
+
+option IKFRVP.TrunkCapacityTuning
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_Global,
+    translation = IKFRVP_TrunkCapacityTuning,
 }
 
 option IKFRVP.TrunkCapacityMult
