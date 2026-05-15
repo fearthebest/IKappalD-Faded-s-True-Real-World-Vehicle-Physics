@@ -15,7 +15,7 @@ Tuner.lastStats = Tuner.lastStats or {}
 local BRAKE_FLOOR_AFTER_RETAIN = 10
 local BRAKE_FLOOR_AFTER_MULT = 6
 
-local BASELINE_SCHEMA_VER = 5
+local BASELINE_SCHEMA_VER = 6
 
 local function readBaseline(script)
     local scriptName = IKFRVP.getScriptFullName(script)
@@ -33,7 +33,10 @@ local function readBaseline(script)
         brakingForce = IKFRVP.readScriptNumber(script, "getBrakingForce"),
         stoppingMovementForce = IKFRVP.readScriptNumber(script, "getStoppingMovementForce"),
         steeringIncrement = IKFRVP.readScriptNumber(script, "getSteeringIncrement"),
-        steeringClamp = IKFRVP.readScriptNumber(script, "getSteeringClampLowSpeed"),
+        -- PZ Java API: VehicleScript.getSteeringClamp(speed); the previous getter name
+        -- ("getSteeringClampLowSpeed") was not dispatched anywhere, so baseline.steeringClamp
+        -- was always nil and the steering-clamp branch in applyHandlingPhysics was a no-op.
+        steeringClamp = IKFRVP.readScriptNumber(script, "getSteeringClamp"),
         rollInfluence = IKFRVP.readScriptNumber(script, "getRollInfluence"),
         wheelFriction = IKFRVP.readScriptNumber(script, "getWheelFriction"),
         suspensionStiffness = IKFRVP.readScriptNumber(script, "getSuspensionStiffness"),
