@@ -596,7 +596,18 @@ function Tuner.applyPlan(script, plan, stats, source)
         return false
     end
 
-    script:Load(plan.loadName, plan.payload)
+    -- A malformed/incompatible workshop VehicleScript can throw inside the Java Load()
+    -- handler (e.g. parse errors on the payload, missing fields on the script). Wrapping
+    -- the call prevents one bad script from aborting Tuner.processAllScripts and leaving
+    -- every later vehicle untuned for the session.
+    local ok, err = pcall(function()
+        script:Load(plan.loadName, plan.payload)
+    end)
+    if not ok then
+        stats.errors = (stats.errors or 0) + 1
+        IKFRVP.log("tuning-error: " .. plan.scriptName .. " | Load() threw: " .. tostring(err))
+        return false
+    end
     Tuner.appliedSignatures[plan.scriptName] = signature
     stats.applied = stats.applied + 1
     IKFRVP.debug("tuning-apply: " .. tostring(source) .. " " .. plan.scriptName .. " | " .. plan.mode .. " | " .. summarizeChanges(plan.changes))
@@ -651,6 +662,7 @@ function Tuner.storeServerState(stats, source)
     state.applied = stats.applied
     state.audited = stats.audited
     state.skipped = stats.skipped
+    state.errors = stats.errors or 0
 
     if ModData.transmit then
         ModData.transmit(IKFRVP.ServerStateKey)
@@ -666,6 +678,7 @@ function Tuner.processAllScripts(source)
         audited = 0,
         skipped = 0,
         unchanged = 0,
+        errors = 0,
     }
 
     if not IKFRVP.isEnabled() then
@@ -689,7 +702,13 @@ function Tuner.processAllScripts(source)
     local scripts = manager:getAllVehicleScripts()
     local count = IKFRVP.javaListSize(scripts)
     for index = 0, count - 1 do
-        Tuner.processScript(IKFRVP.javaListGet(scripts, index), stats, source)
+        -- pcall the whole per-script step (resolveProfile, buildPlan, applyPlan) so an
+        -- error reading one vehicle's fields never stops the rest of the pass.
+        local ok, err = pcall(Tuner.processScript, IKFRVP.javaListGet(scripts, index), stats, source)
+        if not ok then
+            stats.errors = (stats.errors or 0) + 1
+            IKFRVP.log("tuning-error: processScript[" .. tostring(index) .. "] threw: " .. tostring(err))
+        end
     end
 
     Tuner.lastStats = stats
@@ -711,6 +730,8 @@ function Tuner.processAllScripts(source)
             .. tostring(stats.audited)
             .. ", skipped="
             .. tostring(stats.skipped)
+            .. ", errors="
+            .. tostring(stats.errors or 0)
         )
     end
 
