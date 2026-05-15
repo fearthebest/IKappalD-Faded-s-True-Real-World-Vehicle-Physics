@@ -202,144 +202,66 @@ function IKFRVP.getVehicleScriptName(vehicle)
     return IKFRVP.getScriptFullName(script)
 end
 
+-- Dispatch table for IKFRVP.readScriptNumber. Each entry describes how to read one numeric
+-- VehicleScript field:
+--   call    -> function(script) -> raw value, wrapped in pcall by the caller
+--   fields  -> ordered list of Lua-side fallback field names (e.g. script.mass) read when
+--             the Java getter is missing or throws; the first non-nil one wins
+-- Adding a new tunable field is a one-line entry here instead of a copy-paste branch in
+-- a 140-line if/elseif ladder (which is how getSteeringClamp went stale in v1.1.3).
+local SCRIPT_GETTERS = {
+    getEngineForce           = { call = function(s) return s:getEngineForce() end },
+    getMass                  = { call = function(s) return s:getMass() end },
+    getMaxSpeed              = { call = function(s) return s:getMaxSpeed() end,              fields = { "maxSpeed" } },
+    getMaxSpeedReverse       = { call = function(s) return s:getMaxSpeedReverse() end,       fields = { "maxSpeedReverse" } },
+    getBrakingForce          = { call = function(s) return s:getBrakingForce() end,          fields = { "brakingForce" } },
+    getStoppingMovementForce = { call = function(s) return s:getStoppingMovementForce() end, fields = { "stoppingMovementForce" } },
+    getSteeringIncrement     = { call = function(s) return s:getSteeringIncrement() end },
+    getRollInfluence         = { call = function(s) return s:getRollInfluence() end },
+    getWheelFriction         = { call = function(s) return s:getWheelFriction() end },
+    getSuspensionStiffness   = { call = function(s) return s:getSuspensionStiffness() end },
+    getSuspensionDamping     = { call = function(s) return s:getSuspensionDamping() end },
+    getSuspensionCompression = { call = function(s) return s:getSuspensionCompression() end },
+    getSuspensionRestLength  = { call = function(s) return s:getSuspensionRestLength() end },
+    getSuspensionTravel      = { call = function(s) return s:getSuspensionTravel() end },
+    -- VehicleScript.getSteeringClamp(speed) requires a speed argument; 0 = low-speed clamp,
+    -- which is what the tuner uses as its baseline reference.
+    getSteeringClamp         = { call = function(s) return s:getSteeringClamp(0) end },
+}
+
 function IKFRVP.readScriptNumber(script, getterName)
     if not script or not getterName then
         return nil
     end
-    if getterName == "getEngineForce" and script.getEngineForce then
-        return tonumber(script:getEngineForce())
+    local spec = SCRIPT_GETTERS[getterName]
+    if not spec then
+        return nil
     end
-    if getterName == "getMass" and script.getMass then
-        return tonumber(script:getMass())
-    end
-    if getterName == "getMaxSpeed" then
-        if script.getMaxSpeed then
-            local ok, v = pcall(function()
-                return tonumber(script:getMaxSpeed())
-            end)
-            if ok and v ~= nil then
+
+    local methodName = getterName
+    if script[methodName] then
+        local ok, raw = pcall(spec.call, script)
+        if ok then
+            local v = tonumber(raw)
+            if v ~= nil then
                 return v
             end
         end
-        if script.maxSpeed ~= nil then
-            return tonumber(script.maxSpeed)
-        end
-        return nil
     end
-    if getterName == "getMaxSpeedReverse" then
-        if script.getMaxSpeedReverse then
-            local ok, v = pcall(function()
-                return tonumber(script:getMaxSpeedReverse())
-            end)
-            if ok and v ~= nil then
-                return v
+
+    if spec.fields then
+        for i = 1, #spec.fields do
+            local f = spec.fields[i]
+            local raw = script[f]
+            if raw ~= nil then
+                local v = tonumber(raw)
+                if v ~= nil then
+                    return v
+                end
             end
         end
-        if script.maxSpeedReverse ~= nil then
-            return tonumber(script.maxSpeedReverse)
-        end
-        return nil
     end
-    if getterName == "getBrakingForce" then
-        if script.getBrakingForce then
-            local ok, v = pcall(function()
-                return tonumber(script:getBrakingForce())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.brakingForce ~= nil then
-            return tonumber(script.brakingForce)
-        end
-        return nil
-    end
-    if getterName == "getStoppingMovementForce" then
-        if script.getStoppingMovementForce then
-            local ok, v = pcall(function()
-                return tonumber(script:getStoppingMovementForce())
-            end)
-            if ok and v ~= nil then
-                return v
-            end
-        end
-        if script.stoppingMovementForce ~= nil then
-            return tonumber(script.stoppingMovementForce)
-        end
-        return nil
-    end
-    if getterName == "getSteeringIncrement" and script.getSteeringIncrement then
-        local ok, v = pcall(function()
-            return tonumber(script:getSteeringIncrement())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getRollInfluence" and script.getRollInfluence then
-        local ok, v = pcall(function()
-            return tonumber(script:getRollInfluence())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getWheelFriction" and script.getWheelFriction then
-        local ok, v = pcall(function()
-            return tonumber(script:getWheelFriction())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSuspensionStiffness" and script.getSuspensionStiffness then
-        local ok, v = pcall(function()
-            return tonumber(script:getSuspensionStiffness())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSuspensionDamping" and script.getSuspensionDamping then
-        local ok, v = pcall(function()
-            return tonumber(script:getSuspensionDamping())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSuspensionCompression" and script.getSuspensionCompression then
-        local ok, v = pcall(function()
-            return tonumber(script:getSuspensionCompression())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSuspensionRestLength" and script.getSuspensionRestLength then
-        local ok, v = pcall(function()
-            return tonumber(script:getSuspensionRestLength())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSuspensionTravel" and script.getSuspensionTravel then
-        local ok, v = pcall(function()
-            return tonumber(script:getSuspensionTravel())
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
-    if getterName == "getSteeringClamp" and script.getSteeringClamp then
-        local ok, v = pcall(function()
-            return tonumber(script:getSteeringClamp(0))
-        end)
-        if ok and v ~= nil then
-            return v
-        end
-    end
+
     return nil
 end
 
@@ -351,54 +273,75 @@ function IKFRVP.formatNumber(value)
     return string.format("%.3f", number)
 end
 
+-- Field -> formatter for IKFRVP.fieldPayload. Each formatter takes the numeric value
+-- already-validated as non-nil and returns the right-hand side of the VehicleScript:Load
+-- key/value pair. The order of PAYLOAD_FIELD_ORDER matches the legacy payload string so
+-- existing tests / logs comparing output stay diff-friendly.
+local function fmtInt(v)
+    return tostring(math.floor(v + 0.5))
+end
+local function fmtPlain(v)
+    return tostring(v)
+end
+local function fmtF(fmt)
+    return function(v)
+        return string.format(fmt, v)
+    end
+end
+
+local PAYLOAD_FORMATTERS = {
+    engineForce           = fmtPlain,
+    mass                  = fmtPlain,
+    maxSpeedReverse       = fmtF("%.2ff"),
+    brakingForce          = fmtInt,
+    stoppingMovementForce = fmtF("%.2ff"),
+    steeringIncrement     = fmtF("%.5ff"),
+    steeringClamp         = fmtF("%.3ff"),
+    rollInfluence         = fmtF("%.3ff"),
+    wheelFriction         = fmtF("%.3ff"),
+    suspensionStiffness   = fmtF("%.3ff"),
+    suspensionDamping     = fmtF("%.3ff"),
+    suspensionCompression = fmtF("%.3ff"),
+    suspensionRestLength  = fmtF("%.3ff"),
+    maxSuspensionTravelCm = fmtInt,
+}
+
+local PAYLOAD_FIELD_ORDER = {
+    "engineForce",
+    "mass",
+    "maxSpeedReverse",
+    "brakingForce",
+    "stoppingMovementForce",
+    "steeringIncrement",
+    "steeringClamp",
+    "rollInfluence",
+    "wheelFriction",
+    "suspensionStiffness",
+    "suspensionDamping",
+    "suspensionCompression",
+    "suspensionRestLength",
+    "maxSuspensionTravelCm",
+}
+
 function IKFRVP.fieldPayload(fields)
+    if not fields then
+        return nil
+    end
     local parts = {}
-    if fields.engineForce ~= nil then
-        parts[#parts + 1] = "engineForce = " .. tostring(fields.engineForce)
-    end
-    if fields.mass ~= nil then
-        parts[#parts + 1] = "mass = " .. tostring(fields.mass)
-    end
-    if fields.maxSpeedReverse ~= nil then
-        parts[#parts + 1] = "maxSpeedReverse = " .. string.format("%.2ff", fields.maxSpeedReverse)
-    end
-    if fields.brakingForce ~= nil then
-        parts[#parts + 1] = "brakingForce = " .. tostring(math.floor(fields.brakingForce + 0.5))
-    end
-    if fields.stoppingMovementForce ~= nil then
-        parts[#parts + 1] = "stoppingMovementForce = " .. string.format("%.2ff", fields.stoppingMovementForce)
-    end
-    if fields.steeringIncrement ~= nil then
-        parts[#parts + 1] = "steeringIncrement = " .. string.format("%.5ff", fields.steeringIncrement)
-    end
-    if fields.steeringClamp ~= nil then
-        parts[#parts + 1] = "steeringClamp = " .. string.format("%.3ff", fields.steeringClamp)
-    end
-    if fields.rollInfluence ~= nil then
-        parts[#parts + 1] = "rollInfluence = " .. string.format("%.3ff", fields.rollInfluence)
-    end
-    if fields.wheelFriction ~= nil then
-        parts[#parts + 1] = "wheelFriction = " .. string.format("%.3ff", fields.wheelFriction)
-    end
-    if fields.suspensionStiffness ~= nil then
-        parts[#parts + 1] = "suspensionStiffness = " .. string.format("%.3ff", fields.suspensionStiffness)
-    end
-    if fields.suspensionDamping ~= nil then
-        parts[#parts + 1] = "suspensionDamping = " .. string.format("%.3ff", fields.suspensionDamping)
-    end
-    if fields.suspensionCompression ~= nil then
-        parts[#parts + 1] = "suspensionCompression = " .. string.format("%.3ff", fields.suspensionCompression)
-    end
-    if fields.suspensionRestLength ~= nil then
-        parts[#parts + 1] = "suspensionRestLength = " .. string.format("%.3ff", fields.suspensionRestLength)
-    end
-    if fields.maxSuspensionTravelCm ~= nil then
-        parts[#parts + 1] = "maxSuspensionTravelCm = " .. tostring(math.floor(fields.maxSuspensionTravelCm + 0.5))
+    for i = 1, #PAYLOAD_FIELD_ORDER do
+        local key = PAYLOAD_FIELD_ORDER[i]
+        local val = fields[key]
+        if val ~= nil then
+            parts[#parts + 1] = key .. " = " .. PAYLOAD_FORMATTERS[key](val)
+        end
     end
     if #parts == 0 then
         return nil
     end
     return "{ " .. table.concat(parts, ", ") .. " }"
 end
+
+-- Exposed so the Tuner can iterate the same list when building change diffs.
+IKFRVP._payloadFieldOrder = PAYLOAD_FIELD_ORDER
 
 return IKFRVP
