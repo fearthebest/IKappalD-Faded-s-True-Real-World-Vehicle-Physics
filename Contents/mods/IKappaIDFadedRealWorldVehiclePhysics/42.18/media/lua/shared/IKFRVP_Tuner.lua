@@ -170,11 +170,20 @@ end
 --   2. Adding a new class (e.g. "motorcycle") is a one-line table entry rather than four
 --      separate branches in three separate code blocks. The same pattern already shows
 --      up in IKFRVP_Core's CLASS_TUNING_PREFIX dispatch.
+-- stopFac / stopFloor below drive the passive rolling-stop force when the player lifts
+-- off the throttle (lower = more coasting before the vehicle settles). Heavy vehicles
+-- carry far more kinetic energy at speed, so they get the lowest factor; sport/compact
+-- are nudged slightly above standard so light vehicles still settle quickly.
+--
+-- brakeRetainScale on 'heavy' was 0.97 in v1.1.3 (a ~3% trim). Combined with only the
+-- +25% mass override that gave heavy vehicles roughly 20% longer stopping distance —
+-- well short of realistic loaded-truck behaviour. v1.1.5 drops it to 0.80 so a 90 mph
+-- step-van actually needs to roll.
 local CLASS_TUNING = {
-    standard = { revMult = 0.19, revAbsCap = 3.35, revFwdFrac = 0.048, brakeRetainScale = 1.00 },
-    compact  = { revMult = 0.17, revAbsCap = 2.95, revFwdFrac = 0.042, brakeRetainScale = 1.02 },
-    sport    = { revMult = 0.23, revAbsCap = 4.85, revFwdFrac = 0.054, brakeRetainScale = 1.04 },
-    heavy    = { revMult = 0.15, revAbsCap = 2.45, revFwdFrac = 0.038, brakeRetainScale = 0.97 },
+    standard = { revMult = 0.19, revAbsCap = 3.35, revFwdFrac = 0.048, brakeRetainScale = 1.00, stopFac = 0.44, stopFloor = 0.34 },
+    compact  = { revMult = 0.17, revAbsCap = 2.95, revFwdFrac = 0.042, brakeRetainScale = 1.02, stopFac = 0.46, stopFloor = 0.34 },
+    sport    = { revMult = 0.23, revAbsCap = 4.85, revFwdFrac = 0.054, brakeRetainScale = 1.04, stopFac = 0.48, stopFloor = 0.34 },
+    heavy    = { revMult = 0.15, revAbsCap = 2.45, revFwdFrac = 0.038, brakeRetainScale = 0.80, stopFac = 0.28, stopFloor = 0.26 },
 }
 
 local function classConfig(cls)
@@ -220,15 +229,21 @@ local function applyReverseAndBrakeTuning(profile, baseline, fields, tuningClass
 
     local bBrake = baseline.brakingForce
     if bBrake and bBrake > 0 then
-        local retain = IKFRVP.numberOption("BrakeBaseRetain", 1.0, 0.55, 1.0)
+        -- Slider floor widened from 0.55 to 0.40 (sandbox-options.txt) so users can dial
+        -- brakes softer for the "loaded truck takes forever to stop" feel that motivated
+        -- the v1.1.5 retune.
+        local retain = IKFRVP.numberOption("BrakeBaseRetain", 1.0, 0.40, 1.0)
         retain = math.min(1.0, retain * cfg.brakeRetainScale)
         local soft = math.floor(bBrake * retain + 0.5)
         fields.brakingForce = math.min(bBrake - 1, math.max(BRAKE_FLOOR_AFTER_RETAIN, soft))
     end
 
+    -- Passive rolling-stop force when the player lifts off the throttle. Factor/floor
+    -- come from CLASS_TUNING so heavy vehicles coast longer than sedans (see the table
+    -- comment for the rationale).
     local s = baseline.stoppingMovementForce
     if s and s > 0 then
-        local t = math.max(0.34, s * 0.44)
+        local t = math.max(cfg.stopFloor, s * cfg.stopFac)
         t = math.min(t, s - 0.02)
         if t + 0.001 < s then
             fields.stoppingMovementForce = t
