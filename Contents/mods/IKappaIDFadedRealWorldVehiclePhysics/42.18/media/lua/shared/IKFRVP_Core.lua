@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.1.3"
+IKFRVP.Version = "1.1.5"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
