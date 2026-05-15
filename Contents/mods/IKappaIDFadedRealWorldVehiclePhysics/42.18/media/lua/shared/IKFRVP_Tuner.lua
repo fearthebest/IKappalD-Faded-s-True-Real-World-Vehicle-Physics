@@ -299,6 +299,86 @@ local function clampThirdPartyVehicleTargets(profile, baseline, fields, scriptFu
     clampThirdPartyEngineForce(profile, baseline, fields, scriptFullName)
 end
 
+-- Heuristic profile matches (Profiles.resolveProfile returning matchType == "heuristic")
+-- are a frequent source of wheel-clipping bug reports: a workshop vehicle whose script
+-- name happens to contain "truck"/"van"/"pickup" can have its mass slammed to a vanilla
+-- profile target (e.g. 2240 kg) far above the value the pack's suspension was tuned for,
+-- so the chassis sinks until wheels intersect the road. We apply a tighter mass/engine
+-- band on top of (and after) the third-party clamp for these heuristic-only matches.
+local function clampHeuristicProfileTargets(profile, baseline, fields, matchType)
+    if matchType ~= "heuristic" then
+        return
+    end
+    if not fields or not baseline then
+        return
+    end
+    if profile and profile.class == "trailer" then
+        return
+    end
+    local bm = baseline.mass
+    if bm and bm > 0 and fields.mass and fields.mass > 0 then
+        local lo = bm * 0.85
+        local hi = bm * 1.20
+        fields.mass = math.floor(math.max(lo, math.min(hi, fields.mass)) + 0.5)
+    end
+    local be = baseline.engineForce
+    if be and be > 0 and fields.engineForce and fields.engineForce > 0 then
+        local lo = be * 0.75
+        local hi = be * 1.35
+        fields.engineForce = math.floor(math.max(lo, math.min(hi, fields.engineForce)) + 0.5)
+    end
+end
+
+-- Bullet's raycast vehicle resting compression scales as mass/(n_wheels * stiffness):
+-- doubling mass without touching stiffness doubles how far the chassis sinks at rest,
+-- and once sag exceeds the wheel's clearance the chassis penetrates the road. The
+-- experimental HandlingPhysics path only adjusts suspension when SuspensionFirmness is
+-- changed from default, so by default a heavier profile mass would leave the chassis
+-- sagging. This auto-compensation always runs after the final mass is settled: when the
+-- new mass exceeds the script baseline meaningfully, it scales stiffness by the mass
+-- ratio (capped) and lifts damping/compression by the square root of that ratio to keep
+-- a similar damping ratio. We only intervene on heavier-than-baseline targets — lighter
+-- vehicles ride higher, which never causes clipping. Trailers and likely third-party
+-- Base.<digit> packs are also intentionally skipped to avoid fighting author tuning;
+-- those are already mass-clamped tightly elsewhere so sag stays within the original
+-- suspension travel.
+local function applyMassAwareSuspensionCompensation(profile, baseline, fields, scriptFullName)
+    if not baseline or not fields then
+        return
+    end
+    if profile and profile.class == "trailer" then
+        return
+    end
+    if isLikelyThirdPartyBaseVehicle(scriptFullName) then
+        return
+    end
+    local bm = baseline.mass
+    local fm = fields.mass
+    if not bm or bm <= 0 or not fm or fm <= 0 then
+        return
+    end
+    local ratio = fm / bm
+    if ratio <= 1.06 then
+        return
+    end
+
+    local stiffMult = math.min(1.6, ratio)
+    local dampMult = math.sqrt(stiffMult)
+
+    local stiff = fields.suspensionStiffness or baseline.suspensionStiffness
+    if stiff and stiff > 0 then
+        fields.suspensionStiffness = stiff * stiffMult
+    end
+    local damp = fields.suspensionDamping or baseline.suspensionDamping
+    if damp and damp > 0 then
+        fields.suspensionDamping = damp * dampMult
+    end
+    local comp = fields.suspensionCompression or baseline.suspensionCompression
+    if comp and comp > 0 then
+        fields.suspensionCompression = comp * dampMult
+    end
+end
+
 -- Final multiplier on engineForce (PZ's drivetrain input). Runs after class mults and
 -- handling; third-party vehicles are engine-clamped again afterward.
 local function applyEngineTorqueSandboxMult(profile, baseline, fields, scriptFullName)
@@ -469,7 +549,7 @@ local function applyGenericVehicleSandbox(baseline, fields)
     end
 end
 
-local function buildProfileTargets(profile, baseline, scriptFullName)
+local function buildProfileTargets(profile, baseline, scriptFullName, matchType)
     local fields = {}
     if profile.engineForce and baseline.engineForce then
         local powerScale = IKFRVP.numberOption("PowerScale", 1.0, 0.25, 3.0)
@@ -487,8 +567,12 @@ local function buildProfileTargets(profile, baseline, scriptFullName)
     end
     applyPerClassSandbox(profile, baseline, fields)
     clampThirdPartyVehicleTargets(profile, baseline, fields, scriptFullName)
+    clampHeuristicProfileTargets(profile, baseline, fields, matchType)
     applyHandlingPhysics(profile, baseline, fields, scriptFullName)
     applyEngineTorqueSandboxMult(profile, baseline, fields, scriptFullName)
+    -- Final pass: if we ended up heavier than baseline, stiffen suspension proportionally
+    -- so the chassis does not sag into the road. Runs regardless of HandlingPhysics.
+    applyMassAwareSuspensionCompensation(profile, baseline, fields, scriptFullName)
     return fields
 end
 
@@ -507,6 +591,9 @@ local function buildGenericTargets(script, baseline, scriptFullName)
     clampThirdPartyVehicleTargets(nil, baseline, fields, scriptFullName)
     applyHandlingPhysics(nil, baseline, fields, scriptFullName)
     applyEngineTorqueSandboxMult(nil, baseline, fields, scriptFullName)
+    -- Generic-multiplier mode lets users push mass freely with GenericMassMultiplier,
+    -- so the same suspension auto-stiffening applies here too.
+    applyMassAwareSuspensionCompensation(nil, baseline, fields, scriptFullName)
     return fields
 end
 
@@ -530,13 +617,13 @@ function Tuner.buildPlan(script)
 
     local scriptFullName = IKFRVP.getScriptFullName(script)
     local baseline = readBaseline(script)
-    local profile, matchedName = IKFRVP.Profiles.resolveProfile(script)
+    local profile, matchedName, matchType = IKFRVP.Profiles.resolveProfile(script)
     local fields = nil
     local mode = nil
 
     if profile and IKFRVP.isProfileTuningEnabled() then
-        fields = buildProfileTargets(profile, baseline, scriptFullName)
-        mode = "profile:" .. tostring(profile.id)
+        fields = buildProfileTargets(profile, baseline, scriptFullName, matchType)
+        mode = "profile:" .. tostring(profile.id) .. "/" .. tostring(matchType or "explicit")
     elseif IKFRVP.isGenericMultiplierTuningEnabled() then
         fields = buildGenericTargets(script, baseline, scriptFullName)
         mode = "generic"
