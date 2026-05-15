@@ -541,19 +541,21 @@ function Tuner.buildPlan(script)
         return nil
     end
 
+    -- Walk the canonical payload field list from IKFRVP_Core so every field the tuner
+    -- can write (including suspensionRestLength / maxSuspensionTravelCm, which the
+    -- earlier hand-written diff list silently omitted) shows up in the audit log.
     local changes = {}
-    addChange(changes, "engineForce", baseline.engineForce, fields.engineForce)
-    addChange(changes, "mass", baseline.mass, fields.mass)
-    addChange(changes, "maxSpeedReverse", baseline.maxSpeedReverse, fields.maxSpeedReverse)
-    addChange(changes, "brakingForce", baseline.brakingForce, fields.brakingForce)
-    addChange(changes, "stoppingMovementForce", baseline.stoppingMovementForce, fields.stoppingMovementForce)
-    addChange(changes, "steeringIncrement", baseline.steeringIncrement, fields.steeringIncrement)
-    addChange(changes, "steeringClamp", baseline.steeringClamp, fields.steeringClamp)
-    addChange(changes, "rollInfluence", baseline.rollInfluence, fields.rollInfluence)
-    addChange(changes, "wheelFriction", baseline.wheelFriction, fields.wheelFriction)
-    addChange(changes, "suspensionStiffness", baseline.suspensionStiffness, fields.suspensionStiffness)
-    addChange(changes, "suspensionDamping", baseline.suspensionDamping, fields.suspensionDamping)
-    addChange(changes, "suspensionCompression", baseline.suspensionCompression, fields.suspensionCompression)
+    local order = IKFRVP._payloadFieldOrder or {
+        "engineForce", "mass", "maxSpeedReverse", "brakingForce",
+        "stoppingMovementForce", "steeringIncrement", "steeringClamp",
+        "rollInfluence", "wheelFriction", "suspensionStiffness",
+        "suspensionDamping", "suspensionCompression",
+        "suspensionRestLength", "maxSuspensionTravelCm",
+    }
+    for i = 1, #order do
+        local key = order[i]
+        addChange(changes, key, baseline[key], fields[key])
+    end
 
     if #changes == 0 then
         return nil
