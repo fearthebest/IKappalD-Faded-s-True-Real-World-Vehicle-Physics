@@ -348,37 +348,44 @@ function Profiles.profileIdForScriptName(scriptName)
     return Profiles.vehicleMap[scriptName]
 end
 
+-- Returns (profile, matchedName, matchType) where matchType is:
+--   "explicit"  - vehicle script was in the hand-curated Profiles.vehicleMap
+--   "heuristic" - profile was inferred from substring keywords like "van"/"truck"/"sport"
+-- Callers use matchType to decide how aggressively to override mass/engineForce: heuristic
+-- matches are far more likely to be third-party workshop vehicles whose suspension was
+-- tuned around the author's mass, so writing a vanilla profile mass on top can sag the
+-- chassis until wheels clip the road. matchType lets the Tuner clamp those safely.
 function Profiles.resolveProfile(script)
     local fullName = IKFRVP.getScriptFullName(script)
     local profileId = Profiles.profileIdForScriptName(fullName)
     if profileId then
-        return Profiles.getProfile(profileId), fullName
+        return Profiles.getProfile(profileId), fullName, "explicit"
     end
 
     local name = IKFRVP.getScriptName(script)
     profileId = Profiles.profileIdForScriptName("Base." .. name)
     if profileId then
-        return Profiles.getProfile(profileId), "Base." .. name
+        return Profiles.getProfile(profileId), "Base." .. name, "explicit"
     end
 
     local lowerName = string.lower(fullName or name or "")
     if string.find(lowerName, "trailer", 1, true) then
-        return Profiles.getProfile("TrailerCargo"), fullName
+        return Profiles.getProfile("TrailerCargo"), fullName, "heuristic"
     end
     if string.find(lowerName, "sport", 1, true) then
-        return Profiles.getProfile("Sport"), fullName
+        return Profiles.getProfile("Sport"), fullName, "heuristic"
     end
     if string.find(lowerName, "van", 1, true) then
-        return Profiles.getProfile("Van"), fullName
+        return Profiles.getProfile("Van"), fullName, "heuristic"
     end
     if string.find(lowerName, "pickup", 1, true) or string.find(lowerName, "truck", 1, true) then
-        return Profiles.getProfile("Pickup"), fullName
+        return Profiles.getProfile("Pickup"), fullName, "heuristic"
     end
     if string.find(lowerName, "suv", 1, true) then
-        return Profiles.getProfile("SUV"), fullName
+        return Profiles.getProfile("SUV"), fullName, "heuristic"
     end
 
-    return nil, fullName
+    return nil, fullName, nil
 end
 
 return Profiles
