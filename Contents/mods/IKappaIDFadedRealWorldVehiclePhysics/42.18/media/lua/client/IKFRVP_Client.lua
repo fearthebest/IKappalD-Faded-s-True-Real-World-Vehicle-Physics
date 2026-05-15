@@ -29,12 +29,39 @@ local function getVehicleId(vehicle)
     return "unknown"
 end
 
+-- Identify a player by a stable id so Client.playerState doesn't leak entries when
+-- Project Zomboid reconstructs the IsoPlayer Lua wrapper (respawn, rejoin, debug
+-- reattach). Username is preferred; the player table reference is only used when no
+-- stable id is available (singleplayer dev builds).
+local function getPlayerKey(player)
+    if not player then
+        return nil
+    end
+    if player.getUsername then
+        local ok, name = pcall(function() return player:getUsername() end)
+        if ok and name ~= nil and tostring(name) ~= "" then
+            return "user:" .. tostring(name)
+        end
+    end
+    if player.getOnlineID then
+        local ok, id = pcall(function() return player:getOnlineID() end)
+        if ok and id ~= nil then
+            return "online:" .. tostring(id)
+        end
+    end
+    return "ref:" .. tostring(player)
+end
+
 local function getState(player)
-    Client.playerState[player] = Client.playerState[player] or {
+    local key = getPlayerKey(player)
+    if not key then
+        return nil
+    end
+    Client.playerState[key] = Client.playerState[key] or {
         vehicle = nil,
         ticks = 0,
     }
-    return Client.playerState[player]
+    return Client.playerState[key]
 end
 
 local function describeVehicle(vehicle)
@@ -119,6 +146,9 @@ function Client.onPlayerUpdate(player)
     end
 
     local state = getState(player)
+    if not state then
+        return
+    end
     local vehicle = getPlayerVehicle(player)
     if state.vehicle ~= vehicle then
         state.vehicle = vehicle
