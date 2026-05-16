@@ -93,6 +93,17 @@ function Client.onServerCommand(module, command, args)
     if module ~= IKFRVP.CommandModule then
         return
     end
+    if command == "GlitchGuardTripped" then
+        if IKFRVP.Safety and IKFRVP.Safety.applyClientTripMirror then
+            IKFRVP.Safety.applyClientTripMirror(args or {})
+            IKFRVP.log(
+                "glitch-guard: server disabled experimental handling ("
+                .. tostring(args and args.reason or "unknown")
+                .. ")."
+            )
+        end
+        return
+    end
     if command == "Status" and IKFRVP.isDebugLoggingEnabled() then
         args = args or {}
         IKFRVP.log(

@@ -2,9 +2,9 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J11ZJGEJ)
 
-Vehicle physics tuning for **Project Zomboid Build 42.18+** (current release **1.1.4**). The goal is **more believable weight and acceleration** for vanilla-style vehicles while staying **multiplayer-friendly** and **compatible with Common Sense Reborn (CSR)**.
+Vehicle physics tuning for **Project Zomboid Build 42.18+** (current release **1.1.4b**). The goal is **more believable weight and acceleration** for vanilla-style vehicles while staying **multiplayer-friendly** and **compatible with Common Sense Reborn (CSR)**.
 
-See [CHANGELOG.md](CHANGELOG.md) for release notes. **1.1.5** was an experimental Git-only revision and is **not** the Workshop build.
+See [CHANGELOG.md](CHANGELOG.md) for release notes. Licensed under the [MIT License](LICENSE).
 
 **Repository:** [github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics)
 

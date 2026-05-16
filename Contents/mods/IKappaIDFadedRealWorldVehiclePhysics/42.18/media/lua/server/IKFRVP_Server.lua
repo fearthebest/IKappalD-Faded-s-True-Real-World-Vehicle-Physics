@@ -36,7 +36,15 @@ function Server.onServerStarted()
     end
 
     IKFRVP.Compat.logCSRState("server-start")
-    IKFRVP.log("server ready; vehicle physics authority is server-side")
+    if IKFRVP.Safety and IKFRVP.Safety.refreshTripState then
+        IKFRVP.Safety.refreshTripState()
+        if IKFRVP.Safety.tripped and IKFRVP.Safety.applyRecommendedSandbox then
+            IKFRVP.Safety.applyRecommendedSandbox()
+            IKFRVP.Safety.retuneWithoutExperimental()
+            IKFRVP.log("glitch-guard: server restored safe handling from persisted trip state")
+        end
+    end
+    IKFRVP.log("server ready; vehicle physics and glitch-guard authority are server-side")
 end
 
 function Server.onClientCommand(module, command, player, args)

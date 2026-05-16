@@ -79,10 +79,8 @@ end
 local function enginePowerFromScriptForce(vehicle, scriptForce)
     local q = 100
     if vehicle.getEngineQuality then
-        local ok, value = pcall(function()
-            return vehicle:getEngineQuality()
-        end)
-        if ok and value then
+        local value = vehicle:getEngineQuality()
+        if value then
             q = value
         end
     end
@@ -161,27 +159,21 @@ local function applyEnginePower(vehicle, power)
     local quality = 100
     local loudness = 100
     if vehicle.getEngineQuality then
-        local okQ, value = pcall(function()
-            return vehicle:getEngineQuality()
-        end)
-        if okQ and value then
+        local value = vehicle:getEngineQuality()
+        if value then
             quality = value
         end
     end
     if vehicle.getEngineLoudness then
-        local okL, value = pcall(function()
-            return vehicle:getEngineLoudness()
-        end)
-        if okL and value then
+        local value = vehicle:getEngineLoudness()
+        if value then
             loudness = value
         end
     end
     local enginePower = math.floor(power + 0.5)
     vehicle:setEngineFeature(quality, loudness, enginePower)
     if vehicle.transmitEngine then
-        pcall(function()
-            vehicle:transmitEngine()
-        end)
+        vehicle:transmitEngine()
     end
     return enginePower
 end
@@ -222,12 +214,7 @@ function R.updateParkingTractionAssist(vehicle, state)
 
     if shouldAssist then
         state.parkAssistReleaseTicks = 0
-        local okSet, err = pcall(function()
-            applyEnginePower(vehicle, assistPower)
-        end)
-        if not okSet then
-            IKFRVP.debug("park-assist-fail: " .. tostring(scriptFullName) .. " " .. tostring(err))
-        end
+        applyEnginePower(vehicle, assistPower)
         if not state.parkAssistActive and IKFRVP.isDebugLoggingEnabled() then
             IKFRVP.debug(
                 "park-assist-on: "
@@ -251,17 +238,11 @@ function R.updateParkingTractionAssist(vehicle, state)
     if state.parkAssistActive then
         state.parkAssistReleaseTicks = (state.parkAssistReleaseTicks or 0) + 1
         if state.parkAssistReleaseTicks < PARK_ASSIST_RELEASE_TICKS then
-            pcall(function()
-                applyEnginePower(vehicle, assistPower)
-            end)
+            applyEnginePower(vehicle, assistPower)
             return true
         end
-        local okSet, err = pcall(function()
-            applyEnginePower(vehicle, fullPower)
-        end)
-        if not okSet then
-            IKFRVP.debug("park-assist-off-fail: " .. tostring(scriptFullName) .. " " .. tostring(err))
-        elseif IKFRVP.isDebugLoggingEnabled() then
+        applyEnginePower(vehicle, fullPower)
+        if IKFRVP.isDebugLoggingEnabled() then
             IKFRVP.debug("park-assist-off: " .. tostring(scriptFullName))
         end
         state.parkAssistActive = false
@@ -291,10 +272,8 @@ function R.syncVehicleBrakes(vehicle)
         return false
     end
 
-    local okGet, current = pcall(function()
-        return vehicle:getBrakingForce()
-    end)
-    if not okGet or current == nil then
+    local current = vehicle:getBrakingForce()
+    if current == nil then
         return false
     end
 
@@ -302,13 +281,7 @@ function R.syncVehicleBrakes(vehicle)
         return false
     end
 
-    local okSet, err = pcall(function()
-        vehicle:setBrakingForce(target)
-    end)
-    if not okSet then
-        IKFRVP.debug("brake-sync-fail: " .. tostring(scriptFullName) .. " " .. tostring(err))
-        return false
-    end
+    vehicle:setBrakingForce(target)
     return true
 end
 
@@ -332,10 +305,8 @@ function R.syncVehicleEngine(vehicle)
     end
 
     local targetPower = enginePowerFromScriptForce(vehicle, scriptForce)
-    local okGet, current = pcall(function()
-        return vehicle:getEnginePower()
-    end)
-    if not okGet or current == nil then
+    local current = vehicle:getEnginePower()
+    if current == nil then
         return false
     end
 
@@ -343,13 +314,7 @@ function R.syncVehicleEngine(vehicle)
         return false
     end
 
-    local okSet, err = pcall(function()
-        applyEnginePower(vehicle, targetPower)
-    end)
-    if not okSet then
-        IKFRVP.debug("engine-sync-fail: " .. tostring(scriptFullName) .. " " .. tostring(err))
-        return false
-    end
+    applyEnginePower(vehicle, targetPower)
     return true
 end
 
@@ -410,6 +375,10 @@ function R.onPlayerUpdate(player)
     end
 
     R.updateParkingTractionAssist(vehicle, state)
+
+    if IKFRVP.Safety and IKFRVP.Safety.probeVehicle then
+        IKFRVP.Safety.probeVehicle(player, vehicle, state)
+    end
 
     state.ticks = state.ticks + 1
     if state.ticks >= R._syncTickInterval then

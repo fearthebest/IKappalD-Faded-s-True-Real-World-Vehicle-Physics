@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.1.4b
+
+### Added
+- **MIT License** in repository root.
+- **Glitch guard** (sandbox: *Auto-Fix Experimental Glitches*, ON by default): while *Advanced Handling* is enabled, monitors for wheel sink, extreme tilt, or suspension jitter. On detection, reverts experimental sandbox to recommended defaults and re-tunes vehicle scripts without advanced handling. **Multiplayer: server-authoritative** (ModData + `GlitchGuardTripped` command).
+
+### Changed
+- **Sandbox UI reorganized**: recommended tuning on General/Class/CSR tabs; experimental handling moved to its own tab; per-class multiplier tabs; debug separated.
+- Removed defensive `pcall` from runtime code; the only remaining `pcall` wraps `VehicleScript:Load()` when workshop scripts reject a payload.
+
+### Notes
+- Recommended: Profile Tuning ON, Parking & Low-Speed Help ON, Advanced Handling OFF unless testing.
+- Fresh spawns are best after a glitch-guard trip.
+
+---
+
+## 1.1.5 (internal / not shipped)
+
+Superseded by **1.1.4b** on GitHub. Do not use for Workshop.
+
+---
+
 ## 1.1.4
 
 ### Highlights

@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.1.4"
+IKFRVP.Version = "1.1.4b"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -16,6 +16,7 @@ IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 -- Probes: getSteeringClamp, getWheelFriction, getMaxWheelSteering, getCurrentSpeedKmHour.
 -- Do not use scriptReloaded or per-instance Load from Lua events (re-entrancy / respawn bugs).
 -- Do not assign vehicle.field on Java userdata.
+-- Avoid pcall in mod code except VehicleScript:Load (workshop scripts may throw on Load).
 
 local function sandboxRoot()
     if SandboxVars and SandboxVars.IKFRVP then
@@ -86,7 +87,14 @@ function IKFRVP.isTrunkCapacityTuningEnabled()
 end
 
 function IKFRVP.isHandlingPhysicsEnabled()
+    if IKFRVP.Safety and IKFRVP.Safety.blocksExperimental() then
+        return false
+    end
     return IKFRVP.boolOption("HandlingPhysics", false)
+end
+
+function IKFRVP.isGlitchGuardEnabled()
+    return IKFRVP.boolOption("GlitchGuard", true)
 end
 
 function IKFRVP.isCorneringTuningEnabled()
@@ -127,6 +135,24 @@ function IKFRVP.side()
         return "client"
     end
     return "singleplayer"
+end
+
+-- True for dedicated/listen server and single-player; false for multiplayer clients.
+function IKFRVP.isMultiplayerClient()
+    if type(isClient) ~= "function" or not isClient() then
+        return false
+    end
+    if type(isServer) == "function" and isServer() then
+        return false
+    end
+    if type(isMultiplayer) == "function" then
+        return isMultiplayer()
+    end
+    return false
+end
+
+function IKFRVP.hasPhysicsAuthority()
+    return not IKFRVP.isMultiplayerClient()
 end
 
 function IKFRVP.log(message)
@@ -215,7 +241,7 @@ end
 
 -- Dispatch table for IKFRVP.readScriptNumber. Each entry describes how to read one numeric
 -- VehicleScript field:
---   call    -> function(script) -> raw value, wrapped in pcall by the caller
+--   call    -> function(script) -> raw value; read directly when the getter exists
 --   fields  -> ordered list of Lua-side fallback field names (e.g. script.mass) read when
 --             the Java getter is missing or throws; the first non-nil one wins
 -- Adding a new tunable field is a one-line entry here instead of a copy-paste branch in
@@ -244,10 +270,8 @@ function IKFRVP.readVehicleSpeedKmh(vehicle)
     if not vehicle or not vehicle.getCurrentSpeedKmHour then
         return nil
     end
-    local ok, speed = pcall(function()
-        return vehicle:getCurrentSpeedKmHour()
-    end)
-    if ok and speed ~= nil then
+    local speed = vehicle:getCurrentSpeedKmHour()
+    if speed ~= nil then
         return math.abs(speed)
     end
     return nil
@@ -257,10 +281,8 @@ function IKFRVP.readVehicleSteerAmount(vehicle)
     if not vehicle or not vehicle.getCurrentSteering then
         return nil
     end
-    local ok, steer = pcall(function()
-        return vehicle:getCurrentSteering()
-    end)
-    if ok and steer ~= nil then
+    local steer = vehicle:getCurrentSteering()
+    if steer ~= nil then
         return math.abs(steer)
     end
     return nil
@@ -273,20 +295,16 @@ function IKFRVP.readVehicleSteerFraction(vehicle)
         return nil
     end
     if vehicle.getMaxWheelSteering then
-        local ok, maxSteer = pcall(function()
-            return vehicle:getMaxWheelSteering()
-        end)
-        if ok and maxSteer and maxSteer > 0.01 then
+        local maxSteer = vehicle:getMaxWheelSteering()
+        if maxSteer and maxSteer > 0.01 then
             return steer / maxSteer
         end
     end
     local script = IKFRVP.getVehicleScript(vehicle)
     if script and script.getSteeringClamp then
         local speedKmh = IKFRVP.readVehicleSpeedKmh(vehicle) or 0
-        local ok, clamp = pcall(function()
-            return script:getSteeringClamp(speedKmh)
-        end)
-        if ok and clamp and clamp > 0.01 then
+        local clamp = script:getSteeringClamp(speedKmh)
+        if clamp and clamp > 0.01 then
             return steer / clamp
         end
         local clamp0 = IKFRVP.readScriptNumber(script, "getSteeringClamp")
@@ -316,12 +334,7 @@ function IKFRVP.logLiveManeuverProbe(vehicle, tag)
     end
     local maxSteer = nil
     if vehicle.getMaxWheelSteering then
-        local ok, value = pcall(function()
-            return vehicle:getMaxWheelSteering()
-        end)
-        if ok then
-            maxSteer = value
-        end
+        maxSteer = vehicle:getMaxWheelSteering()
     end
     IKFRVP.debug(
         tostring(tag or "maneuver-live")
@@ -345,12 +358,7 @@ function IKFRVP.isVehicleAcceleratorPressed(vehicle)
         return false
     end
     if vehicle.isGasPedalPressed then
-        local ok, pressed = pcall(function()
-            return vehicle:isGasPedalPressed()
-        end)
-        if ok then
-            return pressed == true
-        end
+        return vehicle:isGasPedalPressed() == true
     end
     return true
 end
@@ -366,12 +374,10 @@ function IKFRVP.readScriptNumber(script, getterName)
 
     local methodName = getterName
     if script[methodName] then
-        local ok, raw = pcall(spec.call, script)
-        if ok then
-            local v = tonumber(raw)
-            if v ~= nil then
-                return v
-            end
+        local raw = spec.call(script)
+        local v = tonumber(raw)
+        if v ~= nil then
+            return v
         end
     end
 
@@ -469,5 +475,7 @@ end
 
 -- Exposed so the Tuner can iterate the same list when building change diffs.
 IKFRVP._payloadFieldOrder = PAYLOAD_FIELD_ORDER
+
+require "IKFRVP_Safety"
 
 return IKFRVP

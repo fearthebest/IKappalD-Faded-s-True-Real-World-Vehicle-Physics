@@ -55,10 +55,8 @@ local function isGasolineContainer(container)
     if not container or not container.getContentType then
         return false
     end
-    local ok, ct = pcall(function()
-        return container:getContentType()
-    end)
-    if not ok or ct == nil then
+    local ct = container:getContentType()
+    if ct == nil then
         return false
     end
     return string.lower(tostring(ct)) == "gasoline"
@@ -68,10 +66,8 @@ function R.isVehicleTrunkCargoContainer(container)
     if not container or not container.getParent or not instanceof then
         return false
     end
-    local okP, parent = pcall(function()
-        return container:getParent()
-    end)
-    if not okP or not parent or not instanceof(parent, "BaseVehicle") then
+    local parent = container:getParent()
+    if not parent or not instanceof(parent, "BaseVehicle") then
         return false
     end
     if isGasolineContainer(container) then
@@ -79,10 +75,8 @@ function R.isVehicleTrunkCargoContainer(container)
     end
     local typ = ""
     if container.getType then
-        local okT, t = pcall(function()
-            return container:getType()
-        end)
-        if okT and t ~= nil then
+        local t = container:getType()
+        if t ~= nil then
             typ = tostring(t)
         end
     end
@@ -131,10 +125,8 @@ function R.install()
         if base == nil then
             return base
         end
-        local parentOk, parent = pcall(function()
-            return self:getParent()
-        end)
-        if not parentOk or not parent or not instanceof(parent, "BaseVehicle") then
+        local parent = self:getParent()
+        if not parent or not instanceof(parent, "BaseVehicle") then
             return base
         end
         if not R.isVehicleTrunkCargoContainer(self) then

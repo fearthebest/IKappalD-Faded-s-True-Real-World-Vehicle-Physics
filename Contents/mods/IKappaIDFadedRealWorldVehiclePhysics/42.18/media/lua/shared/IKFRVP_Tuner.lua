@@ -1096,13 +1096,7 @@ function Tuner.processAllScripts(source)
     local scripts = manager:getAllVehicleScripts()
     local count = IKFRVP.javaListSize(scripts)
     for index = 0, count - 1 do
-        -- pcall the whole per-script step (resolveProfile, buildPlan, applyPlan) so an
-        -- error reading one vehicle's fields never stops the rest of the pass.
-        local ok, err = pcall(Tuner.processScript, IKFRVP.javaListGet(scripts, index), stats, source)
-        if not ok then
-            stats.errors = (stats.errors or 0) + 1
-            IKFRVP.log("tuning-error: processScript[" .. tostring(index) .. "] threw: " .. tostring(err))
-        end
+        Tuner.processScript(IKFRVP.javaListGet(scripts, index), stats, source)
     end
 
     Tuner.lastStats = stats
