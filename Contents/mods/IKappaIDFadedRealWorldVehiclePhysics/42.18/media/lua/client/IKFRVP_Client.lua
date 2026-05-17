@@ -2,6 +2,7 @@ require "IKFRVP_Core"
 require "IKFRVP_Tuner"
 require "IKFRVP_BrakeRuntime"
 require "IKFRVP_Compat"
+require "IKFRVP_Bridge"
 
 if type(isServer) == "function" and isServer() then
     return
@@ -83,9 +84,13 @@ local function describeVehicle(vehicle)
         .. IKFRVP.formatNumber(targetGrip)
 end
 
-function Client.requestServerStatus()
+function Client.requestServerStatus(vehicle)
     if type(isClient) == "function" and isClient() and sendClientCommand then
-        sendClientCommand(IKFRVP.CommandModule, "RequestStatus", {})
+        local args = {}
+        if vehicle and vehicle.getId then
+            args.vehicle = vehicle:getId()
+        end
+        sendClientCommand(IKFRVP.CommandModule, "RequestStatus", args)
     end
 end
 
@@ -127,7 +132,11 @@ function Client.onGameStart()
         return
     end
 
-    IKFRVP.Compat.logCSRState("client-start")
+    if IKFRVP.Compat.onStartup then
+        IKFRVP.Compat.onStartup()
+    else
+        IKFRVP.Compat.logCSRState("client-start")
+    end
     IKFRVP.debug("client ready")
     Client.registerDebugEvents()
     Client.requestServerStatus()

@@ -2,6 +2,7 @@ require "IKFRVP_Core"
 require "IKFRVP_Tuner"
 require "IKFRVP_BrakeRuntime"
 require "IKFRVP_Compat"
+require "IKFRVP_Bridge"
 
 if type(isClient) == "function" and isClient() then
     return
@@ -10,23 +11,29 @@ end
 IKFRVP.Server = IKFRVP.Server or {}
 
 local Server = IKFRVP.Server
+local Bridge = IKFRVP.Bridge
 
-local function statusArgs()
-    local stats = IKFRVP.Tuner and IKFRVP.Tuner.lastStats or {}
-    return {
-        version = IKFRVP.Version,
-        enabled = IKFRVP.isEnabled(),
-        profileTuning = IKFRVP.isProfileTuningEnabled(),
-        genericTuning = IKFRVP.isGenericMultiplierTuningEnabled(),
-        auditOnly = IKFRVP.isAuditOnly(),
-        csrActive = IKFRVP.isCSRActive(),
-        seen = tonumber(stats.seen) or 0,
-        profiled = tonumber(stats.profiled) or 0,
-        generic = tonumber(stats.generic) or 0,
-        applied = tonumber(stats.applied) or 0,
-        audited = tonumber(stats.audited) or 0,
-        skipped = tonumber(stats.skipped) or 0,
-    }
+local function statusPayload(vehicle)
+    if IKFRVP.buildStatusTable then
+        return IKFRVP.buildStatusTable(vehicle)
+    end
+    return { version = IKFRVP.Version }
+end
+
+local function vehicleFromArgs(args)
+    if type(args) ~= "table" or type(args.vehicle) ~= "number" then
+        return nil
+    end
+    if not getVehicleById then
+        return nil
+    end
+    return getVehicleById(args.vehicle)
+end
+
+local function sendStatus(player, vehicle)
+    if player and sendServerCommand then
+        sendServerCommand(player, IKFRVP.CommandModule, "Status", statusPayload(vehicle))
+    end
 end
 
 function Server.onServerStarted()
@@ -35,7 +42,11 @@ function Server.onServerStarted()
         return
     end
 
-    IKFRVP.Compat.logCSRState("server-start")
+    if IKFRVP.Compat.onStartup then
+        IKFRVP.Compat.onStartup()
+    else
+        IKFRVP.Compat.logCSRState("server-start")
+    end
     if IKFRVP.Safety and IKFRVP.Safety.refreshTripState then
         IKFRVP.Safety.refreshTripState()
         if IKFRVP.Safety.tripped and IKFRVP.Safety.applyRecommendedSandbox then
@@ -44,18 +55,52 @@ function Server.onServerStarted()
             IKFRVP.log("glitch-guard: server restored safe handling from persisted trip state")
         end
     end
+
+    if Bridge and Bridge.isCompanionActive() then
+        IKFRVP.log("companion bridge ready for Project Faded Car")
+    end
     IKFRVP.log("server ready; vehicle physics and glitch-guard authority are server-side")
 end
 
 function Server.onClientCommand(module, command, player, args)
-    if module ~= IKFRVP.CommandModule then
+    if module ~= IKFRVP.CommandModule or not Bridge then
         return
     end
 
+    args = args or {}
+
     if command == "RequestStatus" then
-        if player and sendServerCommand then
-            sendServerCommand(player, IKFRVP.CommandModule, "Status", statusArgs())
+        sendStatus(player, vehicleFromArgs(args))
+        return
+    end
+
+    if command == "SyncVehicle" then
+        local vehicle = vehicleFromArgs(args)
+        local ok, message = Bridge.performAction("syncVehicle", player, vehicle)
+        sendStatus(player, vehicle)
+        IKFRVP.debug("bridge SyncVehicle: " .. tostring(message) .. " ok=" .. tostring(ok))
+        return
+    end
+
+    if command == "Retune" then
+        if not Bridge.hasAdminAccess(player) then
+            sendStatus(player, nil)
+            return
         end
+        local ok, message = Bridge.performAction("retune", player, nil)
+        sendStatus(player, nil)
+        IKFRVP.debug("bridge Retune: " .. tostring(message) .. " ok=" .. tostring(ok))
+        return
+    end
+
+    if command == "SafeHandling" then
+        if not Bridge.hasAdminAccess(player) then
+            sendStatus(player, nil)
+            return
+        end
+        local ok, message = Bridge.performAction("safeHandling", player, nil)
+        sendStatus(player, nil)
+        IKFRVP.debug("bridge SafeHandling: " .. tostring(message) .. " ok=" .. tostring(ok))
         return
     end
 

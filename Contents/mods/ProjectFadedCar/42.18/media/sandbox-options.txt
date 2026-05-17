@@ -1,0 +1,139 @@
+VERSION = 1,
+
+option ProjectFadedCar.EnableProjectFadedCar
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableProjectFadedCar,
+}
+
+option ProjectFadedCar.EnableDashboard
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableDashboard,
+}
+
+option ProjectFadedCar.EnableFloatingEngineButton
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableFloatingEngineButton,
+}
+
+option ProjectFadedCar.EnableEngineBayPanel
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableEngineBayPanel,
+}
+
+option ProjectFadedCar.EnableVanillaGuiSkin
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableVanillaGuiSkin,
+}
+
+option ProjectFadedCar.AutoOpenEngineBayWithMechanics
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_AutoOpenEngineBayWithMechanics,
+}
+
+option ProjectFadedCar.EnableVirtualWear
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableVirtualWear,
+}
+
+option ProjectFadedCar.EnableFailureEffects
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableFailureEffects,
+}
+
+option ProjectFadedCar.EnableServiceHazards
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableServiceHazards,
+}
+
+option ProjectFadedCar.EnableCSRCompatMode
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableCSRCompatMode,
+}
+
+option ProjectFadedCar.EnableIKFRVPBridge
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableIKFRVPBridge,
+}
+
+option ProjectFadedCar.EnableEngineSwaps
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableEngineSwaps,
+}
+
+option ProjectFadedCar.EnableWreckRestoration
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_EnableWreckRestoration,
+}
+
+option ProjectFadedCar.RequireEngineOff
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_RequireEngineOff,
+}
+
+option ProjectFadedCar.WearRateMultiplier
+{
+    type = double, min = 0.0, max = 5.0, default = 1.0,
+    page = ProjectFadedCar, translation = PFC_WearRateMultiplier,
+}
+
+option ProjectFadedCar.FailureEffectSeverity
+{
+    type = integer, min = 1, max = 3, default = 1,
+    page = ProjectFadedCar, translation = PFC_FailureEffectSeverity,
+}
+
+option ProjectFadedCar.ServiceHazardChance
+{
+    type = integer, min = 0, max = 100, default = 8,
+    page = ProjectFadedCar, translation = PFC_ServiceHazardChance,
+}
+
+option ProjectFadedCar.ServiceFireChance
+{
+    type = integer, min = 0, max = 100, default = 4,
+    page = ProjectFadedCar, translation = PFC_ServiceFireChance,
+}
+
+option ProjectFadedCar.ServiceRestorePercent
+{
+    type = integer, min = 35, max = 100, default = 85,
+    page = ProjectFadedCar, translation = PFC_ServiceRestorePercent,
+}
+
+option ProjectFadedCar.EngineSwapMechanicsLevel
+{
+    type = integer, min = 0, max = 10, default = 5,
+    page = ProjectFadedCar, translation = PFC_EngineSwapMechanicsLevel,
+}
+
+option ProjectFadedCar.WreckRestoreMechanicsLevel
+{
+    type = integer, min = 0, max = 10, default = 6,
+    page = ProjectFadedCar, translation = PFC_WreckRestoreMechanicsLevel,
+}
+
+option ProjectFadedCar.WreckRestoreMetalWeldingLevel
+{
+    type = integer, min = 0, max = 10, default = 4,
+    page = ProjectFadedCar, translation = PFC_WreckRestoreMetalWeldingLevel,
+}
+
+option ProjectFadedCar.WreckRestoreRequireMaterials
+{
+    type = boolean, default = true,
+    page = ProjectFadedCar, translation = PFC_WreckRestoreRequireMaterials,
+}

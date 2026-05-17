@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "1.1.4b"
+IKFRVP.Version = "1.2.0"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -475,6 +475,98 @@ end
 
 -- Exposed so the Tuner can iterate the same list when building change diffs.
 IKFRVP._payloadFieldOrder = PAYLOAD_FIELD_ORDER
+
+-- Shared status table for multiplayer clients and companion mods (Project Faded Car bridge).
+function IKFRVP.buildStatusTable(vehicle)
+    local stats = IKFRVP.Tuner and IKFRVP.Tuner.lastStats or {}
+    local state = nil
+    if ModData and ModData.get then
+        state = ModData.get(IKFRVP.ServerStateKey)
+    end
+
+    local status = {
+        active = true,
+        loaded = true,
+        version = IKFRVP.Version,
+        enabled = IKFRVP.isEnabled(),
+        profileTuning = IKFRVP.isProfileTuningEnabled(),
+        genericTuning = IKFRVP.isGenericMultiplierTuningEnabled(),
+        corneringTuning = IKFRVP.isCorneringTuningEnabled(),
+        trunkTuning = IKFRVP.isTrunkCapacityTuningEnabled(),
+        handlingPhysics = IKFRVP.isHandlingPhysicsEnabled(),
+        glitchGuard = IKFRVP.isGlitchGuardEnabled(),
+        auditOnly = IKFRVP.isAuditOnly(),
+        debugLogging = IKFRVP.isDebugLoggingEnabled(),
+        csrCompat = IKFRVP.isCSRCompatibilityModeEnabled(),
+        powerScale = IKFRVP.numberOption("PowerScale", 1.0),
+        massScale = IKFRVP.numberOption("MassScale", 1.0),
+        engineTorqueMult = IKFRVP.numberOption("EngineTorqueMult", 1.0),
+        trunkCapacityMult = IKFRVP.numberOption("TrunkCapacityMult", 1.0),
+        brakeBaseRetain = IKFRVP.numberOption("BrakeBaseRetain", 1.0),
+        cornerGripMult = IKFRVP.numberOption("CornerGripMult", 1.0),
+        csrActive = IKFRVP.isCSRActive(),
+        seen = tonumber(stats.seen) or tonumber(state and state.seen) or 0,
+        profiled = tonumber(stats.profiled) or tonumber(state and state.profiled) or 0,
+        generic = tonumber(stats.generic) or tonumber(state and state.generic) or 0,
+        applied = tonumber(stats.applied) or tonumber(state and state.applied) or 0,
+        audited = tonumber(stats.audited) or tonumber(state and state.audited) or 0,
+        skipped = tonumber(stats.skipped) or tonumber(state and state.skipped) or 0,
+        errors = tonumber(stats.errors) or tonumber(state and state.errors) or 0,
+        scriptName = "",
+        profileId = "",
+        profileClass = "",
+        glitchTripped = false,
+        tripReason = "",
+    }
+
+    if IKFRVP.Safety then
+        status.glitchTripped = IKFRVP.Safety.tripped == true
+        status.tripReason = tostring(IKFRVP.Safety.tripReason or "")
+    end
+
+    local script = vehicle and IKFRVP.getVehicleScript(vehicle) or nil
+    if script then
+        status.scriptName = IKFRVP.getScriptFullName(script)
+        status.engineForce = IKFRVP.readScriptNumber(script, "getEngineForce")
+        status.mass = IKFRVP.readScriptNumber(script, "getMass")
+        status.brakingForce = IKFRVP.readScriptNumber(script, "getBrakingForce")
+        status.stoppingMovementForce = IKFRVP.readScriptNumber(script, "getStoppingMovementForce")
+        status.steeringClamp = IKFRVP.readScriptNumber(script, "getSteeringClamp")
+        status.wheelFriction = IKFRVP.readScriptNumber(script, "getWheelFriction")
+
+        if IKFRVP.Profiles and IKFRVP.Profiles.resolveProfile then
+            local profile = IKFRVP.Profiles.resolveProfile(script)
+            if profile then
+                status.profileId = tostring(profile.id or "")
+                status.profileClass = tostring(profile.class or "")
+            end
+        end
+
+        if IKFRVP.Tuner then
+            local name = status.scriptName
+            if IKFRVP.Tuner.engineTargets then
+                status.targetEngineForce = IKFRVP.Tuner.engineTargets[name]
+            end
+            if IKFRVP.Tuner.brakeTargets then
+                status.targetBrakingForce = IKFRVP.Tuner.brakeTargets[name]
+            end
+            if IKFRVP.Tuner.maneuverTargets and IKFRVP.Tuner.maneuverTargets[name] then
+                local row = IKFRVP.Tuner.maneuverTargets[name]
+                status.targetSteeringClamp = row.steeringClamp
+                status.targetWheelFriction = row.wheelFriction
+            end
+        end
+    end
+
+    if vehicle and vehicle.getEnginePower then
+        status.liveEnginePower = tonumber(vehicle:getEnginePower())
+    end
+    if vehicle and vehicle.getBrakingForce then
+        status.liveBrakingForce = tonumber(vehicle:getBrakingForce())
+    end
+
+    return status
+end
 
 require "IKFRVP_Safety"
 

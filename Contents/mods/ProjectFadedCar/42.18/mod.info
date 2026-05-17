@@ -1,0 +1,12 @@
+name=Project Faded Car
+id=ProjectFadedCar
+description=Independent B42.18 vehicle maintenance, dashboard, engine bay service, engine swap, and wreck restoration. Includes an IKFRVP physics bridge for status, sync, retune, and safe reset when IKappaID and Faded's True Real World Vehicle Physics is enabled.
+poster=poster.png
+icon=icon.png
+modversion=0.1.0
+versionMin=42.18
+versionMax=42.99
+author=Faded
+category=vehicles
+loadAfter=IKappaIDFadedRealWorldVehiclePhysics
+incompatible=\ProjectSummerCar

@@ -28,6 +28,7 @@ description=
 description=Recommended load order:
 description=1. Common Sense Reborn
 description=2. IKappaID & Faded's True Real World Vehicle Physics
+description=3. Project Faded Car (optional companion; engine bay service + IKFRVP physics bridge)
 description=
 description=Sandbox options:
 description=Server owners and players can adjust several tuning values through sandbox settings, including general power and mass scaling. By default, unknown third-party vehicles are left alone so other vehicle mods are not unexpectedly changed.

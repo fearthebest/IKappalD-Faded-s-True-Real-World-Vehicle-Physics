@@ -10,6 +10,10 @@ function Compat.isCSRActive()
     return IKFRVP.isCSRActive()
 end
 
+function Compat.isProjectFadedCarActive()
+    return IKFRVP.modActive("ProjectFadedCar")
+end
+
 function Compat.isCSRCompatibilityActive()
     return IKFRVP.isCSRCompatibilityModeEnabled() and Compat.isCSRActive()
 end
@@ -29,6 +33,13 @@ end
 
 function Compat.onStartup()
     Compat.logCSRState("startup")
+    if Compat.isProjectFadedCarActive() then
+        if IKFRVP.Bridge and IKFRVP.Bridge.isCompanionBridgeEnabled and IKFRVP.Bridge.isCompanionBridgeEnabled() then
+            IKFRVP.log("compat: Project Faded Car bridge connected (IKFRVP.Bridge v" .. tostring(IKFRVP.Bridge.VERSION or 0) .. ")")
+        else
+            IKFRVP.debug("compat: Project Faded Car detected; bridge disabled by companion sandbox")
+        end
+    end
 end
 
 return Compat

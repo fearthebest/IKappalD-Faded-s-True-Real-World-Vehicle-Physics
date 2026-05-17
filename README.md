@@ -88,6 +88,11 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ---
 
+## Releases
+
+- **v1.2.0** - Adds the Project Faded Car companion bridge (ProjectFadedCar mod) and the IKFRVP.Bridge API for companion mods.
+- **v1.1.4b** - Remains available via git tag `v1.1.4b`.
+
 ## Version
 
 See **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
