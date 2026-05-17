@@ -1,15 +1,42 @@
-$text = Get-Content 'c:\Users\mpass\Downloads\VehicleIDKI5.txt' -Raw
-$ids = [System.Collections.Generic.HashSet[string]]::new()
-foreach ($part in ($text -split '[\s,]+')) {
-    $part = $part.Trim()
-    if (-not $part) { continue }
-    if ($part.StartsWith('Base.')) { $part = $part.Substring(5) }
-    [void]$ids.Add($part)
+$InputFile = 'c:\Users\mpass\Downloads\VehicleIDKI5.txt'
+$ValidVehicleId = [regex]::new('^[A-Za-z0-9][A-Za-z0-9_]*$')
+
+function Test-ValidVehicleScriptId {
+    param([string]$Name)
+    if (-not $Name -or $Name.Length -lt 2) { return $false }
+    if (-not $ValidVehicleId.IsMatch($Name)) { return $false }
+    if ($Name -match '^(?i)https?') { return $false }
+    if ($Name -match '^(?i)(collection|module)$') { return $false }
+    return $true
 }
+
+function Read-VehicleIdsFromListFile {
+    param([string]$Path)
+    $ids = [System.Collections.Generic.HashSet[string]]::new()
+    if (-not (Test-Path -LiteralPath $Path)) {
+        throw "Vehicle list not found: $Path"
+    }
+    foreach ($line in [System.IO.File]::ReadLines($Path)) {
+        $trimmed = $line.Trim()
+        if ($trimmed -eq '' -or $trimmed.StartsWith('#')) { continue }
+        foreach ($part in ($trimmed -split ',')) {
+            $part = $part.Trim()
+            if (-not $part) { continue }
+            if ($part.StartsWith('Base.')) { $part = $part.Substring(5) }
+            if (Test-ValidVehicleScriptId $part) {
+                [void]$ids.Add($part)
+            }
+        }
+    }
+    return $ids
+}
+
+$ids = Read-VehicleIdsFromListFile -Path $InputFile
 $sorted = $ids | Sort-Object
 
 function Get-Profile($vid) {
     $vl = $vid.ToLower()
+    if ($vl -match 'isocontainer') { return 'TrailerHeavy' }
     if ($vl -match 'trailer') {
         if ($vl -match 'livestock') { return 'TrailerHeavy' }
         if ($vl -match 'cargo|utility') {
@@ -28,7 +55,7 @@ function Get-Profile($vid) {
     if ($vl -match 'wrecker|flatbed') { return 'Pickup' }
     if ($vl -match 'gtr|lambo|countach|corvette|porsche911|firebird|camaro|cuda|barracuda|charger|roadrunner|gt500|mustanggt|svtcobra|regalgnx|regalturbot|lemans|gto|dodgert|dodgeta|dodgepd|falconxb|taurussho') { return 'Sport' }
     if ($vl -match 'impreza|lancerevo|mr2|240sx|bmwe30m3') { return 'CompactSport' }
-    if ($vl -match 'mini|beetle|saturnsl2') { return 'Compact' }
+    if ($vl -match 'mini|beetle|saturnsl2|saturnsseries') { return 'Compact' }
     if ($vl -match 'defender') {
         if ($vl -match 'utility') { return 'Pickup' }
         return 'Offroad'

@@ -1,11 +1,22 @@
+# Changelog
+
 ## 2.0.0
 
-- Full Kiurio/KI5 vehicle pack roster (334 vehicles, Base.* script names)
-- IKFRVP_Profiles_KI5.lua data table (UTF-8 no BOM, no top-level return)
-- gen_ki5.ps1 to regenerate roster from VehicleID list
-- Mod version 2.0.0 in IKFRVP_Core.lua and mod.info
+### Added
+- Full Kiurio / KI5 vehicle pack roster (**442** vehicles) with per-vehicle physics profiles.
+- `IKFRVP_Profiles_KI5.lua` roster table (UTF-8 without BOM) loaded by `IKFRVP_Profiles.lua`.
+- `extract_vehicle_ids.ps1` and `gen_ki5.ps1` to regenerate the roster from installed KI5 mods or a vehicle ID list.
 
-# Changelog
+### Fixed
+- Trailers and ISO shipping containers classified as heavy trailer cargo instead of passenger cars.
+- Lua load crash from invalid roster file format (no top-level `return`, no UTF-8 BOM).
+- Vehicle ID extraction now accepts KI5 script names that start with digits.
+
+### Notes
+- Sandbox: enable **Tune Roster Vehicles** for KI5 profiles; disable generic mod-vehicle tuning if you only want the roster.
+- Replaces the incomplete early **v2.0.0** release (334-vehicle roster).
+
+---
 
 ## 1.2.0
 
