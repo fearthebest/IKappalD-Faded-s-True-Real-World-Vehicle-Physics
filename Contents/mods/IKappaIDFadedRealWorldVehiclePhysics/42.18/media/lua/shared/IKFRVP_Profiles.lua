@@ -315,28 +315,15 @@ assign("TrailerLight", {
     "Base.TrailerAdvert",
 })
 
--- 82 Porsche 911 (mod id 82porsche911; scripts use module Base → Base.<vehicle>)
-assign("Sport", {
-    "Base.82porsche911turbo",
-    "Base.82porsche911rwb",
-    "Base.82porsche911sc",
-    "Base.82porsche911targa",
-})
-
--- 89 LAND ROVER Defender (mod id 89defender; scripts use module Base)
-assign("Offroad", {
-    "Base.89defender90",
-    "Base.89defender110",
-    "Base.89defender130",
-    "Base.89defenderWolf",
-})
-assign("Pickup", {
-    "Base.89defender90utility",
-    "Base.89defender110utility",
-})
-assign("TrailerCargo", {
-    "Base.Trailer89defender",
-})
+-- Kiurio / KI5 vehicle packs (scripts use module Base, ids like Base.93fordF150)
+if not IKFRVP_KI5_Roster then
+    require "IKFRVP_Profiles_KI5"
+end
+if IKFRVP_KI5_Roster then
+    for profileId, names in pairs(IKFRVP_KI5_Roster) do
+        assign(profileId, names)
+    end
+end
 
 function Profiles.getProfile(profileId)
     local profile = Profiles.definitions[profileId]

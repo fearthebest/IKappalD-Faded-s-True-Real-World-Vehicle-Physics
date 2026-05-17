@@ -1,3 +1,10 @@
+## 2.0.0
+
+- Full Kiurio/KI5 vehicle pack roster (334 vehicles, Base.* script names)
+- IKFRVP_Profiles_KI5.lua data table (UTF-8 no BOM, no top-level return)
+- gen_ki5.ps1 to regenerate roster from VehicleID list
+- Mod version 2.0.0 in IKFRVP_Core.lua and mod.info
+
 # Changelog
 
 ## 1.2.0
