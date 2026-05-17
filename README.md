@@ -39,7 +39,9 @@ Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** on the Steam
 
 ### From this repository
 
-**v1.2.0 (latest):** clone `main` or checkout tag [`v1.2.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0).
+**v2.0.0 (latest):** clone `main` or checkout tag [`v2.0.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0).
+
+**v1.2.0:** `git checkout v1.2.0`
 
 **v1.1.4b (physics only):** `git checkout v1.1.4b`
 
@@ -70,7 +72,7 @@ Many defaults are **neutral (1.0)** where appropriate; **experimental handling**
 
 Many workshop cars use script names like **`Base` + digit + …**. For those, the mod **limits** how far mass and engine output can drift from the pack author’s values, which reduces sinking, clipping, or odd behaviour. The **experimental handling pass is not applied** to those scripts.
 
-Profile-list tuning applies only to vehicles **mapped** in the mod; others can use **generic** tuning if enabled.
+Profile-list tuning applies to vanilla vehicles and the **KI5 vehicle pack** (334 mapped scripts); others can use **generic** tuning if enabled.
 
 ---
 
@@ -90,12 +92,13 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ## Version
 
-Current release: **1.2.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+Current release: **2.0.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
 
 ### Releases
 
 | Tag | Notes |
 |-----|--------|
+| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | Full Kiurio/KI5 vehicle pack roster (334 vehicles) |
 | [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | Project Faded Car companion mod, `IKFRVP.Bridge` API, multiplayer status/sync commands |
 | [**v1.1.4b**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.1.4b) | Physics-only release (unchanged tag; still available for rollback) |
 
