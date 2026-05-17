@@ -2,9 +2,7 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J11ZJGEJ)
 
-Vehicle physics tuning for **Project Zomboid Build 42.18+** (current release **1.1.4b**). The goal is **more believable weight and acceleration** for vanilla-style vehicles while staying **multiplayer-friendly** and **compatible with Common Sense Reborn (CSR)**.
-
-See [CHANGELOG.md](CHANGELOG.md) for release notes. Licensed under the [MIT License](LICENSE).
+Vehicle physics tuning for **Project Zomboid Build 42.18+**. The goal is **more believable weight and acceleration** for vanilla-style vehicles while staying **multiplayer-friendly** and **compatible with Common Sense Reborn (CSR)**.
 
 **Repository:** [github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics)
 
@@ -41,12 +39,13 @@ Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** on the Steam
 
 ### From this repository
 
-1. Copy the folder  
-   `Contents/mods/IKappaIDFadedRealWorldVehiclePhysics/42.18`  
-   into your Zomboid mods directory, for example:  
-   `Zomboid/mods/IKappaIDFadedRealWorldVehiclePhysics/42.18`
-2. Ensure `mod.info` and `media/` are present.
-3. Enable the mod in the **Mods** list.
+**v1.2.0 (latest):** clone `main` or checkout tag [`v1.2.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0).
+
+**v1.1.4b (physics only):** `git checkout v1.1.4b`
+
+1. Copy `Contents/mods/` into your Zomboid mods directory (for example `Zomboid/mods/`).
+2. Ensure each mod folder includes `mod.info` and `media/`.
+3. Enable **IKappaID & Faded's True Real World Vehicle Physics** and optionally **Project Faded Car** in the **Mods** list.
 
 ---
 
@@ -78,7 +77,8 @@ Profile-list tuning applies only to vehicles **mapped** in the mod; others can u
 ## Recommended load order (with CSR)
 
 1. **Common Sense Reborn**  
-2. **IKappaID & Faded's True Real World Vehicle Physics**
+2. **IKappaID & Faded's True Real World Vehicle Physics**  
+3. **Project Faded Car** (optional companion; engine bay service + IKFRVP physics bridge)
 
 ---
 
@@ -88,14 +88,16 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ---
 
-## Releases
-
-- **v1.2.0** - Adds the Project Faded Car companion bridge (ProjectFadedCar mod) and the IKFRVP.Bridge API for companion mods.
-- **v1.1.4b** - Remains available via git tag `v1.1.4b`.
-
 ## Version
 
-See **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+Current release: **1.2.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+
+### Releases
+
+| Tag | Notes |
+|-----|--------|
+| [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | Project Faded Car companion mod, `IKFRVP.Bridge` API, multiplayer status/sync commands |
+| [**v1.1.4b**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.1.4b) | Physics-only release (unchanged tag; still available for rollback) |
 
 ---
 

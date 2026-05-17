@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.0
+
+### Added
+- **Project Faded Car** companion mod (`Contents/mods/ProjectFadedCar`) with engine bay service, dashboard, engine swap, and wreck restoration.
+- **`IKFRVP.Bridge`** shared API for companion mods: status, sync, retune, safe reset, and `onCompanionVehicleChanged`.
+- Server bridge commands: `RequestStatus` (optional vehicle id), `SyncVehicle`, `Retune`, `SafeHandling`.
+- **`IKFRVP.buildStatusTable(vehicle)`** for full physics snapshots on clients and companions.
+
+### Changed
+- Load order: IKFRVP loads before Project Faded Car; workshop description updated.
+
+### Notes
+- **v1.1.4b** remains on git tag `v1.1.4b` for the physics-only build.
+
+---
+
 ## 1.1.4b
 
 ### Added
