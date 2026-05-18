@@ -39,16 +39,14 @@ Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** on the Steam
 
 ### From this repository
 
-**v2.0.1 (latest):** clone `main` or checkout tag [`v2.0.1`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.1).
-
-**v2.0.0:** `git checkout v2.0.0` (KI5 roster; incorrectly bundled Project Faded Car)
+**v2.0.0 (latest):** clone `main` or checkout tag [`v2.0.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0).
 
 **v1.2.0:** `git checkout v1.2.0`
 
 **v1.1.4b (physics only):** `git checkout v1.1.4b`
 
 1. Copy **`Contents/mods/IKappaIDFadedRealWorldVehiclePhysics`** into your Zomboid mods directory (for example `Zomboid/mods/`). This repository ships **IKFRVP only**.
-2. **Project Faded Car** is a **separate mod** (not in this repo from 2.0.1 onward). Subscribe or install it separately if you want engine-bay features and the IKFRVP bridge.
+2. **Project Faded Car** is a **separate mod** (not in this repo). Subscribe or install it separately if you want engine-bay features and the IKFRVP bridge.
 3. Enable **IKappaID & Faded's True Real World Vehicle Physics** in the **Mods** list; enable **Project Faded Car** only if you use that companion mod.
 
 ---
@@ -94,19 +92,18 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ## Version
 
-Current release: **2.0.1** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+Current release: **2.0.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
 
 ### Companion mod (separate)
 
-**Project Faded Car** uses **`IKFRVP.Bridge`** (`IKFRVP_Bridge.lua` in this mod; `PFC_IKFRVPBridge.lua` in PFC). It is not bundled here as of **v2.0.1**.
+**Project Faded Car** uses **`IKFRVP.Bridge`** (`IKFRVP_Bridge.lua` in this mod; `PFC_IKFRVPBridge.lua` in PFC). It is not bundled in this package.
 
 ### Releases
 
 | Tag | Notes |
 |-----|--------|
-| [**v2.0.1**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.1) | Physics-only package; KI5 roster (442 vehicles); `IKFRVP.Bridge` unchanged |
-| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | KI5 roster; mistakenly bundled Project Faded Car |
-| [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | `IKFRVP.Bridge` API added (PFC was bundled in repo until 2.0.1) |
+| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | Physics-only package; KI5 roster (442 vehicles); `IKFRVP.Bridge` for optional PFC |
+| [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | `IKFRVP.Bridge` API added (PFC was bundled in repo until 2.0.0 split) |
 | [**v1.1.4b**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.1.4b) | Physics-only release (unchanged tag; still available for rollback) |
 
 ---

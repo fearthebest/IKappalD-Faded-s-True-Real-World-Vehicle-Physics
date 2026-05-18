@@ -1,19 +1,15 @@
 # Changelog
 
-## 2.0.1
-
-### Changed
-- **Project Faded Car** is no longer bundled in this repository or Workshop package. IKFRVP is physics-only; publish PFC as its own mod.
-- **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
-
----
-
 ## 2.0.0
 
 ### Added
 - Full Kiurio / KI5 vehicle pack roster (**442** vehicles) with per-vehicle physics profiles.
 - `IKFRVP_Profiles_KI5.lua` roster table (UTF-8 without BOM) loaded by `IKFRVP_Profiles.lua`.
 - `extract_vehicle_ids.ps1` and `gen_ki5.ps1` to regenerate the roster from installed KI5 mods or a vehicle ID list.
+
+### Changed
+- **Project Faded Car** is not bundled in this package. IKFRVP is physics-only; publish PFC as its own Workshop mod.
+- **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
 
 ### Fixed
 - Trailers and ISO shipping containers classified as heavy trailer cargo instead of passenger cars.
@@ -22,7 +18,7 @@
 
 ### Notes
 - Sandbox: enable **Tune Roster Vehicles** for KI5 profiles; disable generic mod-vehicle tuning if you only want the roster.
-- Replaces the incomplete early **v2.0.0** release (334-vehicle roster).
+- Replaces the incomplete early **v2.0.0** GitHub tag (334-vehicle roster, bundled PFC).
 
 ---
 
