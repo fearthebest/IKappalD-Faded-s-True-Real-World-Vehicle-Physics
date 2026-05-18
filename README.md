@@ -39,15 +39,17 @@ Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** on the Steam
 
 ### From this repository
 
-**v2.0.0 (latest):** clone `main` or checkout tag [`v2.0.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0).
+**v2.0.1 (latest):** clone `main` or checkout tag [`v2.0.1`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.1).
+
+**v2.0.0:** `git checkout v2.0.0` (KI5 roster; incorrectly bundled Project Faded Car)
 
 **v1.2.0:** `git checkout v1.2.0`
 
 **v1.1.4b (physics only):** `git checkout v1.1.4b`
 
-1. Copy `Contents/mods/` into your Zomboid mods directory (for example `Zomboid/mods/`).
-2. Ensure each mod folder includes `mod.info` and `media/`.
-3. Enable **IKappaID & Faded's True Real World Vehicle Physics** and optionally **Project Faded Car** in the **Mods** list.
+1. Copy **`Contents/mods/IKappaIDFadedRealWorldVehiclePhysics`** into your Zomboid mods directory (for example `Zomboid/mods/`). This repository ships **IKFRVP only**.
+2. **Project Faded Car** is a **separate mod** (not in this repo from 2.0.1 onward). Subscribe or install it separately if you want engine-bay features and the IKFRVP bridge.
+3. Enable **IKappaID & Faded's True Real World Vehicle Physics** in the **Mods** list; enable **Project Faded Car** only if you use that companion mod.
 
 ---
 
@@ -72,7 +74,7 @@ Many defaults are **neutral (1.0)** where appropriate; **experimental handling**
 
 Many workshop cars use script names like **`Base` + digit + …**. For those, the mod **limits** how far mass and engine output can drift from the pack author’s values, which reduces sinking, clipping, or odd behaviour. The **experimental handling pass is not applied** to those scripts.
 
-Profile-list tuning applies to vanilla vehicles and the **KI5 vehicle pack** (334 mapped scripts); others can use **generic** tuning if enabled.
+Profile-list tuning applies to vanilla vehicles and the **KI5 vehicle pack** (**442** mapped scripts); others can use **generic** tuning if enabled.
 
 ---
 
@@ -80,7 +82,7 @@ Profile-list tuning applies to vanilla vehicles and the **KI5 vehicle pack** (33
 
 1. **Common Sense Reborn**  
 2. **IKappaID & Faded's True Real World Vehicle Physics**  
-3. **Project Faded Car** (optional companion; engine bay service + IKFRVP physics bridge)
+3. **Project Faded Car** (optional; **separate Workshop mod** — engine bay + `IKFRVP.Bridge` when both are enabled)
 
 ---
 
@@ -92,14 +94,19 @@ Tuning is intended to be **deterministic** and suitable for **server authority**
 
 ## Version
 
-Current release: **2.0.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+Current release: **2.0.1** — see **`mod.info`** (`modversion`) and **`IKFRVP.Version`** in `media/lua/shared/IKFRVP_Core.lua` (also echoed in logs).
+
+### Companion mod (separate)
+
+**Project Faded Car** uses **`IKFRVP.Bridge`** (`IKFRVP_Bridge.lua` in this mod; `PFC_IKFRVPBridge.lua` in PFC). It is not bundled here as of **v2.0.1**.
 
 ### Releases
 
 | Tag | Notes |
 |-----|--------|
-| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | Full Kiurio/KI5 vehicle pack roster (334 vehicles) |
-| [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | Project Faded Car companion mod, `IKFRVP.Bridge` API, multiplayer status/sync commands |
+| [**v2.0.1**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.1) | Physics-only package; KI5 roster (442 vehicles); `IKFRVP.Bridge` unchanged |
+| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | KI5 roster; mistakenly bundled Project Faded Car |
+| [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | `IKFRVP.Bridge` API added (PFC was bundled in repo until 2.0.1) |
 | [**v1.1.4b**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.1.4b) | Physics-only release (unchanged tag; still available for rollback) |
 
 ---

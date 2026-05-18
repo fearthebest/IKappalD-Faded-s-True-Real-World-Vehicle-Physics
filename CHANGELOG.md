@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1
+
+### Changed
+- **Project Faded Car** is no longer bundled in this repository or Workshop package. IKFRVP is physics-only; publish PFC as its own mod.
+- **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
+
+---
+
 ## 2.0.0
 
 ### Added
