@@ -10,16 +10,12 @@ local origGetEffectiveCapacity = nil
 local origGetCapacity = nil
 local inCapacityHook = false
 
+-- Classification cache: keyed by "type|partId|scriptName" so the full string-scan
+-- in isVehicleTrunkCargoContainer runs at most once per unique container type.
+local _trunkClassCache = {}
+
 local function sandboxTrunkMult()
     return IKFRVP.numberOption("TrunkCapacityMult", 1.0, 0.35, 2.5)
-end
-
-local function multForVehicle(vehicle)
-    local mult = sandboxTrunkMult()
-    if math.abs(mult - 1.0) < 1e-7 then
-        return 1.0
-    end
-    return mult
 end
 
 -- JavaDocs: ItemContainer.getVehicle() / getVehiclePart() (preferred over getParent() alone).
@@ -124,6 +120,19 @@ function R.isVehicleTrunkCargoContainer(container)
     local partId = containerPartIdLower(container)
     local scriptName = containerVehicleScriptLower(container)
 
+    local cacheKey = ltyp .. "|" .. partId .. "|" .. scriptName
+    local cached = _trunkClassCache[cacheKey]
+    if cached ~= nil then
+        return cached
+    end
+
+    local result = R._classifyTrunkContainer(ltyp, partId, scriptName, typ)
+    _trunkClassCache[cacheKey] = result
+    return result
+end
+
+function R._classifyTrunkContainer(ltyp, partId, scriptName, typ)
+
     if ltyp ~= "" and string.find(ltyp, "glove", 1, true) then
         return false
     end
@@ -203,18 +212,22 @@ local function scaleCapacity(container, base)
     if base == nil then
         return base
     end
+    -- Fast path: skip all vehicle and container lookups when mult is exactly 1.0.
+    -- This covers the most common case (default sandbox) at near-zero cost.
+    if not IKFRVP.isTrunkCapacityTuningEnabled() then
+        return base
+    end
+    local mult = sandboxTrunkMult()
+    if math.abs(mult - 1.0) < 1e-7 then
+        return base
+    end
     local vehicle = containerVehicle(container)
     if not vehicle then
         return base
     end
     if not R.isVehicleTrunkCargoContainer(container)
         or not R.vehicleUsesIKFRVPTuning(vehicle)
-        or not IKFRVP.isTrunkCapacityTuningEnabled()
     then
-        return base
-    end
-    local mult = multForVehicle(vehicle)
-    if math.abs(mult - 1.0) < 1e-7 then
         return base
     end
     local scaled = tonumber(base) * mult

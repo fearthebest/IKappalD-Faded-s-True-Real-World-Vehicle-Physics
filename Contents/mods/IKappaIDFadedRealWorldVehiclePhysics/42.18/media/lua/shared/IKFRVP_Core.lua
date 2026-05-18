@@ -2,7 +2,7 @@ IKFRVP = IKFRVP or {}
 
 IKFRVP.ModId = "IKappaIDFadedRealWorldVehiclePhysics"
 IKFRVP.ModName = "IKappaID & Faded's True Real World Vehicle Physics"
-IKFRVP.Version = "2.0.0"
+IKFRVP.Version = "2.1.0"
 IKFRVP.CommandModule = "IKFRVP"
 IKFRVP.ServerStateKey = "IKFRVP_ServerState"
 
@@ -134,6 +134,15 @@ function IKFRVP.clamp(value, minimum, maximum)
         return maximum
     end
     return number
+end
+
+-- Single canonical class normalizer shared by Tuner, BrakeRuntime, and Safety.
+-- Replaces the three duplicated brakeClassKey/cornerClassKey/assistClassKey locals.
+function IKFRVP.normalizeVehicleClass(cls)
+    if cls == "compact" or cls == "sport" or cls == "heavy" then
+        return cls
+    end
+    return "standard"
 end
 
 function IKFRVP.side()
@@ -576,7 +585,5 @@ function IKFRVP.buildStatusTable(vehicle)
 
     return status
 end
-
-require "IKFRVP_Safety"
 
 return IKFRVP

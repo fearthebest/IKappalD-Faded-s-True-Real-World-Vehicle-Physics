@@ -190,28 +190,21 @@ local PROFILE_PARK_ROLL_MUL = {
     StepVan = 0.88,
 }
 
-local function brakeClassKey(cls)
-    if cls == "compact" or cls == "sport" or cls == "heavy" then
-        return cls
-    end
-    return "standard"
-end
-
 local function effectiveBrakeBaseline(baseline, profile)
     local b = baseline and baseline.brakingForce
     if b and b > 0 then
         return b
     end
-    local cls = brakeClassKey(profile and profile.class or "standard")
+    local cls = IKFRVP.normalizeVehicleClass(profile and profile.class or "standard")
     return BRAKE_BASELINE_FALLBACK[cls] or BRAKE_BASELINE_FALLBACK.standard
 end
 
 -- Authoritative brake pass: brakingForce + stoppingMovementForce (never wheelFriction).
-function applyBrakePhysics(profile, baseline, fields)
+local function applyBrakePhysics(profile, baseline, fields)
     if not baseline or not fields then
         return
     end
-    local cls = brakeClassKey(profile and profile.class or "standard")
+    local cls = IKFRVP.normalizeVehicleClass(profile and profile.class or "standard")
     if profile and profile.class == "trailer" then
         return
     end
@@ -558,13 +551,6 @@ local function applyEngineTorqueSandboxMult(profile, baseline, fields, scriptFul
     clampThirdPartyEngineForce(profile, baseline, fields, scriptFullName)
 end
 
-local function cornerClassKey(cls)
-    if cls == "compact" or cls == "sport" or cls == "heavy" then
-        return cls
-    end
-    return "standard"
-end
-
 -- Pass 4 — parking: VehicleScript fields via Load (getSteeringClamp(speed) is speed-dependent).
 -- Runtime cornering assist: setEngineFeature only (IKFRVP_BrakeRuntime); no scriptReloaded.
 local function applyLowSpeedManeuverPhysics(profile, baseline, fields, scriptFullName)
@@ -581,7 +567,7 @@ local function applyLowSpeedManeuverPhysics(profile, baseline, fields, scriptFul
         return
     end
 
-    local cls = cornerClassKey(profile and profile.class or "standard")
+    local cls = IKFRVP.normalizeVehicleClass(profile and profile.class or "standard")
     local sandboxGrip = IKFRVP.numberOption("CornerGripMult", 1.0, 0.88, 1.12)
 
     local inc = baseline.steeringIncrement
@@ -1028,7 +1014,7 @@ function Tuner.processScript(script, stats, source)
 end
 
 function Tuner.storeServerState(stats, source)
-    if type(isClient) == "function" and isClient() then
+    if not IKFRVP.hasPhysicsAuthority() then
         return
     end
     if not ModData or not ModData.getOrCreate then
@@ -1061,6 +1047,14 @@ function Tuner.storeServerState(stats, source)
 end
 
 function Tuner.processAllScripts(source)
+    -- MP clients do not own VehicleScript authority; the server has already tuned
+    -- all scripts via Load. Running the full scan on each client wastes CPU and
+    -- produces redundant Load() calls on scripts the server already owns.
+    if IKFRVP.isMultiplayerClient() then
+        Tuner.lastStats = Tuner.lastStats or {}
+        return Tuner.lastStats
+    end
+
     Tuner.brakeTargets = {}
     Tuner.engineTargets = {}
     Tuner.maneuverTargets = {}
@@ -1128,11 +1122,18 @@ end
 
 function Tuner.onInitGlobalModData(newGame)
     IKFRVP.Compat.logCSRState("global-mod-data")
+    Tuner._initRanThisSession = true
     Tuner.processAllScripts("OnInitGlobalModData")
 end
 
 function Tuner.onGameStart()
     IKFRVP.Compat.logCSRState("game-start")
+    -- OnInitGlobalModData fires before OnGameStart in the same session; if it already
+    -- tuned scripts and signatures are populated, skip a second full scan.
+    if Tuner._initRanThisSession and next(Tuner.appliedSignatures) ~= nil then
+        IKFRVP.debug("tuning-skip: OnGameStart skipped (OnInitGlobalModData already tuned this session)")
+        return
+    end
     Tuner.appliedSignatures = {}
     Tuner.processAllScripts("OnGameStart")
 end

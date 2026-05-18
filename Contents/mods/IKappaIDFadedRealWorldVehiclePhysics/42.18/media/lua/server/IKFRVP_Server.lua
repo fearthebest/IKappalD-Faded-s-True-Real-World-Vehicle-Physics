@@ -1,4 +1,5 @@
 require "IKFRVP_Core"
+require "IKFRVP_Safety"
 require "IKFRVP_Tuner"
 require "IKFRVP_BrakeRuntime"
 require "IKFRVP_Compat"

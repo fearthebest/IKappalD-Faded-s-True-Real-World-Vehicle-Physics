@@ -1,97 +1,63 @@
-# IKappaID & Faded's True Real World Vehicle Physics
+# True Real World Vehicle Physics (IKFRVP)
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J11ZJGEJ)
+Better driving for Project Zomboid Build 42.18+.
 
-Real-world-style **vehicle physics** for **Project Zomboid Build 42.18+**: mass, engine output, brakes, KI5 roster support, trunk fixes. **Multiplayer-safe**, **CSR-compatible**, Lua-only (no Java patches).
-
-| Package | Version | Status |
-|---------|---------|--------|
-| **Main mod** — `IKappaIDFadedRealWorldVehiclePhysics` | **2.0.0** | Supported — use this for gameplay |
-| **Addon** — `IKFRVP_ManualTransmissionWIP` | **3.0.0** | WIP / broken — do not use |
-
-**Latest release:** [`v2.0.0`](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0)
+This mod is a complete overhaul of how vehicles behave. If you feel like cars in the base game are too "floaty," flip over too easily, or don't have enough power to pull a trailer, this mod is for you.
 
 ---
 
-## Repository layout
+## 🚀 Quick Start
 
-```
-├── Contents/mods/
-│   ├── IKappaIDFadedRealWorldVehiclePhysics/   ← main mod (2.0.0)
-│   │   ├── common/media/                       ← required (B42; may be empty)
-│   │   └── 42.18/mod.info + media/
-│   └── IKFRVP_ManualTransmissionWIP/           ← optional WIP addon (3.0.0)
-│       ├── common/media/
-│       └── 42.18/mod.info + media/
-├── workshop.txt          ← Steam Workshop metadata (main mod)
-├── preview.png           ← Workshop preview image (main mod)
-├── scripts/              ← maintainer tools (KI5 roster generation)
-├── docs/                 ← INSTALL, PACKAGES, PUBLISHING
-├── CHANGELOG.md
-└── LICENSE
-```
+### 1. Get the Mod
+*   **Steam Workshop (Recommended):** Subscribe on Steam to get automatic updates.
+*   **GitHub (Manual):** Download the [latest release](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.1.0) and follow the [Installation Guide](docs/INSTALL.md).
 
-**Install from GitHub:** see **[docs/INSTALL.md](docs/INSTALL.md)** — copy only `Contents/mods/<ModId>/`, not the whole repository.
-
-See **[docs/PACKAGES.md](docs/PACKAGES.md)** and **[docs/PUBLISHING.md](docs/PUBLISHING.md)** for package details and Steam uploads.
+### 2. Enable it In-Game
+Start Project Zomboid, go to the **Mods** menu, and enable **IKappaID & Faded's True Real World Vehicle Physics**.
 
 ---
 
-## Quick start (players)
+## ✨ What this mod does for you
 
-### Steam Workshop
+### 🚙 A More Grounded Driving Feel
+We have retuned the weight of every vehicle to match its real-world counterpart. 
+*   **Substantial Weight:** Heavy trucks and vans feel like they have real mass. You will feel the weight behind you when turning or braking.
+*   **Reduced Bouncing:** Vehicles are less likely to bounce around like toys when hitting small bumps or curbs.
 
-Subscribe to **IKappaID & Faded's True Real World Vehicle Physics** (main mod **2.0.0**). Enable it in the Mods menu on **B42.18**.
+### ⚙️ Smarter Engine Power
+*   **Realistic Acceleration:** Cars build speed naturally based on their size and engine type.
+*   **Towing Help:** Heavy trucks have the power needed to pull trailers without struggling unrealistically.
+*   **Fixed Reverse:** We've fixed the "super-fast reverse" bug, making backing up feel much safer.
 
-Do **not** enable **IKFRVP Manual Transmission WIP** unless you are testing; it is unsupported.
+### 📦 Fixed Trunk Space
+Automatically detects and fixes storage space for:
+*   **KI5 Vehicles:** Full support for the entire KI5 collection (440+ vehicles).
+*   **Trailers:** Utility, cargo, and livestock trailers now have corrected storage limits.
+*   **Large Containers:** Shipping containers and cargo boxes now hold the right amount of loot.
 
-### Manual install (GitHub)
-
-1. Download **[v2.0.0](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0)** (or clone `main`).
-2. Copy the folder **`Contents/mods/IKappaIDFadedRealWorldVehiclePhysics`** into **`%UserProfile%\Zomboid\mods\`** (must include **`common/`** and **`42.18/`**).
-3. Enable the mod in the Mods menu (game **42.18+**).
-
-Full steps and troubleshooting: **[docs/INSTALL.md](docs/INSTALL.md)**.
-
-Do **not** copy the WIP transmission addon unless you are testing. **Project Faded Car** is a separate companion mod; it is not in this repository.
-
----
-
-## What the main mod does
-
-- Retunes **mass** and **engine force** (and related script fields) via vehicle **profiles**.
-- **442 KI5** vehicles on the roster; vanilla and class-based tuning.
-- Optional **generic multipliers** for non-roster vehicles.
-- **CSR-aware** when Common Sense Reborn is installed.
-- **Trunk capacity** fixes for KI5 / trailers / ISO patterns.
-
-It does **not** replace game Java, hijack UI, or add manual transmission (that was split to the WIP addon).
+### 🛡️ Built-In Safety (Glitch Guard)
+If a car starts to sink into the ground or jitter violently due to a physics error, the mod will automatically detect it and reset the car to a safe state to prevent it from flying away or exploding.
 
 ---
 
-## Sandbox (main mod)
-
-Tabs are prefixed with **`IKFRVP:`** — General, CSR, Global tuning, per-class multipliers, Experimental (off by default), Debug.
-
----
-
-## Load order
-
-1. Common Sense Reborn (optional)  
-2. **IKappaID & Faded's True Real World Vehicle Physics**  
-3. Project Faded Car (optional, separate Workshop mod)
+## ⚙️ Customizing your Experience
+You can fine-tune everything in the **Sandbox Options** when starting a new game. Look for the **IKFRVP** tabs to change:
+*   **Global Scaling:** Make every car in the world faster or heavier with one slider.
+*   **Class Tuning:** Adjust power and weight specifically for Sport cars, Heavy trucks, or Compact cars.
 
 ---
 
-## Maintainers
-
-Regenerate the KI5 roster with PowerShell scripts in **`scripts/`** — see **[scripts/README.md](scripts/README.md)**.
+## ⚠️ Note: Manual Transmission
+You may see a "Manual Transmission" addon in the files. **This is currently broken and for testing only.** Please only use the main mod for your normal games.
 
 ---
 
-## Authors & license
+## 🤝 Recommended Mods
+*   **Common Sense Reborn:** Fully compatible and highly recommended.
+*   **Project Faded Car:** A great companion mod for realistic engine maintenance.
 
-- **IKappaID** — [Workshop](https://steamcommunity.com/profiles/76561198273218719/myworkshopfiles/?appid=108600)  
-- **Faded** — [Workshop](https://steamcommunity.com/profiles/76561198298230085/myworkshopfiles/?appid=108600)  
+---
 
-**MIT License** — see [LICENSE](LICENSE). Full history: [CHANGELOG.md](CHANGELOG.md).
+**Authors:** IKappaID & Faded  
+**License:** MIT  
+**Support:** [Support me on Ko-fi](https://ko-fi.com/J3J11ZJGEJ)

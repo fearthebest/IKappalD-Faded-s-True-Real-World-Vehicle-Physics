@@ -19,6 +19,7 @@ local PARK_ASSIST_SPEED_KMH = 14
 local PARK_ASSIST_STEER_FRAC = 0.65
 local PARK_ASSIST_RELEASE_TICKS = 18
 local PARK_ASSIST_REF_MASS = 1485
+local PARK_ASSIST_TICK_INTERVAL = 3
 
 local PROFILE_PARK_ASSIST_SPEED_KMH = {
     Van = 20,
@@ -56,13 +57,6 @@ local function playerVehicle(player)
         return player:getVehicle()
     end
     return nil
-end
-
-local function assistClassKey(cls)
-    if cls == "compact" or cls == "sport" or cls == "heavy" then
-        return cls
-    end
-    return "standard"
 end
 
 local function vehicleProfile(vehicle)
@@ -114,7 +108,7 @@ local function parkAssistPowerMul(profile, script, speedKmh)
     if profile and profile.id and PROFILE_PARK_ASSIST_TARGET_MUL[profile.id] then
         mul = PROFILE_PARK_ASSIST_TARGET_MUL[profile.id]
     else
-        local cls = assistClassKey(profile and profile.class or "standard")
+        local cls = IKFRVP.normalizeVehicleClass(profile and profile.class or "standard")
         mul = PARK_ASSIST_POWER_MUL[cls] or 0.62
     end
     local mass = tunedScriptMass(profile, script)
@@ -179,6 +173,9 @@ local function applyEnginePower(vehicle, power)
 end
 
 function R.updateParkingTractionAssist(vehicle, state)
+    if not IKFRVP.hasPhysicsAuthority() then
+        return false
+    end
     if not IKFRVP.isCorneringTuningEnabled() or not vehicle then
         return false
     end
@@ -347,9 +344,12 @@ function R.onEnterVehicle(player)
         vehicle = vehicle,
         parkAssistActive = false,
         parkAssistReleaseTicks = 0,
+        parkAssistTick = 0,
     }
-    R.syncVehicleBrakes(vehicle)
-    R.syncVehicleEngine(vehicle)
+    if IKFRVP.hasPhysicsAuthority() then
+        R.syncVehicleBrakes(vehicle)
+        R.syncVehicleEngine(vehicle)
+    end
     if IKFRVP.isDebugLoggingEnabled() then
         IKFRVP.logLiveManeuverProbe(vehicle, "enter")
     end
@@ -376,20 +376,32 @@ function R.onPlayerUpdate(player)
         state.ticks = R._syncTickInterval
         state.parkAssistActive = false
         state.parkAssistReleaseTicks = 0
-        R.syncVehicleBrakes(vehicle)
-        R.syncVehicleEngine(vehicle)
+        state.parkAssistTick = 0
+        if IKFRVP.hasPhysicsAuthority() then
+            R.syncVehicleBrakes(vehicle)
+            R.syncVehicleEngine(vehicle)
+        end
     end
 
-    R.updateParkingTractionAssist(vehicle, state)
+    -- Park assist runs at reduced frequency (every PARK_ASSIST_TICK_INTERVAL ticks)
+    -- and only on the physics authority to avoid redundant setEngineFeature calls
+    -- from every connected MP client.
+    state.parkAssistTick = (state.parkAssistTick or 0) + 1
+    if state.parkAssistTick >= PARK_ASSIST_TICK_INTERVAL then
+        state.parkAssistTick = 0
+        R.updateParkingTractionAssist(vehicle, state)
+    end
 
     if IKFRVP.Safety and IKFRVP.Safety.probeVehicle then
         IKFRVP.Safety.probeVehicle(player, vehicle, state)
     end
 
-    state.ticks = state.ticks + 1
-    if state.ticks >= R._syncTickInterval then
-        state.ticks = 0
-        R.syncVehiclePhysics(vehicle, state)
+    if IKFRVP.hasPhysicsAuthority() then
+        state.ticks = state.ticks + 1
+        if state.ticks >= R._syncTickInterval then
+            state.ticks = 0
+            R.syncVehiclePhysics(vehicle, state)
+        end
     end
 end
 
