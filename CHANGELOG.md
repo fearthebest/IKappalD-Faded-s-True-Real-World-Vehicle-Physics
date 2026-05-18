@@ -11,9 +11,10 @@ Work-in-progress **manual transmission** sub-mod. Requires main IKFRVP. **Not su
 ### Added
 - Full Kiurio / KI5 vehicle pack roster (**442** vehicles) with per-vehicle physics profiles.
 - `IKFRVP_Profiles_KI5.lua` roster table (UTF-8 without BOM) loaded by `IKFRVP_Profiles.lua`.
-- `extract_vehicle_ids.ps1` and `gen_ki5.ps1` to regenerate the roster from installed KI5 mods or a vehicle ID list.
+- Maintainer scripts under `scripts/` (`extract_vehicle_ids.ps1`, `gen_ki5.ps1`) to regenerate the KI5 roster from installed mods.
 
 ### Changed
+- Repository layout: `docs/`, `scripts/`, `workshop/manual-transmission-wip/`; WIP transmission addon source under `Contents/mods/IKFRVP_ManualTransmissionWIP/`.
 - **Project Faded Car** is not bundled in this package. IKFRVP is physics-only; publish PFC as its own Workshop mod.
 - **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
 - **Manual transmission removed from the main mod.** It lives only in the separate **IKFRVP Manual Transmission WIP** addon (`modversion=3.0.0`), marked broken / do not use.
@@ -97,6 +98,3 @@ Superseded by **1.1.4b** on GitHub. Do not use for Workshop.
 
 ## 1.1.3
 - Trunk capacity tuning, initial sandbox UI, B42.18 roster physics baseline.
-
-## 1.1.5 (reverted on GitHub)
-- Automated release; removed from `main` as unstable / not shipped to Workshop.
