@@ -11,8 +11,9 @@ Two **separate** Project Zomboid mods live under `Contents/mods/`. Only the firs
 | **Version** | `2.0.0` (`mod.info` / `IKFRVP.Version`) |
 | **Purpose** | Vehicle physics tuning, KI5 roster, trunk fixes, CSR compatibility |
 | **Manual transmission** | **Not included** |
+| **B42 layout** | `common/media/` + `42.18/mod.info` + `42.18/media/` |
 
-This is the supported package. Steam Workshop item uses root `workshop.txt` + `preview.png` + `Contents/`.
+This is the supported package. Steam Workshop item uses root `workshop.txt` + `preview.png` + `Contents/`. Players installing from GitHub must copy the whole mod folder (see [INSTALL.md](INSTALL.md)).
 
 ## WIP addon — IKFRVP_ManualTransmissionWIP
 
@@ -23,6 +24,7 @@ This is the supported package. Steam Workshop item uses root `workshop.txt` + `p
 | **Version** | `3.0.0` |
 | **Requires** | Main mod `IKappaIDFadedRealWorldVehiclePhysics` |
 | **Status** | **Work in progress — broken — do not use for gameplay** |
+| **B42 layout** | `common/media/` + `42.18/mod.info` + `42.18/media/` |
 
 Experimental clutch/shift Lua addon. Vanilla still **auto-shifts**; there is no supported Lua API to disable it fully. Published as its **own** Workshop item using `workshop/manual-transmission-wip/workshop.txt` (see [PUBLISHING.md](PUBLISHING.md)).
 

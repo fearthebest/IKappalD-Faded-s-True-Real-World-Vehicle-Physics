@@ -12,6 +12,9 @@ preview.png           ← from repository root
 Contents/
   mods/
     IKappaIDFadedRealWorldVehiclePhysics/
+      common/media/          ← required (empty is OK)
+      42.18/mod.info
+      42.18/media/
 ```
 
 Do **not** include `IKFRVP_ManualTransmissionWIP` in this upload.
@@ -27,6 +30,9 @@ workshop.txt          ← copy from workshop/manual-transmission-wip/workshop.tx
 Contents/
   mods/
     IKFRVP_ManualTransmissionWIP/
+      common/media/
+      42.18/mod.info
+      42.18/media/
 ```
 
 No `preview.png` required unless you add one. Title and description must state **WIP / broken / do not use**.

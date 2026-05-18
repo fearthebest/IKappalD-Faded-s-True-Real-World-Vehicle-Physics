@@ -18,16 +18,22 @@ Real-world-style **vehicle physics** for **Project Zomboid Build 42.18+**: mass,
 ```
 ├── Contents/mods/
 │   ├── IKappaIDFadedRealWorldVehiclePhysics/   ← main mod (2.0.0)
+│   │   ├── common/media/                       ← required (B42; may be empty)
+│   │   └── 42.18/mod.info + media/
 │   └── IKFRVP_ManualTransmissionWIP/           ← optional WIP addon (3.0.0)
+│       ├── common/media/
+│       └── 42.18/mod.info + media/
 ├── workshop.txt          ← Steam Workshop metadata (main mod)
 ├── preview.png           ← Workshop preview image (main mod)
 ├── scripts/              ← maintainer tools (KI5 roster generation)
-├── docs/                 ← package & publishing notes
+├── docs/                 ← INSTALL, PACKAGES, PUBLISHING
 ├── CHANGELOG.md
 └── LICENSE
 ```
 
-See **[docs/PACKAGES.md](docs/PACKAGES.md)** for what each mod does and **[docs/PUBLISHING.md](docs/PUBLISHING.md)** for Steam upload folders.
+**Install from GitHub:** see **[docs/INSTALL.md](docs/INSTALL.md)** — copy only `Contents/mods/<ModId>/`, not the whole repository.
+
+See **[docs/PACKAGES.md](docs/PACKAGES.md)** and **[docs/PUBLISHING.md](docs/PUBLISHING.md)** for package details and Steam uploads.
 
 ---
 
@@ -41,11 +47,13 @@ Do **not** enable **IKFRVP Manual Transmission WIP** unless you are testing; it 
 
 ### Manual install (GitHub)
 
-1. Clone this repo or download the **`v2.0.0`** source zip.
-2. Copy **`Contents/mods/IKappaIDFadedRealWorldVehiclePhysics`** to your Zomboid mods folder (e.g. `%UserProfile%\Zomboid\mods\`).
-3. Enable the mod in-game. Do **not** copy the WIP transmission addon unless you know why you need it.
+1. Download **[v2.0.0](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0)** (or clone `main`).
+2. Copy the folder **`Contents/mods/IKappaIDFadedRealWorldVehiclePhysics`** into **`%UserProfile%\Zomboid\mods\`** (must include **`common/`** and **`42.18/`**).
+3. Enable the mod in the Mods menu (game **42.18+**).
 
-**Project Faded Car** is a separate companion mod (engine bay + `IKFRVP.Bridge`); it is not in this repository.
+Full steps and troubleshooting: **[docs/INSTALL.md](docs/INSTALL.md)**.
+
+Do **not** copy the WIP transmission addon unless you are testing. **Project Faded Car** is a separate companion mod; it is not in this repository.
 
 ---
 

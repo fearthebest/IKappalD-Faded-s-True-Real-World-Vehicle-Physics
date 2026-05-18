@@ -15,6 +15,7 @@ Work-in-progress **manual transmission** sub-mod. Requires main IKFRVP. **Not su
 
 ### Changed
 - Repository layout: `docs/`, `scripts/`, `workshop/manual-transmission-wip/`; WIP transmission addon source under `Contents/mods/IKFRVP_ManualTransmissionWIP/`.
+- B42-compliant `common/media/` on both mods (mandatory empty folder per PZwiki); player install guide in `docs/INSTALL.md`.
 - **Project Faded Car** is not bundled in this package. IKFRVP is physics-only; publish PFC as its own Workshop mod.
 - **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
 - **Manual transmission removed from the main mod.** It lives only in the separate **IKFRVP Manual Transmission WIP** addon (`modversion=3.0.0`), marked broken / do not use.
