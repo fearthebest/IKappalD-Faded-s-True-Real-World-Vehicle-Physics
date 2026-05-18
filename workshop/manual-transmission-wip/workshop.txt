@@ -1,0 +1,14 @@
+version=1
+id=3724847841
+title=IKFRVP Manual Transmission (WIP — Do Not Use)
+description=WORK IN PROGRESS — BROKEN — DO NOT USE FOR NORMAL GAMEPLAY.
+description=
+description=Experimental manual-transmission addon (modversion 3.0.0) for IKappaID & Faded's True Real World Vehicle Physics. Requires the main mod (2.0.0) as a separate Workshop subscription.
+description=
+description=Vanilla Project Zomboid still auto-shifts gears. This addon cannot fully disable automatic transmission without native Java patches. Not supported for gameplay.
+description=
+description=For stable physics: subscribe only to the main IKFRVP mod. Do not enable this item unless you are testing.
+description=
+description=Controls (if enabled): Shift + , / . shift · Shift + Space clutch · Shift + N / R neutral/reverse.
+tags=Build 42;Vehicles;Experimental
+visibility=public

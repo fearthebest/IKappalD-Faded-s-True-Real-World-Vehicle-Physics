@@ -1,0 +1,8 @@
+name=IKFRVP Manual Transmission (WIP — Do Not Use)
+id=IKFRVP_ManualTransmissionWIP
+description=WORK IN PROGRESS — BROKEN — DO NOT USE FOR GAMEPLAY.\n\nExperimental manual-transmission addon for IKappaID & Faded's True Real World Vehicle Physics (main mod 2.0.x). Requires the main mod. Vanilla still auto-shifts; this addon cannot fully disable automatic gearing without native patches.\n\nAuthors: IKappaID & Faded
+author=IKappaID & Faded
+modversion=3.0.0
+versionMin=42.18
+category=gameplay
+require=IKappaIDFadedRealWorldVehiclePhysics

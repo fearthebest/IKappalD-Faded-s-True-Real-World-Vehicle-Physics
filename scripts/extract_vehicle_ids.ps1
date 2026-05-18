@@ -1,10 +1,11 @@
 # Extract Project Zomboid vehicle script IDs from installed Workshop/local mods.
 # Workshop pages list mod titles, NOT script names — parse installed files under each workshop ID.
 #
-# Usage:
+# Usage (from repository scripts/ folder):
 #   .\extract_vehicle_ids.ps1 -CollectionId 3652192243 -OutFile "$env:USERPROFILE\Downloads\VehicleIDKI5.txt"
 #   .\extract_vehicle_ids.ps1 -CollectionUrl "https://steamcommunity.com/sharedfiles/filedetails/?id=3652192243"
 #   .\extract_vehicle_ids.ps1 -ModPattern '^\d{2}|^TrailerKI5|^63'
+# Then: .\gen_ki5.ps1 -InputFile "$env:USERPROFILE\Downloads\VehicleIDKI5.txt"
 #
 # Collection 3652192243 = "KI5's temp B42.13+ MP collection" (81 workshop items).
 # Subscribe in Steam first, then run this — Steam installs each item under:

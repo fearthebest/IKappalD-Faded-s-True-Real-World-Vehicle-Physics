@@ -1,0 +1,43 @@
+VERSION = 1,
+
+option IKFRVP.ManualTransmission
+{
+    type = boolean,
+    default = false,
+    page = IKFRVP_ManualTransmission,
+    translation = IKFRVP_ManualTransmissionEnable,
+}
+
+option IKFRVP.ManualTransmissionStalling
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_ManualTransmission,
+    translation = IKFRVP_ManualTransmissionStalling,
+}
+
+option IKFRVP.ManualTransmissionRevMatch
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_ManualTransmission,
+    translation = IKFRVP_ManualTransmissionRevMatch,
+}
+
+option IKFRVP.ManualTransmissionHud
+{
+    type = boolean,
+    default = true,
+    page = IKFRVP_ManualTransmission,
+    translation = IKFRVP_ManualTransmissionHud,
+}
+
+option IKFRVP.ManualTransmissionClutchCoef
+{
+    type = double,
+    min = 0.05,
+    max = 1.0,
+    default = 0.22,
+    page = IKFRVP_ManualTransmission,
+    translation = IKFRVP_ManualTransmissionClutchCoef,
+}

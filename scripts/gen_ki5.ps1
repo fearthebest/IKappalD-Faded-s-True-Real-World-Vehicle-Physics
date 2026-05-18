@@ -1,4 +1,10 @@
-$InputFile = 'c:\Users\mpass\Downloads\VehicleIDKI5.txt'
+param(
+    [string]$InputFile = "$env:USERPROFILE\Downloads\VehicleIDKI5.txt"
+)
+
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$OutputPath = Join-Path $RepoRoot "Contents\mods\IKappaIDFadedRealWorldVehiclePhysics\42.18\media\lua\shared\IKFRVP_Profiles_KI5.lua"
+
 $ValidVehicleId = [regex]::new('^[A-Za-z0-9][A-Za-z0-9_]*$')
 
 function Test-ValidVehicleScriptId {
@@ -103,9 +109,8 @@ foreach ($k in $order) {
     [void]$out.AppendLine('    },')
 }
 [void]$out.AppendLine("}")
-$path = 'c:\Users\mpass\Zomboid\Workshop\IKappalD-Faded-s-True-Real-World-Vehicle-Physics-v1.2.0\Contents\mods\IKappaIDFadedRealWorldVehiclePhysics\42.18\media\lua\shared\IKFRVP_Profiles_KI5.lua'
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-[System.IO.File]::WriteAllText($path, $out.ToString(), $utf8NoBom)
-Write-Output "Wrote $path"
+[System.IO.File]::WriteAllText($OutputPath, $out.ToString(), $utf8NoBom)
+Write-Output "Wrote $OutputPath"
 Write-Output "Total: $($sorted.Count)"
 $groups.Keys | Sort-Object | ForEach-Object { Write-Output "$_ : $($groups[$_].Count)" }

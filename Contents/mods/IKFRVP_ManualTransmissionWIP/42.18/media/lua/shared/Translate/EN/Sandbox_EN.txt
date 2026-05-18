@@ -1,0 +1,15 @@
+VERSION = 1,
+
+Sandbox_EN {
+    Sandbox_IKFRVP_ManualTransmission = "IKFRVP: Manual Transmission (WIP — broken)",
+    Sandbox_IKFRVP_ManualTransmissionEnable = "Enable Manual Transmission (unsupported)",
+    Sandbox_IKFRVP_ManualTransmissionEnable_tooltip = "WORK IN PROGRESS — BROKEN. Vanilla still auto-shifts. Requires main IKFRVP 2.0.x. Do not use for normal gameplay.",
+    Sandbox_IKFRVP_ManualTransmissionStalling = "Engine Stalling",
+    Sandbox_IKFRVP_ManualTransmissionStalling_tooltip = "When on, releasing the clutch too slowly at low RPM/speed in gear can stall the engine.",
+    Sandbox_IKFRVP_ManualTransmissionRevMatch = "Rev-Match Assist",
+    Sandbox_IKFRVP_ManualTransmissionRevMatch_tooltip = "When on, downshifts briefly add throttle to smooth rev matching.",
+    Sandbox_IKFRVP_ManualTransmissionHud = "Show Transmission HUD",
+    Sandbox_IKFRVP_ManualTransmissionHud_tooltip = "Shows gear, RPM, clutch percent, and key hints while driving.",
+    Sandbox_IKFRVP_ManualTransmissionClutchCoef = "Clutch Power Cut",
+    Sandbox_IKFRVP_ManualTransmissionClutchCoef_tooltip = "Engine power remaining when the clutch is fully pressed. Lower = stronger disengagement.",
+}
