@@ -63,11 +63,15 @@ function Server.onServerStarted()
 end
 
 function Server.onClientCommand(module, command, player, args)
-    if module ~= IKFRVP.CommandModule or not Bridge then
+    if module ~= IKFRVP.CommandModule then
         return
     end
 
     args = args or {}
+
+    if not Bridge then
+        return
+    end
 
     if command == "RequestStatus" then
         sendStatus(player, vehicleFromArgs(args))

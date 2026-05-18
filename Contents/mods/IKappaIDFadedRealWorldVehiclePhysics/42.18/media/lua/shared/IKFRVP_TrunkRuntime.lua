@@ -7,19 +7,11 @@ local R = IKFRVP.TrunkRuntime
 
 R._installed = false
 local origGetEffectiveCapacity = nil
+local origGetCapacity = nil
+local inCapacityHook = false
 
 local function sandboxTrunkMult()
     return IKFRVP.numberOption("TrunkCapacityMult", 1.0, 0.35, 2.5)
-end
-
-local function clampMultForWorkshopPack(scriptFullName, mult)
-    if not scriptFullName or scriptFullName == "" then
-        return mult
-    end
-    if not string.match(scriptFullName, "^Base%.%d") then
-        return mult
-    end
-    return IKFRVP.clamp(mult, 0.82, 1.22) or mult
 end
 
 local function multForVehicle(vehicle)
@@ -27,10 +19,31 @@ local function multForVehicle(vehicle)
     if math.abs(mult - 1.0) < 1e-7 then
         return 1.0
     end
-    local script = vehicle and vehicle.getScript and vehicle:getScript() or nil
-    local fullName = script and IKFRVP.getScriptFullName(script) or ""
-    mult = clampMultForWorkshopPack(fullName, mult)
     return mult
+end
+
+-- JavaDocs: ItemContainer.getVehicle() / getVehiclePart() (preferred over getParent() alone).
+local function containerVehicle(container)
+    if not container then
+        return nil
+    end
+    if container.getVehicle then
+        local vehicle = container:getVehicle()
+        if vehicle then
+            return vehicle
+        end
+    end
+    if not container.getParent or not instanceof then
+        return nil
+    end
+    local parent = container:getParent()
+    if parent and instanceof(parent, "BaseVehicle") then
+        return parent
+    end
+    if parent and instanceof(parent, "VehiclePart") and parent.getVehicle then
+        return parent:getVehicle()
+    end
+    return nil
 end
 
 function R.vehicleUsesIKFRVPTuning(vehicle)
@@ -62,17 +75,44 @@ local function isGasolineContainer(container)
     return string.lower(tostring(ct)) == "gasoline"
 end
 
+local function containerPartIdLower(container)
+    if not container or not container.getVehiclePart then
+        return ""
+    end
+    local part = container:getVehiclePart()
+    if not part or not part.getId then
+        return ""
+    end
+    local id = part:getId()
+    if id == nil then
+        return ""
+    end
+    return string.lower(tostring(id))
+end
+
+local function containerVehicleScriptLower(container)
+    local vehicle = containerVehicle(container)
+    if not vehicle or not vehicle.getScript then
+        return ""
+    end
+    local script = vehicle:getScript()
+    if not script then
+        return ""
+    end
+    return string.lower(IKFRVP.getScriptFullName(script) or "")
+end
+
 function R.isVehicleTrunkCargoContainer(container)
-    if not container or not container.getParent or not instanceof then
+    if not container then
         return false
     end
-    local parent = container:getParent()
-    if not parent or not instanceof(parent, "BaseVehicle") then
+    if not containerVehicle(container) then
         return false
     end
     if isGasolineContainer(container) then
         return false
     end
+
     local typ = ""
     if container.getType then
         local t = container:getType()
@@ -81,16 +121,67 @@ function R.isVehicleTrunkCargoContainer(container)
         end
     end
     local ltyp = string.lower(typ)
-    if ltyp == "" then
+    local partId = containerPartIdLower(container)
+    local scriptName = containerVehicleScriptLower(container)
+
+    if ltyp ~= "" and string.find(ltyp, "glove", 1, true) then
         return false
     end
-    if string.find(ltyp, "glove", 1, true) then
+    if ltyp ~= "" and string.find(ltyp, "gas", 1, true) and not string.find(ltyp, "bag", 1, true) then
         return false
     end
-    if string.find(ltyp, "gas", 1, true) and not string.find(ltyp, "bag", 1, true) then
+    if ltyp ~= "" and string.find(ltyp, "seat", 1, true) then
         return false
     end
-    if typ == "TruckBed" or typ == "TruckBedOpen" or typ == "TrailerTrunk" or typ == "TrailerAnimalFood" then
+    if partId ~= "" and string.find(partId, "glove", 1, true) then
+        return false
+    end
+    if partId ~= "" and string.find(partId, "seat", 1, true) then
+        return false
+    end
+    if partId ~= "" and (string.find(partId, "tank", 1, true) or string.find(partId, "gas", 1, true)) then
+        return false
+    end
+    if scriptName ~= "" and string.find(scriptName, "tanker", 1, true) then
+        return false
+    end
+
+    -- KI5 / DAMN trailers & ISO rigs: cargo is on script-named trailers, not only vanilla types.
+    if scriptName ~= "" and string.find(scriptName, "trailer", 1, true) then
+        return true
+    end
+    if scriptName ~= "" and string.find(scriptName, "isocontainer", 1, true) then
+        return true
+    end
+
+    -- DAMN / KI5 (90pierceArrow: ARRWTrunkLTL, ARRWTrunk, …)
+    if partId ~= "" and string.find(partId, "trunk", 1, true) and not string.find(partId, "door", 1, true) then
+        return true
+    end
+    if partId ~= "" and string.find(partId, "arrw", 1, true) and not string.find(partId, "door", 1, true) then
+        return true
+    end
+    if partId == "truckbed" or string.find(partId, "truckbed", 1, true) then
+        return true
+    end
+    if partId ~= "" and string.find(partId, "cargo", 1, true) and not string.find(partId, "tank", 1, true) then
+        return true
+    end
+    if partId ~= "" and string.find(partId, "toolbox", 1, true) then
+        return true
+    end
+    if partId ~= "" and string.find(partId, "storage", 1, true) and not string.find(partId, "door", 1, true) then
+        return true
+    end
+
+    if ltyp ~= "" and string.find(ltyp, "trunk", 1, true) and not string.find(ltyp, "door", 1, true) then
+        return true
+    end
+    if ltyp ~= "" and string.find(ltyp, "arrw", 1, true) and not string.find(ltyp, "door", 1, true) then
+        return true
+    end
+
+    if typ == "Trunk" or typ == "TruckBed" or typ == "TruckBedOpen" or typ == "TrailerTrunk" or typ == "TrailerAnimalFood" then
         return true
     end
     if string.find(ltyp, "truckbed", 1, true) then
@@ -99,7 +190,38 @@ function R.isVehicleTrunkCargoContainer(container)
     if string.find(ltyp, "trailertrunk", 1, true) then
         return true
     end
+    if string.find(ltyp, "cargo", 1, true) and not string.find(ltyp, "tank", 1, true) then
+        return true
+    end
+    if string.find(ltyp, "toolbox", 1, true) then
+        return true
+    end
     return false
+end
+
+local function scaleCapacity(container, base)
+    if base == nil then
+        return base
+    end
+    local vehicle = containerVehicle(container)
+    if not vehicle then
+        return base
+    end
+    if not R.isVehicleTrunkCargoContainer(container)
+        or not R.vehicleUsesIKFRVPTuning(vehicle)
+        or not IKFRVP.isTrunkCapacityTuningEnabled()
+    then
+        return base
+    end
+    local mult = multForVehicle(vehicle)
+    if math.abs(mult - 1.0) < 1e-7 then
+        return base
+    end
+    local scaled = tonumber(base) * mult
+    if scaled == nil then
+        return base
+    end
+    return math.max(0.01, math.floor(scaled + 0.5))
 end
 
 function R.install()
@@ -119,38 +241,34 @@ function R.install()
     end
 
     origGetEffectiveCapacity = idx.getEffectiveCapacity
+    origGetCapacity = idx.getCapacity
 
     idx.getEffectiveCapacity = function(self, chr)
+        if inCapacityHook then
+            return origGetEffectiveCapacity(self, chr)
+        end
+        inCapacityHook = true
         local base = origGetEffectiveCapacity(self, chr)
-        if base == nil then
-            return base
+        local result = scaleCapacity(self, base)
+        inCapacityHook = false
+        return result
+    end
+
+    if origGetCapacity then
+        idx.getCapacity = function(self)
+            if inCapacityHook then
+                return origGetCapacity(self)
+            end
+            inCapacityHook = true
+            local base = origGetCapacity(self)
+            local result = scaleCapacity(self, base)
+            inCapacityHook = false
+            return result
         end
-        local parent = self:getParent()
-        if not parent or not instanceof(parent, "BaseVehicle") then
-            return base
-        end
-        if not R.isVehicleTrunkCargoContainer(self) then
-            return base
-        end
-        if not R.vehicleUsesIKFRVPTuning(parent) then
-            return base
-        end
-        if not IKFRVP.isTrunkCapacityTuningEnabled() then
-            return base
-        end
-        local mult = multForVehicle(parent)
-        if math.abs(mult - 1.0) < 1e-7 then
-            return base
-        end
-        local scaled = tonumber(base) * mult
-        if scaled == nil then
-            return base
-        end
-        return math.max(0.01, math.floor(scaled + 0.5))
     end
 
     R._installed = true
-    IKFRVP.debug("trunk-runtime: ItemContainer.getEffectiveCapacity wrap installed")
+    IKFRVP.debug("trunk-runtime: ItemContainer capacity hooks installed")
 end
 
 if Events and Events.OnGameBoot then

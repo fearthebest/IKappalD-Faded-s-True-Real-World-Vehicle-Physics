@@ -182,6 +182,9 @@ function R.updateParkingTractionAssist(vehicle, state)
     if not IKFRVP.isCorneringTuningEnabled() or not vehicle then
         return false
     end
+    if IKFRVP.isManualTransmissionControllingEngine(vehicle) or IKFRVP.isManualClutchActive(vehicle) then
+        return false
+    end
     if not vehicle.getScript or not vehicle.setEngineFeature or not vehicle.getEnginePower then
         return false
     end
@@ -287,6 +290,9 @@ end
 
 function R.syncVehicleEngine(vehicle)
     if not vehicle or not IKFRVP.isEnabled() then
+        return false
+    end
+    if IKFRVP.isManualTransmissionControllingEngine(vehicle) or IKFRVP.isManualClutchActive(vehicle) then
         return false
     end
     if not vehicle.getScript or not vehicle.setEngineFeature or not vehicle.getEnginePower then

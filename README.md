@@ -66,6 +66,10 @@ Settings are grouped into **tabs**. Each tab name starts with **`IKFRVP:`** so y
 
 Many defaults are **neutral (1.0)** where appropriate; **experimental handling** stays **off** until you enable it.
 
+### Manual transmission (separate addon — do not use)
+
+**Manual transmission is not part of the main mod.** It ships only in the Workshop addon **IKFRVP Manual Transmission WIP** (`modversion=3.0.0`, id `IKFRVP_ManualTransmissionWIP`). That addon is **work in progress, broken, and not supported** — vanilla still auto-shifts without a native patch. Use the **main mod (2.0.x)** for stable physics tuning.
+
 ---
 
 ## Workshop vehicle packs
@@ -102,7 +106,7 @@ Current release: **2.0.0** — see **`mod.info`** (`modversion`) and **`IKFRVP.V
 
 | Tag | Notes |
 |-----|--------|
-| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | Physics-only package; KI5 roster (442 vehicles); `IKFRVP.Bridge` for optional PFC |
+| [**v2.0.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.0.0) | Physics-only; KI5 roster (442 vehicles); trunk fixes; no manual transmission (WIP MT is 3.0.0 addon) |
 | [**v1.2.0**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.2.0) | `IKFRVP.Bridge` API added (PFC was bundled in repo until 2.0.0 split) |
 | [**v1.1.4b**](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v1.1.4b) | Physics-only release (unchanged tag; still available for rollback) |
 

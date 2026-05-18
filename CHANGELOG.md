@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0 (separate addon — not this package)
+
+Work-in-progress **manual transmission** sub-mod. Requires main IKFRVP. **Not supported for gameplay.**
+
+---
+
 ## 2.0.0
 
 ### Added
@@ -10,8 +16,12 @@
 ### Changed
 - **Project Faded Car** is not bundled in this package. IKFRVP is physics-only; publish PFC as its own Workshop mod.
 - **`IKFRVP.Bridge`** API unchanged (`IKFRVP_Bridge.lua`); PFC uses `PFC_IKFRVPBridge.lua` when both mods are enabled.
+- **Manual transmission removed from the main mod.** It lives only in the separate **IKFRVP Manual Transmission WIP** addon (`modversion=3.0.0`), marked broken / do not use.
 
 ### Fixed
+- KI5 / trailer trunk capacity detection and scaling (including ISO containers and DAMN patterns).
+- Sandbox duplicate-key crash (`ManualTransmission` tab vs option) resolved in main mod by removing MT from this package.
+- BrakeRuntime engine sync no longer conflicts with manual-transmission clutch logic (MT is a separate addon).
 - Trailers and ISO shipping containers classified as heavy trailer cargo instead of passenger cars.
 - Lua load crash from invalid roster file format (no top-level `return`, no UTF-8 BOM).
 - Vehicle ID extraction now accepts KI5 script names that start with digits.

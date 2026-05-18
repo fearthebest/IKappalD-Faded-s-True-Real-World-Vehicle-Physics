@@ -101,6 +101,15 @@ function IKFRVP.isCorneringTuningEnabled()
     return IKFRVP.boolOption("CorneringTuning", true)
 end
 
+-- Stubs for optional IKFRVP_ManualTransmissionWIP (3.0.0); overridden when that addon loads.
+function IKFRVP.isManualClutchActive(_vehicle)
+    return false
+end
+
+function IKFRVP.isManualTransmissionControllingEngine(_vehicle)
+    return false
+end
+
 function IKFRVP.isAuditOnly()
     return IKFRVP.boolOption("AuditOnly", false)
 end
