@@ -1,0 +1,16 @@
+fatal: pathspec 'gh-release.cmd' did not match any files
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   push-log.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	gh-release.cmd
+	push-log2.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Everything up-to-date
