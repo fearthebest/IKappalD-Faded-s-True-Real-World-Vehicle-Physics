@@ -6,7 +6,7 @@ Realistic vehicle mass, engine power, handling, trunk capacity, and multiplayer 
 |---|---|
 | **Version** | 2.5.0 |
 | **Target build** | B42.18+ |
-| **Author** | IKappaID |
+| **Author** | IKappaID & Faded |
 | **Steam Workshop** | [3724847841](https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841) |
 
 ## Overview
