@@ -1,68 +1,41 @@
-# IKappaID's True Real World Vehicle Physics
+# True Real World Vehicle Physics (TRWVP)
 
-Better driving for Project Zomboid **Build 42.18+** (including 42.19 Unstable).
+An advanced vehicle physics overhaul for Project Zomboid Build 42. This project implements realistic mass, engine power, and handling characteristics for all vehicles, with full synchronization for dedicated multiplayer environments.
 
-This mod overhauls how vehicles behave: more realistic weight, engine power, braking, handling, and optional trunk expansion via sandbox settings.
-
-**Latest release:** [v2.5.0](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.5.0)
+**Latest Release:** [v2.5.0](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.5.0)
 
 ---
 
-## Quick start
+## Overview
 
-### Steam Workshop (recommended)
+TRWVP provides a comprehensive re-tuning of the Project Zomboid vehicle system. By utilizing server-authoritative physics calculations and instance-based state synchronization, it ensures consistent driving behavior across all game modes.
 
-Subscribe on Steam for automatic updates: [Workshop item 3724847841](https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841).
+## Key Features
 
-### GitHub (manual)
+- **Realistic Physics Engine**: Implements accurate mass and acceleration curves based on real-world vehicle specifications.
+- **Enhanced Handling**: Refined steering, suspension, and braking systems for improved vehicle control.
+- **Dynamic Storage Scaling**: Configurable trunk and seat capacity via sandbox settings.
+- **Multiplayer Synchronization**: Server-authoritative physics and state management for consistent behavior on dedicated servers.
+- **Broad Compatibility**: Native support for major vehicle modifications, including KI5, Autotsar, FHQ, and ATA.
 
-Download the [latest release](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases) and follow the [Installation Guide](docs/INSTALL.md).
+## Installation
 
-### Enable in-game
+For detailed installation instructions, please refer to the [Installation Guide](docs/INSTALL.md).
 
-This package contains **two sub-mods**. Enable **only one** per session:
+## Repository Structure
 
-| Play mode | Enable |
-|-----------|--------|
-| Single player | **IKappaID's True Real World Vehicle Physics SinglePlayer** |
-| Multiplayer (server + clients) | **IKappaID's True Real World Vehicle Physics Multiplayer** |
+- `Contents/mods/`: Contains the Project Zomboid mod packages for SinglePlayer and Multiplayer.
+- `docs/`: Technical documentation, installation guides, and release notes.
+- `scripts/`: Utility scripts for development and deployment synchronization.
+- `workshop.txt`: Metadata for Steam Workshop integration.
+- `preview.png`: Graphical asset for the Steam Workshop listing.
 
-Do **not** enable both in the same session.
+## Documentation
 
----
-
-## What this mod does
-
-- **Realistic mass and acceleration** for vanilla and supported mod vehicles
-- **Improved handling** — steering, suspension, and towing behavior
-- **Trunk / seat storage** scaling via sandbox (MP: server-authoritative sync)
-- **Multiplayer-ready** — dedicated servers push physics and trunk state to clients
-- **Mod vehicle support** — KI5, Autotsar, FHQ, ATA, and more
-
----
-
-## Repository layout
-
-```
-Contents/mods/
-  IKappaID's True Real World Vehicle Physics SinglePlayer/
-  IKappaID's True Real World Vehicle Physics Multiplayer/
-docs/           ← player install + release notes
-scripts/        ← dev sync helpers (optional for players)
-workshop.txt    ← Steam metadata (Workshop upload)
-preview.png     ← Steam preview image
-```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md).
-
-## Attribution
-
-See [ATTRIBUTION.md](ATTRIBUTION.md).
+- [Changelog](CHANGELOG.md)
+- [Attribution](ATTRIBUTION.md)
+- [License](LICENSE)
 
 ## License
 
-See [LICENSE](LICENSE).
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file.

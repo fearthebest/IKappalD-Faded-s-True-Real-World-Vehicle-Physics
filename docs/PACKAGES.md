@@ -1,33 +1,29 @@
-# Mod packages in this repository
+# Mod Packages
 
-Two **separate** Project Zomboid mods live under `Contents/mods/`. Only the first is intended for players.
+This repository contains two distinct Project Zomboid mod packages under `Contents/mods/`. Users should enable only the package appropriate for their current game mode.
 
-## Main mod — IKappaIDFadedRealWorldVehiclePhysics
+## Multiplayer Package
 
-| Field | Value |
-|-------|--------|
-| **Folder** | `Contents/mods/IKappaIDFadedRealWorldVehiclePhysics/` |
-| **Mod ID** | `IKappaIDFadedRealWorldVehiclePhysics` |
-| **Version** | `2.0.0` (`mod.info` / `IKFRVP.Version`) |
-| **Purpose** | Vehicle physics tuning, KI5 roster, trunk fixes, CSR compatibility |
-| **Manual transmission** | **Not included** |
-| **B42 layout** | `common/media/` + `42.18/mod.info` + `42.18/media/` |
+| Property | Value |
+|----------|-------|
+| **Directory** | `Contents/mods/IKappaID's True Real World Vehicle Physics Multiplayer/` |
+| **Mod ID** | `IKappaID's True Real World Vehicle Physics Multiplayer` |
+| **Version** | `2.5.0` |
+| **Features** | Server-authoritative physics, trunk capacity synchronization, and sandbox state management. |
+| **Target** | Dedicated servers and multiplayer clients. |
 
-This is the supported package. Steam Workshop item uses root `workshop.txt` + `preview.png` + `Contents/`. Players installing from GitHub must copy the whole mod folder (see [INSTALL.md](INSTALL.md)).
+## SinglePlayer Package
 
-## WIP addon — IKFRVP_ManualTransmissionWIP
+| Property | Value |
+|----------|-------|
+| **Directory** | `Contents/mods/IKappaID's True Real World Vehicle Physics SinglePlayer/` |
+| **Mod ID** | `IKappaID's True Real World Vehicle Physics SinglePlayer` |
+| **Version** | `2.5.0` |
+| **Features** | Local physics tuning, handling improvements, and trunk capacity management for solo play. |
+| **Target** | Single-player sessions. |
 
-| Field | Value |
-|-------|--------|
-| **Folder** | `Contents/mods/IKFRVP_ManualTransmissionWIP/` |
-| **Mod ID** | `IKFRVP_ManualTransmissionWIP` |
-| **Version** | `3.0.0` |
-| **Requires** | Main mod `IKappaIDFadedRealWorldVehiclePhysics` |
-| **Status** | **Work in progress — broken — do not use for gameplay** |
-| **B42 layout** | `common/media/` + `42.18/mod.info` + `42.18/media/` |
+## Compatibility
 
-Experimental clutch/shift Lua addon. Vanilla still **auto-shifts**; there is no supported Lua API to disable it fully. Published as its **own** Workshop item using `workshop/manual-transmission-wip/workshop.txt` (see [PUBLISHING.md](PUBLISHING.md)).
-
-## Related mods (not in this repo)
-
-- **Project Faded Car** — optional companion; uses `IKFRVP.Bridge` from the main mod.
+- **Project Faded Car**: Fully supported via the internal compatibility bridge.
+- **Vehicle Mods**: Native profiles included for KI5, Autotsar, FHQ, ATA, and other major vehicle packs.
+- **Common Sense Reborn**: Compatible; does not interfere with CSR mechanics.

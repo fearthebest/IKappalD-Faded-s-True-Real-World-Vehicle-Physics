@@ -1,42 +1,33 @@
-# Publishing to Steam Workshop
+# Publishing Guidelines
 
-This monorepo contains **two** Workshop products. Upload them as **separate** items so players are not forced to install the broken transmission addon.
+This repository is structured to support publishing to the Steam Workshop. The following guidelines ensure consistency between the development repository and the published Workshop item.
 
-## Main mod (2.0.0)
+## Steam Workshop Structure
 
-Zip or upload a folder with **only**:
+The Workshop upload directory must contain the following files at the root:
 
-```
-workshop.txt          ← from repository root
-preview.png           ← from repository root
-Contents/
-  mods/
-    IKappaIDFadedRealWorldVehiclePhysics/
-      common/media/          ← required (empty is OK)
-      42.18/mod.info
-      42.18/media/
-```
+- `workshop.txt`: Contains the Workshop item metadata (ID, title, description, tags).
+- `preview.png`: The thumbnail image for the Workshop listing.
+- `Contents/`: The directory containing the mod packages.
 
-Do **not** include `IKFRVP_ManualTransmissionWIP` in this upload.
+### Main Workshop Item (ID: 3724847841)
 
-`workshop.txt` at the repo root is the canonical metadata for the main item (`id=3724847841` in the current file — keep your real Workshop ID when publishing).
+The primary Workshop item includes both the SinglePlayer and Multiplayer sub-mods. When updating this item:
 
-## Manual transmission WIP (3.0.0)
+1. Use the `workshop.txt` from the repository root.
+2. Ensure the `Contents/mods/` directory includes both sub-mod folders.
+3. Verify that `modversion` in all `mod.info` files matches the current release (e.g., `2.5.0`).
 
-Use a **separate** Workshop item. Zip:
+## Versioning and Releases
 
-```
-workshop.txt          ← copy from workshop/manual-transmission-wip/workshop.txt
-Contents/
-  mods/
-    IKFRVP_ManualTransmissionWIP/
-      common/media/
-      42.18/mod.info
-      42.18/media/
-```
+### GitHub Releases
 
-No `preview.png` required unless you add one. Title and description must state **WIP / broken / do not use**.
+Releases are tagged using semantic versioning (e.g., `v2.5.0`). Each release should include:
 
-## GitHub releases
+- A summary of changes and fixes.
+- Updated documentation in the `docs/` directory.
+- A consistent codebase across both SinglePlayer and Multiplayer packages.
 
-Tag **`v2.0.0`** should point at a commit where the main mod’s `modversion` and `IKFRVP.Version` are **2.0.0**. The WIP addon may ship in the same repo tag for source consistency; players still install only the main mod from Workshop unless they opt into the second item.
+### Synchronization Scripts
+
+Utility scripts are provided in the `scripts/` directory to automate the synchronization of files between the development repository and the local Workshop upload folder. These scripts ensure that metadata and directory structures are preserved during the deployment process.
