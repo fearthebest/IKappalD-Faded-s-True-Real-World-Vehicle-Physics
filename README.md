@@ -1,33 +1,77 @@
-# IKappaID's True Real World Vehicle Physics — Lua dev (stable 2.5.0)
+# IKappaID's True Real World Vehicle Physics
 
-**Stable Workshop upload:** `Zomboid\Workshop\IKappaID's True Real World Vehicle Physics` after `scripts\sync_to_stable_workshop.ps1` (preserves stable `preview.png` and id **3724847841**).
+Realistic vehicle mass, engine power, handling, trunk capacity, and multiplayer synchronization for Project Zomboid Build 42.
 
-**Stable Steam:** [3724847841](https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841) · **Version:** 2.5.0 — see `Contents/mods/*/42.18/mod.info`
+| | |
+|---|---|
+| **Version** | 2.5.0 |
+| **Target build** | B42.18+ |
+| **Author** | IKappaID |
+| **Steam Workshop** | [3724847841](https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841) |
 
-## Layout
+## Overview
 
+This mod replaces arcade vehicle behavior with physics tuned from real-world data. It ships as two sub-mods: one for single-player and listen-host sessions, and one for dedicated multiplayer servers. Enable only one sub-mod per session.
+
+## Features
+
+- Realistic mass, power, braking, and handling per vehicle class
+- Expanded support for KI5, Autotsar, ATA, fhq Motorious Zone, and community packs
+- Server-authoritative sandbox sync in multiplayer
+- Trunk and seat storage scaled to sandbox settings
+- Split SP and MP packages for stable load order and performance
+
+## Sub-mods
+
+| Sub-mod | Mod ID | Use when |
+|---------|--------|----------|
+| SinglePlayer | `IKappaID's True Real World Vehicle Physics SinglePlayer` | SP or listen-host |
+| Multiplayer | `IKappaID's True Real World Vehicle Physics Multiplayer` | Dedicated MP server |
+
+## Repository structure
+
+```text
+.
+├── README.md
+├── CHANGELOG.md
+├── LICENSE
+├── workshop-stable.txt      # Steam item title and description
+├── preview.png              # Steam preview image
+├── Contents/
+│   └── mods/
+│       ├── IKappaID's True Real World Vehicle Physics SinglePlayer/42.18/
+│       └── IKappaID's True Real World Vehicle Physics Multiplayer/42.18/
+├── docs/                    # Installation, packaging, and release notes
+└── scripts/                 # Sync helpers for playtest and Workshop upload
 ```
-IKFRVP-v2/                    ← this repo (dev)
-  workshop-stable.txt          ← Steam item title + description (required)
-  preview.png                 ← Steam preview image (required)
-  Contents/mods/
-    IKappaID's True Real World Vehicle Physics Multiplayer/42.18/
-    IKappaID's True Real World Vehicle Physics SinglePlayer/42.18/
-  scripts/
-```
 
-## Playtest (flat mods folder)
+Each sub-mod folder contains `mod.info`, `media/lua/`, and `media/sandbox-options.txt` under the `42.18` version directory.
+
+## Installation (players)
+
+See [docs/INSTALL.md](docs/INSTALL.md) for step-by-step setup. Copy one sub-mod from `Contents/mods/` into your Zomboid `mods` folder, or subscribe on Steam Workshop.
+
+## Development
+
+**Playtest (flat mods folder):**
 
 ```powershell
 .\scripts\sync_to_desktop_mods.ps1
 ```
 
-Updates `Desktop\mods\` (enable **one** of SP or MP per session).
-
-## Publish sync (stable 2.5.0)
+**Publish to Steam Workshop tree:**
 
 ```powershell
 .\scripts\sync_to_stable_workshop.ps1
 ```
 
-Copies `Contents/` + `workshop-stable.txt` → `Zomboid\Workshop\IKappaID's True Real World Vehicle Physics`. Keeps the existing stable **preview.png** unless you pass `-RefreshPreview`.
+Target upload folder: `Zomboid\Workshop\IKappaID's True Real World Vehicle Physics`.
+
+Additional workflow notes: [WORKFLOW.md](WORKFLOW.md), [RELEASE.md](RELEASE.md).
+
+## Links
+
+- **Steam Workshop:** https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841
+- **Support:** https://ko-fi.com/ikappaid
+
+Community mod — not affiliated with or endorsed by The Indie Stone.
