@@ -1,0 +1,8 @@
+# Dev repo — game Lua only under Contents/. No Workshop metadata here.
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Publish artifacts live in the Workshop repo (sync copies Contents in).
+workshop.txt
+preview.png

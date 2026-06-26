@@ -1,20 +1,14 @@
 version=1
-id=3724847841
-title=IKappaID's True Real World Vehicle Physics
-description=This mod improves how vehicles drive and handle in Project Zomboid Build 42. It makes cars feel more realistic and responsive, while also allowing you to increase trunk and seat storage capacity.
+id=3732894213
+title=IKFRVP Testing Branch (SP + MP split)
+description=IKappaID and Faded's Real World Vehicle Physics — official testing branch for Build 42.18+. One Workshop package with two sub-mods: enable IKFRVPSingleplayer for solo only, or IKFRVPMultiplayer on dedicated servers and MP clients (not both in the same session).
 description=
-description=Key Features:
-description=- Better Driving: Realistic engine power, braking, and weight for all vehicles.
-description=- Improved Handling: Smoother steering and better suspension feel.
-description=- Trunk Expansion: Increase the storage space of any vehicle's trunk or seats via sandbox settings.
-description=- Multiplayer Ready: Fully synchronized for dedicated servers.
-description=- Mod Support: Works with popular vehicle mods like KI5, Autotsar, and more.
+description=Version 1.10.5 — MP physics mirror on enter vehicle: remote clients request server tuning when you get in (full VehicleScript payload + engine/brake). Official testing milestone (IB validated 2026-05-28). Trunk/sandbox sync unchanged. Test on Indifferent Broccoli or SP before reporting issues.
 description=
-description=How to use:
-description=This package contains two sub-mods. Enable ONLY ONE depending on your game:
-description=- Multiplayer: IKappaID's True Real World Vehicle Physics Multiplayer
-description=- SinglePlayer: IKappaID's True Real World Vehicle Physics SinglePlayer
+description=Mod IDs (server Mods= line, B42 backslash prefix): IKFRVPSingleplayer, IKFRVPMultiplayer
 description=
-description=Note: If you were using the old version, please remove it from your mod list and use one of the new ones instead.
-tags=Build 42;Multiplayer;Realistic;Vehicles;QoL
+description=Dedicated server MP-only example: Mods=\IKFRVPMultiplayer
+description=
+description=Main release (Workshop 3724847841) will be rebuilt from this branch when stable. WIP testing — not the production IKFRVP package yet.
+tags=Build 42;Balance;Interface;Misc;Multiplayer;Realistic;Vehicles;QoL;WIP
 visibility=public

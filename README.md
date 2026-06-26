@@ -1,41 +1,33 @@
-# True Real World Vehicle Physics (TRWVP)
+# IKappaID's True Real World Vehicle Physics — Lua dev (stable 2.5.0)
 
-An advanced vehicle physics overhaul for Project Zomboid Build 42. This project implements realistic mass, engine power, and handling characteristics for all vehicles, with full synchronization for dedicated multiplayer environments.
+**Stable Workshop upload:** `Zomboid\Workshop\IKappaID's True Real World Vehicle Physics` after `scripts\sync_to_stable_workshop.ps1` (preserves stable `preview.png` and id **3724847841**).
 
-**Latest Release:** [v2.5.0](https://github.com/fearthebest/IKappalD-Faded-s-True-Real-World-Vehicle-Physics/releases/tag/v2.5.0)
+**Stable Steam:** [3724847841](https://steamcommunity.com/sharedfiles/filedetails/?id=3724847841) · **Version:** 2.5.0 — see `Contents/mods/*/42.18/mod.info`
 
----
+## Layout
 
-## Overview
+```
+IKFRVP-v2/                    ← this repo (dev)
+  workshop-stable.txt          ← Steam item title + description (required)
+  preview.png                 ← Steam preview image (required)
+  Contents/mods/
+    IKappaID's True Real World Vehicle Physics Multiplayer/42.18/
+    IKappaID's True Real World Vehicle Physics SinglePlayer/42.18/
+  scripts/
+```
 
-TRWVP provides a comprehensive re-tuning of the Project Zomboid vehicle system. By utilizing server-authoritative physics calculations and instance-based state synchronization, it ensures consistent driving behavior across all game modes.
+## Playtest (flat mods folder)
 
-## Key Features
+```powershell
+.\scripts\sync_to_desktop_mods.ps1
+```
 
-- **Realistic Physics Engine**: Implements accurate mass and acceleration curves based on real-world vehicle specifications.
-- **Enhanced Handling**: Refined steering, suspension, and braking systems for improved vehicle control.
-- **Dynamic Storage Scaling**: Configurable trunk and seat capacity via sandbox settings.
-- **Multiplayer Synchronization**: Server-authoritative physics and state management for consistent behavior on dedicated servers.
-- **Broad Compatibility**: Native support for major vehicle modifications, including KI5, Autotsar, FHQ, and ATA.
+Updates `Desktop\mods\` (enable **one** of SP or MP per session).
 
-## Installation
+## Publish sync (stable 2.5.0)
 
-For detailed installation instructions, please refer to the [Installation Guide](docs/INSTALL.md).
+```powershell
+.\scripts\sync_to_stable_workshop.ps1
+```
 
-## Repository Structure
-
-- `Contents/mods/`: Contains the Project Zomboid mod packages for SinglePlayer and Multiplayer.
-- `docs/`: Technical documentation, installation guides, and release notes.
-- `scripts/`: Utility scripts for development and deployment synchronization.
-- `workshop.txt`: Metadata for Steam Workshop integration.
-- `preview.png`: Graphical asset for the Steam Workshop listing.
-
-## Documentation
-
-- [Changelog](CHANGELOG.md)
-- [Attribution](ATTRIBUTION.md)
-- [License](LICENSE)
-
-## License
-
-This project is licensed under the terms specified in the [LICENSE](LICENSE) file.
+Copies `Contents/` + `workshop-stable.txt` → `Zomboid\Workshop\IKappaID's True Real World Vehicle Physics`. Keeps the existing stable **preview.png** unless you pass `-RefreshPreview`.
