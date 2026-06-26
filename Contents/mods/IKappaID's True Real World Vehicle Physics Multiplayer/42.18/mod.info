@@ -1,0 +1,8 @@
+name=IKappaID's True Real World Vehicle Physics Multiplayer
+id=IKappaID's True Real World Vehicle Physics Multiplayer
+description=Server-authoritative vehicle physics, trunk capacity, and sandbox sync for Build 42 dedicated multiplayer.
+author=IKappaID
+modversion=2.5.0
+versionMin=42.18
+category=gameplay
+loadAfter=autotsartrailers,fhqMotoriusZone

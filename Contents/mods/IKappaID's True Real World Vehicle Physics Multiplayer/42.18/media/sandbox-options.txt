@@ -1,0 +1,566 @@
+VERSION = 1,
+
+option IK_MP.Enabled
+{
+    type = boolean,
+    default = true,
+    page = IK_MP,
+    translation = IK_MP_Enabled,
+}
+
+option IK_MP.EnableProfileTune
+{
+    type = boolean,
+    default = true,
+    page = IK_MP,
+    translation = IK_MP_EnableProfileTune,
+}
+
+option IK_MP.DebugLogging
+{
+    type = boolean,
+    default = false,
+    page = IK_MP,
+    translation = IK_MP_DebugLogging,
+}
+
+option IK_MP.PowerMult
+{
+    type = double,
+    min = 0.15,
+    max = 5.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_PowerMult,
+}
+
+option IK_MP.AccelerationMult
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_AccelerationMult,
+}
+
+option IK_MP.SportPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_SportPowerBias,
+}
+
+option IK_MP.HeavyPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_HeavyPowerBias,
+}
+
+option IK_MP.BrakeMult
+{
+    type = double,
+    min = 0.15,
+    max = 5.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_BrakeMult,
+}
+
+option IK_MP.BrakeStopTimeMult
+{
+    type = double,
+    min = 0.40,
+    max = 2.5,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_BrakeStopTimeMult,
+}
+
+option IK_MP.BrakeCreepMult
+{
+    type = double,
+    min = 0.25,
+    max = 2.5,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_BrakeCreepMult,
+}
+
+option IK_MP.MassMult
+{
+    type = double,
+    min = 0.35,
+    max = 3.0,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_MassMult,
+}
+
+option IK_MP.MassUpliftMult
+{
+    type = double,
+    min = 0.70,
+    max = 1.35,
+    default = 1.0,
+    page = IK_MP_Driving,
+    translation = IK_MP_MassUpliftMult,
+}
+
+option IK_MP.CompactPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactPowerBias,
+}
+
+option IK_MP.CompactAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactAccelBias,
+}
+
+option IK_MP.CompactBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactBrakeBias,
+}
+
+option IK_MP.CompactGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactGripBias,
+}
+
+option IK_MP.CompactMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactMassBias,
+}
+
+option IK_MP.CompactSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactSteeringBias,
+}
+
+option IK_MP.CompactRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactRollBias,
+}
+
+option IK_MP.CompactSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_CompactSuspensionBias,
+}
+
+option IK_MP.StandardPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardPowerBias,
+}
+
+option IK_MP.StandardAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardAccelBias,
+}
+
+option IK_MP.StandardBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardBrakeBias,
+}
+
+option IK_MP.StandardGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardGripBias,
+}
+
+option IK_MP.StandardMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardMassBias,
+}
+
+option IK_MP.StandardSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardSteeringBias,
+}
+
+option IK_MP.StandardRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardRollBias,
+}
+
+option IK_MP.StandardSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_StandardSuspensionBias,
+}
+
+option IK_MP.SportAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportAccelBias,
+}
+
+option IK_MP.SportBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportBrakeBias,
+}
+
+option IK_MP.SportGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportGripBias,
+}
+
+option IK_MP.SportMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportMassBias,
+}
+
+option IK_MP.SportSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportSteeringBias,
+}
+
+option IK_MP.SportRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportRollBias,
+}
+
+option IK_MP.SportSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_SportSuspensionBias,
+}
+
+option IK_MP.HeavyAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavyAccelBias,
+}
+
+option IK_MP.HeavyBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavyBrakeBias,
+}
+
+option IK_MP.HeavyGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavyGripBias,
+}
+
+option IK_MP.HeavyMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavyMassBias,
+}
+
+option IK_MP.HeavySteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavySteeringBias,
+}
+
+option IK_MP.HeavyRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavyRollBias,
+}
+
+option IK_MP.HeavySuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_VehicleTypes,
+    translation = IK_MP_HeavySuspensionBias,
+}
+
+option IK_MP.EnableHandlingTune
+{
+    type = boolean,
+    default = true,
+    page = IK_MP_Handling,
+    translation = IK_MP_EnableHandlingTune,
+}
+
+option IK_MP.SuspensionFirmness
+{
+    type = double,
+    min = 0.70,
+    max = 1.60,
+    default = 1.0,
+    page = IK_MP_Handling,
+    translation = IK_MP_SuspensionFirmness,
+}
+
+option IK_MP.WheelGripMult
+{
+    type = double,
+    min = 0.50,
+    max = 1.80,
+    default = 1.0,
+    page = IK_MP_Handling,
+    translation = IK_MP_WheelGripMult,
+}
+
+option IK_MP.SteeringResponseMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.50,
+    default = 1.0,
+    page = IK_MP_Handling,
+    translation = IK_MP_SteeringResponseMult,
+}
+
+option IK_MP.SteeringClampMult
+{
+    type = double,
+    min = 0.60,
+    max = 1.20,
+    default = 1.0,
+    page = IK_MP_Handling,
+    translation = IK_MP_SteeringClampMult,
+}
+
+option IK_MP.BodyRollMult
+{
+    type = double,
+    min = 0.50,
+    max = 1.50,
+    default = 1.0,
+    page = IK_MP_Handling,
+    translation = IK_MP_BodyRollMult,
+}
+
+option IK_MP.EnableTrunkTune
+{
+    type = boolean,
+    default = true,
+    page = IK_MP_Storage,
+    translation = IK_MP_EnableTrunkTune,
+}
+
+option IK_MP.TrunkCapacityMult
+{
+    type = double,
+    min = 0.25,
+    max = 4.0,
+    default = 1.0,
+    page = IK_MP_Storage,
+    translation = IK_MP_TrunkCapacityMult,
+}
+
+option IK_MP.EnableTowAssist
+{
+    type = boolean,
+    default = true,
+    page = IK_MP_Tow,
+    translation = IK_MP_EnableTowAssist,
+}
+
+option IK_MP.TowAssistFactor
+{
+    type = double,
+    min = 0.0,
+    max = 15.0,
+    default = 5.0,
+    page = IK_MP_Tow,
+    translation = IK_MP_TowAssistFactor,
+}
+
+option IK_MP.EnableReverseTowAssist
+{
+    type = boolean,
+    default = true,
+    page = IK_MP_Tow,
+    translation = IK_MP_EnableReverseTowAssist,
+}
+
+option IK_MP.TowReverseAssistMult
+{
+    type = double,
+    min = 0.0,
+    max = 1.0,
+    default = 0.7,
+    page = IK_MP_Tow,
+    translation = IK_MP_TowReverseAssistMult,
+}
+
+option IK_MP.TowLowSpeedBoost
+{
+    type = double,
+    min = 1.0,
+    max = 2.0,
+    default = 1.0,
+    page = IK_MP_Tow,
+    translation = IK_MP_TowLowSpeedBoost,
+}
+
+option IK_MP.TowAccelSoftness
+{
+    type = double,
+    min = 0.25,
+    max = 1.0,
+    default = 0.65,
+    page = IK_MP_Tow,
+    translation = IK_MP_TowAccelSoftness,
+}
+
+option IK_MP.TowMaxLoadRatio
+{
+    type = double,
+    min = 1.0,
+    max = 5.0,
+    default = 3.0,
+    page = IK_MP_Tow,
+    translation = IK_MP_TowMaxLoadRatio,
+}
+
+option IK_MP.YieldTowToCSR
+{
+    type = boolean,
+    default = true,
+    page = IK_MP_Tow,
+    translation = IK_MP_YieldTowToCSR,
+}
+

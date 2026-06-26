@@ -1,28 +1,21 @@
-# What's New
+# Changelog
 
-
-## Version 2.1.0 (Latest)
-
-### Performance and multiplayer
-- Multiplayer runs smoother: the big vehicle tuning pass now runs on the server/host only, not on every player joining.
-- Park assist uses less CPU: it updates less often and only for the driver.
-- Trunk capacity checks are faster when using default settings.
+## [2.5.0] — 2026-06-20
 
 ### Fixes
-- Fixed hosted servers (Host button) not showing tuning stats correctly in companion mods like Project Faded Car.
-- Fixed a debug log warning about mod loading order.
+- **Build 42.19 load fix:** Guard Java `null` globals (`IK_MP`, `IK_SP`) on boot so SP and MP sub-mods load without `attempted index of non-table: null` crashes.
 
-## Version 2.0.0
-*   **Massive Car Support:** Added support for over 440 KI5 mod vehicles.
-*   **Trunk Fixes:** Fixed storage space for trailers and shipping containers.
-*   **Safety First:** Added the "Glitch Guard" to stop cars from flying away if the physics engine glitches.
-*   **Clean Up:** Removed the broken Manual Transmission from the main mod to keep your game stable. It is now a separate (optional) file.
-*   **Better Menus:** Simplified the Sandbox options so they are easier to understand.
+### Highlights
+- **Rebranded Release:** The mod has been rebranded as "IKappaID's True Real World Vehicle Physics" following the removal of Faded's contributions.
+- **Independent Codebase:** Removed dependencies and compatibility logic for Project Faded Car (PFC).
+- **Internal Cleanup:** Renamed all internal tables, files, and sandbox options to remove legacy "IKFRVP" and "Faded" naming.
+- **Stable Release:** This major update brings all the latest improvements and fixes to the stable version of the mod.
+- **Split Mod System:** The mod is now split into "Multiplayer" and "SinglePlayer" versions. This makes the mod more stable and ensures that multiplayer servers run smoothly.
+- **Full Multiplayer Sync:** Fixed issues where vehicle changes (like engine power or brakes) wouldn't always show up for everyone. Now, all players on a server will see the same vehicle performance.
+- **Instant Vehicle Sync:** In multiplayer, vehicle stats are now instantly updated the moment you get into the driver's seat.
+- **Better Sandbox Options:** Simplified the names of settings and added helpful descriptions so it's easier to customize the mod to your liking.
+- **Expanded Vehicle Support:** Added support for many more modded vehicles, including those from KI5, Autotsar, and others.
+- **Trunk Capacity Fixes:** Improved how trunk and seat storage is calculated to ensure it always matches your sandbox settings.
 
-## Version 1.2.0
-*   Added support for the "Project Faded Car" mod.
-*   Improved how the server handles vehicle physics in multiplayer.
-
-## Version 1.1.4
-*   Fixed a bug where cars would sometimes bounce or disappear when you entered them.
-*   Added basic support for towing trailers.
+---
+*For older changes from the testing branch, please refer to the archived testing branch logs.*

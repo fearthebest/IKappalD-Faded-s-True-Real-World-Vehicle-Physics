@@ -1,0 +1,245 @@
+Sandbox_IK_MP = IKappaID's True Real World Vehicle Physics (Multiplayer)
+
+Sandbox_IK_MP_Driving = IKappaID — Driving Feel
+
+Sandbox_IK_MP_VehicleTypes = IKappaID — Vehicle Types
+
+Sandbox_IK_MP_Handling = IKappaID — Handling & Suspension
+
+Sandbox_IK_MP_Storage = IKappaID — Trunk & Cargo
+
+Sandbox_IK_MP_Tow = IKappaID — Towing Help
+
+Sandbox_IK_MP_Enabled = Enable Realistic Physics
+
+Sandbox_IK_MP_Enabled_tooltip = Turn on the improved vehicle physics and handling.
+
+Sandbox_IK_MP_EnableProfileTune = Use Smart Vehicle Types
+
+Sandbox_IK_MP_EnableProfileTune_tooltip = Automatically adjust stats based on the car type (like Sport, Sedan, or Truck).
+
+Sandbox_IK_MP_DebugLogging = Enable Debug Mode
+
+Sandbox_IK_MP_DebugLogging_tooltip = Show extra info in logs to help find problems. Leave off unless asked.
+
+Sandbox_IK_MP_PowerMult = Engine Power
+
+Sandbox_IK_MP_PowerMult_tooltip = Make all car engines stronger or weaker.
+
+Sandbox_IK_MP_AccelerationMult = Acceleration Speed
+
+Sandbox_IK_MP_AccelerationMult_tooltip = How fast cars reach their top speed.
+
+Sandbox_IK_MP_SportPowerBias = Sport Car Power Boost
+
+Sandbox_IK_MP_SportPowerBias_tooltip = Extra power boost just for sports and race cars.
+
+Sandbox_IK_MP_HeavyPowerBias = Heavy Vehicle Power Boost
+
+Sandbox_IK_MP_HeavyPowerBias_tooltip = Extra power boost for trucks, vans, and SUVs.
+
+Sandbox_IK_MP_BrakeMult = Brake Strength
+
+Sandbox_IK_MP_BrakeMult_tooltip = How hard the brakes grab.
+
+Sandbox_IK_MP_BrakeStopTimeMult = Brake Smoothness
+
+Sandbox_IK_MP_BrakeStopTimeMult_tooltip = Higher values make stops feel softer and take longer.
+
+Sandbox_IK_MP_BrakeCreepMult = Low-Speed Brake Hold
+
+Sandbox_IK_MP_BrakeCreepMult_tooltip = How strongly brakes hold the car at very low speed. 1.0 = default.
+
+Sandbox_IK_MP_MassMult = Vehicle Weight
+
+Sandbox_IK_MP_MassMult_tooltip = Make all vehicles heavier or lighter.
+
+Sandbox_IK_MP_MassUpliftMult = Weight Limit
+
+Sandbox_IK_MP_MassUpliftMult_tooltip = Prevents cars from becoming too heavy and looking weird.
+
+Sandbox_IK_MP_EnableHandlingTune = Enable Handling Adjustments
+
+Sandbox_IK_MP_EnableHandlingTune_tooltip = Allow the mod to change how cars turn and lean.
+
+Sandbox_IK_MP_SuspensionFirmness = Suspension Stiffness
+
+Sandbox_IK_MP_SuspensionFirmness_tooltip = Higher makes the ride stiffer; lower makes it bouncier.
+
+Sandbox_IK_MP_WheelGripMult = Tire Grip
+
+Sandbox_IK_MP_WheelGripMult_tooltip = How well the tires stick to the road.
+
+Sandbox_IK_MP_SteeringResponseMult = Steering Speed
+
+Sandbox_IK_MP_SteeringResponseMult_tooltip = How quickly the car reacts when you turn the wheel.
+
+Sandbox_IK_MP_SteeringClampMult = Steering Angle
+
+Sandbox_IK_MP_SteeringClampMult_tooltip = How far the wheels can turn.
+
+Sandbox_IK_MP_BodyRollMult = Body Lean
+
+Sandbox_IK_MP_BodyRollMult_tooltip = How much the car tilts when turning.
+
+Sandbox_IK_MP_EnableTrunkTune = Enable Trunk Adjustments
+
+Sandbox_IK_MP_EnableTrunkTune_tooltip = Allow the mod to change trunk sizes.
+
+Sandbox_IK_MP_TrunkCapacityMult = Trunk Space
+
+Sandbox_IK_MP_TrunkCapacityMult_tooltip = Make all trunks bigger or smaller.
+
+Sandbox_IK_MP_EnableTowAssist = Enable Towing Help
+
+Sandbox_IK_MP_EnableTowAssist_tooltip = Gives cars extra power when pulling a trailer.
+
+Sandbox_IK_MP_TowAssistFactor = Towing Help Strength
+
+Sandbox_IK_MP_TowAssistFactor_tooltip = How much extra power you get when towing.
+
+Sandbox_IK_MP_EnableReverseTowAssist = Enable Reverse Towing Help
+
+Sandbox_IK_MP_EnableReverseTowAssist_tooltip = Extra power when backing up with a trailer.
+
+Sandbox_IK_MP_TowReverseAssistMult = Reverse Towing Strength
+
+Sandbox_IK_MP_TowReverseAssistMult_tooltip = How much help you get when reversing.
+
+Sandbox_IK_MP_TowLowSpeedBoost = Low Speed Pulling Boost
+
+Sandbox_IK_MP_TowLowSpeedBoost_tooltip = Extra push when starting to pull a heavy load from a stop.
+
+Sandbox_IK_MP_TowAccelSoftness = Towing Smoothness
+
+Sandbox_IK_MP_TowAccelSoftness_tooltip = Makes pulling a trailer feel more natural and less jerky.
+
+Sandbox_IK_MP_TowMaxLoadRatio = Max Towing Weight
+
+Sandbox_IK_MP_TowMaxLoadRatio_tooltip = How much weight a car can pull compared to its own weight.
+
+Sandbox_IK_MP_YieldTowToCSR = Compatible with Common Sense Reborn
+
+Sandbox_IK_MP_YieldTowToCSR_tooltip = If you use the 'Common Sense Reborn' mod, this lets it handle towing help instead.
+
+Sandbox_IK_MP_CompactPowerBias = Compact — Engine power
+
+Sandbox_IK_MP_CompactPowerBias_tooltip = Tweaks engine power for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactAccelBias = Compact — Acceleration
+
+Sandbox_IK_MP_CompactAccelBias_tooltip = Tweaks acceleration for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactBrakeBias = Compact — Brakes
+
+Sandbox_IK_MP_CompactBrakeBias_tooltip = Tweaks brakes for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactGripBias = Compact — Tire grip
+
+Sandbox_IK_MP_CompactGripBias_tooltip = Tweaks tire grip for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactMassBias = Compact — Weight
+
+Sandbox_IK_MP_CompactMassBias_tooltip = Tweaks weight for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactSteeringBias = Compact — Steering
+
+Sandbox_IK_MP_CompactSteeringBias_tooltip = Tweaks steering for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactRollBias = Compact — Body lean
+
+Sandbox_IK_MP_CompactRollBias_tooltip = Tweaks body lean for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_CompactSuspensionBias = Compact — Suspension
+
+Sandbox_IK_MP_CompactSuspensionBias_tooltip = Tweaks suspension for small cars and light hatchbacks. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardPowerBias = Standard — Engine power
+
+Sandbox_IK_MP_StandardPowerBias_tooltip = Tweaks engine power for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardAccelBias = Standard — Acceleration
+
+Sandbox_IK_MP_StandardAccelBias_tooltip = Tweaks acceleration for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardBrakeBias = Standard — Brakes
+
+Sandbox_IK_MP_StandardBrakeBias_tooltip = Tweaks brakes for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardGripBias = Standard — Tire grip
+
+Sandbox_IK_MP_StandardGripBias_tooltip = Tweaks tire grip for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardMassBias = Standard — Weight
+
+Sandbox_IK_MP_StandardMassBias_tooltip = Tweaks weight for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardSteeringBias = Standard — Steering
+
+Sandbox_IK_MP_StandardSteeringBias_tooltip = Tweaks steering for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardRollBias = Standard — Body lean
+
+Sandbox_IK_MP_StandardRollBias_tooltip = Tweaks body lean for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_StandardSuspensionBias = Standard — Suspension
+
+Sandbox_IK_MP_StandardSuspensionBias_tooltip = Tweaks suspension for everyday sedans and general traffic. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportAccelBias = Sport — Acceleration
+
+Sandbox_IK_MP_SportAccelBias_tooltip = Tweaks acceleration for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportBrakeBias = Sport — Brakes
+
+Sandbox_IK_MP_SportBrakeBias_tooltip = Tweaks brakes for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportGripBias = Sport — Tire grip
+
+Sandbox_IK_MP_SportGripBias_tooltip = Tweaks tire grip for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportMassBias = Sport — Weight
+
+Sandbox_IK_MP_SportMassBias_tooltip = Tweaks weight for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportSteeringBias = Sport — Steering
+
+Sandbox_IK_MP_SportSteeringBias_tooltip = Tweaks steering for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportRollBias = Sport — Body lean
+
+Sandbox_IK_MP_SportRollBias_tooltip = Tweaks body lean for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_SportSuspensionBias = Sport — Suspension
+
+Sandbox_IK_MP_SportSuspensionBias_tooltip = Tweaks suspension for sports cars, race cars, and performance vehicles. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavyAccelBias = Heavy — Acceleration
+
+Sandbox_IK_MP_HeavyAccelBias_tooltip = Tweaks acceleration for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavyBrakeBias = Heavy — Brakes
+
+Sandbox_IK_MP_HeavyBrakeBias_tooltip = Tweaks brakes for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavyGripBias = Heavy — Tire grip
+
+Sandbox_IK_MP_HeavyGripBias_tooltip = Tweaks tire grip for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavyMassBias = Heavy — Weight
+
+Sandbox_IK_MP_HeavyMassBias_tooltip = Tweaks weight for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavySteeringBias = Heavy — Steering
+
+Sandbox_IK_MP_HeavySteeringBias_tooltip = Tweaks steering for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavyRollBias = Heavy — Body lean
+
+Sandbox_IK_MP_HeavyRollBias_tooltip = Tweaks body lean for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+Sandbox_IK_MP_HeavySuspensionBias = Heavy — Suspension
+
+Sandbox_IK_MP_HeavySuspensionBias_tooltip = Tweaks suspension for trucks, vans, buses, and SUVs. 1.0 = no extra change.
+
+

@@ -1,0 +1,567 @@
+VERSION = 1,
+
+option IK_SP.Enabled
+{
+    type = boolean,
+    default = true,
+    page = IK_SP,
+    translation = IK_SP_Enabled,
+}
+
+option IK_SP.EnableProfileTune
+{
+    type = boolean,
+    default = true,
+    page = IK_SP,
+    translation = IK_SP_EnableProfileTune,
+}
+
+option IK_SP.DebugLogging
+{
+    type = boolean,
+    default = false,
+    page = IK_SP,
+    translation = IK_SP_DebugLogging,
+}
+
+option IK_SP.PowerMult
+{
+    type = double,
+    min = 0.15,
+    max = 5.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_PowerMult,
+}
+
+option IK_SP.AccelerationMult
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_AccelerationMult,
+}
+
+option IK_SP.SportPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_SportPowerBias,
+}
+
+option IK_SP.HeavyPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_HeavyPowerBias,
+}
+
+option IK_SP.BrakeMult
+{
+    type = double,
+    min = 0.15,
+    max = 5.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_BrakeMult,
+}
+
+option IK_SP.BrakeStopTimeMult
+{
+    type = double,
+    min = 0.40,
+    max = 2.5,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_BrakeStopTimeMult,
+}
+
+option IK_SP.BrakeCreepMult
+{
+    type = double,
+    min = 0.25,
+    max = 2.5,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_BrakeCreepMult,
+}
+
+option IK_SP.MassMult
+{
+    type = double,
+    min = 0.35,
+    max = 3.0,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_MassMult,
+}
+
+option IK_SP.MassUpliftMult
+{
+    type = double,
+    min = 0.70,
+    max = 1.35,
+    default = 1.0,
+    page = IK_SP_Driving,
+    translation = IK_SP_MassUpliftMult,
+}
+
+
+option IK_SP.CompactPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactPowerBias,
+}
+
+option IK_SP.CompactAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactAccelBias,
+}
+
+option IK_SP.CompactBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactBrakeBias,
+}
+
+option IK_SP.CompactGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactGripBias,
+}
+
+option IK_SP.CompactMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactMassBias,
+}
+
+option IK_SP.CompactSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactSteeringBias,
+}
+
+option IK_SP.CompactRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactRollBias,
+}
+
+option IK_SP.CompactSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_CompactSuspensionBias,
+}
+
+option IK_SP.StandardPowerBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardPowerBias,
+}
+
+option IK_SP.StandardAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardAccelBias,
+}
+
+option IK_SP.StandardBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardBrakeBias,
+}
+
+option IK_SP.StandardGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardGripBias,
+}
+
+option IK_SP.StandardMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardMassBias,
+}
+
+option IK_SP.StandardSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardSteeringBias,
+}
+
+option IK_SP.StandardRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardRollBias,
+}
+
+option IK_SP.StandardSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_StandardSuspensionBias,
+}
+
+option IK_SP.SportAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportAccelBias,
+}
+
+option IK_SP.SportBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportBrakeBias,
+}
+
+option IK_SP.SportGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportGripBias,
+}
+
+option IK_SP.SportMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportMassBias,
+}
+
+option IK_SP.SportSteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportSteeringBias,
+}
+
+option IK_SP.SportRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportRollBias,
+}
+
+option IK_SP.SportSuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_SportSuspensionBias,
+}
+
+option IK_SP.HeavyAccelBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavyAccelBias,
+}
+
+option IK_SP.HeavyBrakeBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavyBrakeBias,
+}
+
+option IK_SP.HeavyGripBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavyGripBias,
+}
+
+option IK_SP.HeavyMassBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavyMassBias,
+}
+
+option IK_SP.HeavySteeringBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavySteeringBias,
+}
+
+option IK_SP.HeavyRollBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavyRollBias,
+}
+
+option IK_SP.HeavySuspensionBias
+{
+    type = double,
+    min = 0.50,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_VehicleTypes,
+    translation = IK_SP_HeavySuspensionBias,
+}
+
+option IK_SP.EnableHandlingTune
+{
+    type = boolean,
+    default = true,
+    page = IK_SP_Handling,
+    translation = IK_SP_EnableHandlingTune,
+}
+
+option IK_SP.SuspensionFirmness
+{
+    type = double,
+    min = 0.70,
+    max = 1.60,
+    default = 1.0,
+    page = IK_SP_Handling,
+    translation = IK_SP_SuspensionFirmness,
+}
+
+option IK_SP.WheelGripMult
+{
+    type = double,
+    min = 0.50,
+    max = 1.80,
+    default = 1.0,
+    page = IK_SP_Handling,
+    translation = IK_SP_WheelGripMult,
+}
+
+option IK_SP.SteeringResponseMult
+{
+    type = double,
+    min = 0.35,
+    max = 1.50,
+    default = 1.0,
+    page = IK_SP_Handling,
+    translation = IK_SP_SteeringResponseMult,
+}
+
+option IK_SP.SteeringClampMult
+{
+    type = double,
+    min = 0.60,
+    max = 1.20,
+    default = 1.0,
+    page = IK_SP_Handling,
+    translation = IK_SP_SteeringClampMult,
+}
+
+option IK_SP.BodyRollMult
+{
+    type = double,
+    min = 0.50,
+    max = 1.50,
+    default = 1.0,
+    page = IK_SP_Handling,
+    translation = IK_SP_BodyRollMult,
+}
+
+option IK_SP.EnableTrunkTune
+{
+    type = boolean,
+    default = true,
+    page = IK_SP_Storage,
+    translation = IK_SP_EnableTrunkTune,
+}
+
+option IK_SP.TrunkCapacityMult
+{
+    type = double,
+    min = 0.25,
+    max = 4.0,
+    default = 1.0,
+    page = IK_SP_Storage,
+    translation = IK_SP_TrunkCapacityMult,
+}
+
+option IK_SP.EnableTowAssist
+{
+    type = boolean,
+    default = true,
+    page = IK_SP_Tow,
+    translation = IK_SP_EnableTowAssist,
+}
+
+option IK_SP.TowAssistFactor
+{
+    type = double,
+    min = 0.0,
+    max = 15.0,
+    default = 5.0,
+    page = IK_SP_Tow,
+    translation = IK_SP_TowAssistFactor,
+}
+
+option IK_SP.EnableReverseTowAssist
+{
+    type = boolean,
+    default = true,
+    page = IK_SP_Tow,
+    translation = IK_SP_EnableReverseTowAssist,
+}
+
+option IK_SP.TowReverseAssistMult
+{
+    type = double,
+    min = 0.0,
+    max = 1.0,
+    default = 0.7,
+    page = IK_SP_Tow,
+    translation = IK_SP_TowReverseAssistMult,
+}
+
+option IK_SP.TowLowSpeedBoost
+{
+    type = double,
+    min = 1.0,
+    max = 2.0,
+    default = 1.0,
+    page = IK_SP_Tow,
+    translation = IK_SP_TowLowSpeedBoost,
+}
+
+option IK_SP.TowAccelSoftness
+{
+    type = double,
+    min = 0.25,
+    max = 1.0,
+    default = 0.65,
+    page = IK_SP_Tow,
+    translation = IK_SP_TowAccelSoftness,
+}
+
+option IK_SP.TowMaxLoadRatio
+{
+    type = double,
+    min = 1.0,
+    max = 5.0,
+    default = 3.0,
+    page = IK_SP_Tow,
+    translation = IK_SP_TowMaxLoadRatio,
+}
+
+option IK_SP.YieldTowToCSR
+{
+    type = boolean,
+    default = true,
+    page = IK_SP_Tow,
+    translation = IK_SP_YieldTowToCSR,
+}
+

@@ -1,0 +1,8 @@
+name=IKappaID's True Real World Vehicle Physics SinglePlayer
+id=IKappaID's True Real World Vehicle Physics SinglePlayer
+description=Vehicle physics, handling, and trunk capacity for Build 42 single-player and listen-host play.
+author=IKappaID
+modversion=2.5.0
+versionMin=42.18
+category=gameplay
+loadAfter=autotsartrailers,fhqMotoriusZone
